@@ -1,1 +1,25 @@
-
+<html>
+	<head>
+		<title>LL Detail</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/interface.css">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link id="favicon" rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<script src='/color.js'></script>
+	</head>
+	<body>
+		<h2 id="label_home"></h2>
+		<span id="select_lang"></span><br>
+		<a href='?lang=en'>English</a> <a href='?lang=zh'>繁體中文</a> <a href='?lang=jp'>日本語</a><br>
+		<script>
+			lang = getParameterByName('lang');
+			if (lang != null){
+				setCookie("lang",lang,365);
+			};
+			lang = getCookie('lang');
+			document.getElementById('select_lang').innerHTML = (lang=='jp'?"言語を選択：":(lang=='zh'?"選擇語言：":"Select Language:"));
+			document.getElementById('label_home').innerHTML = (lang=='jp'?'ホームページ':(lang=='zh'?'主頁':'Homepage'));			
+		</script>
+	</body>
+</html>
