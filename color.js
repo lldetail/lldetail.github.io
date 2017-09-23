@@ -58,7 +58,7 @@ function getParameterByName(name, url) {
 }
 window.setTimeout(function(){
 lang = getCookie('lang');
-document.body.innerHTML = '<div id="top_bar" style=""><a class="white_link" href="/">' + document.title + '</a></div>' + document.body.innerHTML;
+document.body.innerHTML = '<div id="top_bar" style=""><button onclick="toggle();">≡</button><a class="white_link" href="/">' + document.title + '</a></div><div id="left_bar" style="width: 0px"></div><div id="content">' + document.body.innerHTML + "</div>";
 var url = window.location.href;
 var oh = getCookie("h");
 
