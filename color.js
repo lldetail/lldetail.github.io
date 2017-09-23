@@ -58,8 +58,8 @@ function getParameterByName(name, url) {
 }
 window.setTimeout(function(){
 lang = getCookie('lang');
-document.body.innerHTML = '<div id="top_bar" style=""><button onclick="toggle();">≡</button><a class="white_link" href="/">' + document.title + '</a></div><div id="left_bar" style="width: 0px"></div><div id="content">' + document.body.innerHTML + "</div>";
 var url = window.location.href;
+var oh = getCookie("h");
 var oh = getCookie("h");
 
 if (url == 'https://lldetail.github.io/' || url == 'https://lldetail.github.io/index.html' || oh == ""){
@@ -72,5 +72,6 @@ if (url == 'https://lldetail.github.io/' || url == 'https://lldetail.github.io/i
 	setCookie("h",h,365);
 };
 document.getElementById("top_bar").style.backgroundColor = 'hsl(' + h + ', 100%, 70%)';
+document.getElementById("left_bar").style.backgroundColor = 'hsl(' + h + ', 100%, 85%)';
 document.head.innerHTML = "<meta name='theme-color' content='" + hslToHex(h, 100, 70) + "'>" + document.head.innerHTML;
 },0);

@@ -3,23 +3,43 @@
 		<title>LL Detail</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 		<meta charset="UTF-8">
-		<link rel="stylesheet" type="text/css" href="/interface.css">
-		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
-		<link id="favicon" rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-		<script src='/color.js'></script>
+		<link rel="stylesheet" type="text/css" href="cursor/style.css">
+		<link id="favicon" rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<script src='color.js'></script>
+		<style>
+			* {
+			  -webkit-box-sizing: border-box;
+				 -moz-box-sizing: border-box;
+					  box-sizing: border-box;
+			}
+			html {
+				font-family: "Microsoft YaHei UI Light", "Microsoft YaHei UI", sans-serif;
+			}
+			a {
+				color: inherit;
+				text-decoration: inherit;
+			}
+			hr {
+				border:.3px solid white;
+			}
+		</style>
 	</head>
-	<body>
-		<h2 id="label_home"></h2>
-		<span id="select_lang"></span><br>
-		<a href='?lang=en'>English</a> <a href='?lang=zh'>繁體中文</a> <a href='?lang=jp'>日本語</a><br>
-		<script>
-			lang = getParameterByName('lang');
-			if (lang != null){
-				setCookie("lang",lang,365);
-			};
-			lang = getCookie('lang');
-			document.getElementById('select_lang').innerHTML = (lang=='jp'?"言語を選択：":(lang=='zh'?"選擇語言：":"Select Language:"));
-			document.getElementById('label_home').innerHTML = (lang=='jp'?'ホームページ':(lang=='zh'?'主頁':'Homepage'));			
-		</script>
+	<body style="margin: 0px">
+		<table style="width:100%;height:100%;border-spacing:0px;">
+			<tr style="width:100%; height:50px;color:white;">
+				<td id="top_bar" style="width:100%;padding: 15px 15px;">LLSIF Detail</td>
+			</tr>
+			<tr><td style="padding: 0px;">
+				<table style="width:100%;height:100%;border-spacing:0px;">
+					<tr style="width:100%; height:50px;color:white;">
+					<td id="left_bar" style="vertical-align: text-top;padding: 15px 15px; width:200px">
+						<a href="MF.html" target="main">Medley Festival Combination</a>
+						<hr>
+					</td>
+					<td style="padding: 0px;"><iframe name="main" src="main.html" frameBorder="0" style="width:100%;height:100%"></iframe></td>
+					</tr>
+				</table>				
+			</td></tr>
+		</table>
 	</body>
 </html>
