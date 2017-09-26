@@ -35,9 +35,9 @@
 				color:white;
 				border: 1px solid white;
 			}
-			#main_area {
+			#scroll {
 				-webkit-overflow-scrolling: touch;
-				overflow:auto;
+				overflow-y: auto;
 			}
 			@media screen and (min-width: 901px) {
 				#btn {
@@ -75,7 +75,8 @@
 					</div>
 					<div id="main_area" style="padding: 0px;position:fixed;left:0px;top:50px;height:calc(100% - 50px);width:calc(100% - 0px)">
 					<!--<div id="main_area" style="padding: 0px;position:fixed;left:200px;top:50px;height:calc(100% - 50px);width:calc(100% - 200px)">-->
-					<iframe id="main" name="main" src="main.html" frameBorder="0" style="width:100%;height:100%"></iframe></div>
+					<div id="scroll">
+					<iframe id="main" name="main" src="main.html" frameBorder="0" style="width:100%;height:100%"></iframe></div></div>
 			</td></tr>
 		</table>
 		<script>
