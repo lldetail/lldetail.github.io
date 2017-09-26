@@ -73,5 +73,6 @@ if (url == 'https://lldetail.github.io/' || url == 'https://lldetail.github.io/i
 };
 document.getElementById("top_bar").style.backgroundColor = 'hsl(' + h + ', 100%, 70%)';
 document.getElementById("left_bar").style.backgroundColor = 'hsl(' + h + ', 100%, 85%)';
+document.getElementById("btn").style.backgroundColor = 'hsl(' + h + ', 100%, 50%)';
 document.head.innerHTML = "<meta name='theme-color' content='" + hslToHex(h, 100, 70) + "'>" + document.head.innerHTML;
 },0);
