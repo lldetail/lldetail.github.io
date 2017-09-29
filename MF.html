@@ -140,9 +140,10 @@
 			var selected = url.searchParams.get("id");
 			if (selected == null || document.getElementById('MF' + selected) == null){
 				var theSelect = document.getElementById('event');
-				var lastValue = theSelect.options[theSelect.options.length - 1].setAttribute("selected",true);
+				theSelect.options[theSelect.options.length - 1].setAttribute("selected",true);
 			} else {
-				var lastValue = document.getElementById('MF' + selected).setAttribute("selected",true);
+				document.getElementById('MF' + selected).setAttribute("selected",true);
+				calc();
 			};
 		</script>
 	</body>
