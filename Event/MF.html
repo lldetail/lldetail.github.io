@@ -2,8 +2,8 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 		<meta charset="UTF-8">
-		<link rel="stylesheet" type="text/css" href="cursor/style.css">
-		<script src='song.js'></script>
+		<link rel="stylesheet" type="text/css" href="../cursor/style.css">
+		<script src='http://student.tanghin.edu.hk/~S121429/api/get_song_list.php?full=1&output=js'></script>
 		<style>
 			* {
 			  -webkit-box-sizing: border-box;
@@ -35,7 +35,7 @@
 			song = [];
 			ele = ["Smile","Pure","Cool"];
 			for (i = 0; i < song_list.length; i++){
-				song[parseInt(song_list[i].sound.substring(21, 24))] = song_list[i];
+				song[parseInt(song_list[i].sound.substring(27, 30))] = song_list[i];
 			};
 			function calc(){
 				v = document.getElementById("event").value;
@@ -116,7 +116,7 @@
 		  <option id="MF11" value="">JP 11 / WW 9 / CN 8</option>
 		  <option id="MF12" value="">JP 12 / WW/CN 10 / TC 9</option>
 		  <option id="MF13" value="5,10,11,74,80,84,94,103,7,12,20,31,35,78,95,104,9,43,61,64,88,97,98,99">JP/WW 13 / TC 10 / CN 11</option>
-		  <option id="MF14" value="">JP 14 / CN 12</option>
+		  <option id="MF14" value="5,25,52,66,73,76,86,100,2,36,53,55,62,102,110,111,3,37,40,42,71,77,101,126">JP/WW 14 / CN 12</option>
 		  <option id="MF15" value="">JP 15 / WW 11</option>
 		  <option id="MF16" value="">JP 16 / WW 12</option>
 		  <option id="MF17" value="">JP 17</option>
