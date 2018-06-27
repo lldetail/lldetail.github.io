@@ -216,7 +216,8 @@
 							callback(HttpRequest.response);
 						}
 					}
-					HttpRequest.open("GET",'http://student.tanghin.edu.hk/~S121429/getsource.php?url=' + url,true);
+					//HttpRequest.open("GET",'http://student.tanghin.edu.hk/~S121429/getsource.php?url=' + url,true);
+					HttpRequest.open("GET",url,true);
 					HttpRequest.send(null);
 				}
 			}	
