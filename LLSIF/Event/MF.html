@@ -40,7 +40,7 @@
 			function calc(){
 				v = document.getElementById("event").value;
 				res = '';
-				if (v == '') {
+				if (v == ',,,,,,,,,,,,,,,,,,,,,,,') {
 					res = 'No data available!';
 				} else {
 					res = "<table style='width:100%'><tr><th style='width:10%'>Rank</th><th style='width:80%'>Combination</th><th style='width:10%'>Combo</th></tr>";
@@ -52,21 +52,25 @@
 					element[2] = selected.slice(16, 24); //cool	
 					sort_list = [];
 					count = 0;
-					for (n = 0; n <= 2; n++){
-						for (i = 0; i < 6; i++){
-							for (j = i+1; j < 7; j++){
-								for (k = j+1; k < 8; k++){
-									sort_list[count] = [];
-									sort_list[count][0] = song[element[n][i]].name + " + " + song[element[n][j]].name + " + " + song[element[n][k]].name;
-									sort_list[count][1] = song[element[n][i]].difficulties[diff].s_rank_combo + song[element[n][j]].difficulties[diff].s_rank_combo + song[element[n][k]].difficulties[diff].s_rank_combo;
-									sort_list[count][2] = n;
-									sort_list[count][4] = count;
-									count ++;
+					if (["1","2"].indexOf(document.getElementById("num").value) > -1){
+						//3 song combination
+						for (n = 0; n <= 2; n++){
+							for (i = 0; i < 6; i++){
+								for (j = i+1; j < 7; j++){
+									for (k = j+1; k < 8; k++){
+										sort_list[count] = [];
+										sort_list[count][0] = song[element[n][i]].name + " + " + song[element[n][j]].name + " + " + song[element[n][k]].name;
+										sort_list[count][1] = song[element[n][i]].difficulties[diff].s_rank_combo + song[element[n][j]].difficulties[diff].s_rank_combo + song[element[n][k]].difficulties[diff].s_rank_combo;
+										sort_list[count][2] = n;
+										sort_list[count][4] = count;
+										count ++;
+									};
 								};
 							};
 						};
 					};
-					if (document.getElementById("num").value == 2){
+					if (["1","3"].indexOf(document.getElementById("num").value) > -1){
+					//2 song combination
 						for (n = 0; n <= 2; n++){
 							for (i = 0; i < 7; i++){
 								for (j = i+1; j < 8; j++){
@@ -79,6 +83,9 @@
 								};
 							};
 						};
+					};
+					if (["1","4"].indexOf(document.getElementById("num").value) > -1){
+						//1 song combination
 						for (n = 0; n <= 2; n++){
 							for (i = 0; i < 8; i++){
 								sort_list[count] = [];
@@ -129,8 +136,10 @@
 		  <option value="3" selected>Expert</option>
 		</select>
 		&nbsp;&nbsp;Show: <select id="num">
-		  <option value="1">3 Song Combinations</option>
-		  <option value="2" selected>All Combinations</option>
+		  <option value="1" selected>All Combinations</option>
+		  <option value="2">3 Song Combinations</option>
+		  <option value="3">2 Song Combinations</option>
+		  <option value="4">1 Song Combinations</option>
 		</select>
 		<button onclick="calc()">Calculate</button>
 		<div id="result">
