@@ -340,8 +340,8 @@
 					var json = '{"live":' + findintext(content, "var live = ", "}]}]")[1] + "}]}]}";
 					var live = JSON.parse(json);
 					id("songlist").innerHTML = "<br>";
-					id("songlist").innerHTML = "Please use desktop devices to ensure that sound can be played properly.<br>";
-					id("songlist").innerHTML = "Source: <a href='https://card.niconi.co.ni/live'>https://card.niconi.co.ni/live</a><br>";
+					id("songlist").innerHTML += "Please use desktop devices to ensure that sound can be played properly.<br>";
+					id("songlist").innerHTML += "Source: <a href='https://card.niconi.co.ni/live'>https://card.niconi.co.ni/live</a><br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
 						id("songlist").innerHTML += '<div class="node">' + song.name + '<br></div>';
