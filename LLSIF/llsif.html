@@ -11,7 +11,6 @@
 			}
 			body {
 				margin: 0px;
-				font-size: 100%;
 				font-size: 3vh;
 				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
 			}
@@ -26,6 +25,10 @@
 				height: 100%;
 				background-position: center;
 				background-size: cover;
+			}
+			button {
+				font-size: 2vh;
+				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
 			}
 			#demoarea {
 				position: fixed;
@@ -135,6 +138,14 @@
 				border-radius: 0.5vh;
 				background-color: #000000;
 			}
+			.shade {
+				position: fixed;
+				width: 6vh;
+				height: 100vh;
+				top: 0vh;
+				background-color: #808080;
+				opacity: 0.2;
+			}
 			#combotext {
 				position: fixed;
 				top: 0px;
@@ -144,7 +155,7 @@
 				line-height: 80vh;
 				font-size: 22vh;
 				text-align: center;
-				color: #CCCCCC;
+				color: #AAAAAA;
 				z-index: 500;
 			}
 		</style>
@@ -181,6 +192,10 @@
 		<div class="dot" style="left:38.5vh"></div>
 		<div class="dot" style="left:44.5vh"></div>
 		<div class="dot" style="left:50.5vh"></div>
+		<div class="shade" style="left:6vh"></div>
+		<div class="shade" style="left:18vh"></div>
+		<div class="shade" style="left:30vh"></div>
+		<div class="shade" style="left:42vh"></div>
 		<script>	
 			function timerefresh() {
 				if (isNaN(id("audioplayer").duration)) {
@@ -217,7 +232,7 @@
 						}
 					}
 					//HttpRequest.open("GET",'http://student.tanghin.edu.hk/~S121429/getsource.php?url=' + url,true);
-					HttpRequest.open("GET",url,true);
+					HttpRequest.open("GET",'https://wytangae.student.ust.hk/getsource.php?url=' + url,true);
 					HttpRequest.send(null);
 				}
 			}	
@@ -395,22 +410,30 @@
 								if (id("note" + i) == null){
 									var newnote = document.createElement("div");
 									if (beat.notes[i].swing){ //swing
+										newnote.style.backgroundColor = "#000000";
 										if (beat.notes[i].swingdir > 0) {
-											newnote.appendChild(document.createTextNode("→")); 
+											var b = document.createElement("b");
+											b.innerHTML = "→";
+											newnote.appendChild(b); 
 										} else {
-											newnote.appendChild(document.createTextNode("←")); 
+											var b = document.createElement("b");
+											b.innerHTML = "←";
+											newnote.appendChild(b); 
 										};
-									} else if (beat.notes[i].events) {
-										newnote.appendChild(document.createTextNode("o")); 
-									//} else {
-									//	newnote.appendChild(document.createTextNode("-")); 
+									} else if (beat.notes[i].star) {			
+										newnote.style.backgroundColor = "#CCCC00";
+										newnote.style.boxShadow = "rgba(255, 255, 0, 0.3) 0px 0px 20px 10px";
+										newnote.appendChild(document.createTextNode("☆")); 
+									} else if (beat.notes[i].events) {					
+										newnote.style.backgroundColor = "#808080"
+									} else {									
+										newnote.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
 									};
 									newnote.id = "note" + i;
 									newnote.className = "note";
 									var att = document.createAttribute("processed");
 									att.value = false; 
 									newnote.setAttributeNode(att);
-									newnote.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
 									newnote.style.left = 6 * (beat.notes[i].position-1) + "vh";
 									id("demoarea").appendChild(newnote);
 									if (beat.notes[i].type % 10 == 3){ //slider
@@ -448,13 +471,22 @@
 									id("note" + i + "_connect").style.height = (ratio-ratio2)*80 + "%";
 								}
 								for (var k = 0; k < beat.notes[i].link.length; k++) { //linkage
-									
 									var dx = (beat.notes[beat.notes[i].link[k]].position - beat.notes[i].position) * 6; //in vh
 									var dy = -(beat.notes[beat.notes[i].link[k]].starttime - beat.notes[i].starttime) * 80 / approach; 
+									if (dy > 0.1){
+										var ratio2 = -(ct - beat.notes[i].starttime) * 80 / approach; 
+										if (ratio2 < dy) {
+											dx = dx * ratio2 / dy;
+											dy = ratio2;
+										};
+									};
 									id("note" + i + "_link" + k).style.top = ratio>=1?"80%":(ratio*80+"%");
 									id("note" + i + "_link" + k).style.left = (6 * (beat.notes[i].position-1) + 3) + "vh";
 									id("note" + i + "_link" + k).style.width = Math.sqrt(dx*dx+dy*dy) + "vh";
 									id("note" + i + "_link" + k).style.transform = "rotate(" + (Math.atan2(dy,dx) * 180 / Math.PI) + "deg)";
+									if (ct > beat.notes[i].starttime) {
+										id("note" + i + "_link" + k).style.width = "0vh";
+									};
 								};
 							};
 						};
@@ -497,13 +529,13 @@
 						if (i >= 1 && Math.abs(beat.notes[i].starttime - beat.notes[i-1].starttime) < 0.002){ //parallel
 							beat.notes[i].parallel = true;
 							beat.notes[i-1].parallel = true;
-							beat.notes[i-1].link[beat.notes[i-1].link.length] = i;
+							beat.notes[i].link[beat.notes[i].link.length] = i-1;
 						};
 						if (beat.notes[i].swing){ //swing
 							if (!(lastlevel[beat.notes[i].level] == undefined)){
 								var dir = (beat.notes[i].position > beat.notes[lastlevel[beat.notes[i].level]].position)?1:-1;
 								beat.notes[i].swingdir = dir;
-								beat.notes[lastlevel[beat.notes[i].level]].link[beat.notes[lastlevel[beat.notes[i].level]].link.length] = i;
+								beat.notes[i].link[beat.notes[i].link.length] = lastlevel[beat.notes[i].level];
 								beat.notes[lastlevel[beat.notes[i].level]].swingdir = dir;
 							};
 						};
