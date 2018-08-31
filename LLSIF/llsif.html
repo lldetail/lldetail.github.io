@@ -339,6 +339,8 @@
 				client.get('https://card.niconi.co.ni/live/',function(content) {
 					var json = '{"live":' + findintext(content, "var live = ", "}]}]")[1] + "}]}]}";
 					var live = JSON.parse(json);
+					id("songlist").innerHTML = "<br>";
+					id("songlist").innerHTML = "Please use desktop devices to ensure that sound can be played properly.<br>";
 					id("songlist").innerHTML = "Source: <a href='https://card.niconi.co.ni/live'>https://card.niconi.co.ni/live</a><br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
@@ -374,7 +376,7 @@
 			function check() {
 				var ct = id("audioplayer").currentTime+0.16;
 				var tt = id("audioplayer").duration;
-				if (ct >= tt && ct >= lastend){
+				if (ct >= tt){
 					clearInterval(timer);
 				} else {
 					var moving = true;
@@ -496,7 +498,6 @@
 			function choose(obj){				
 				var path = "https://card.niconi.co.ni/live/" + obj.getAttribute("asset");
 				client.get(path,function(content) {
-					lastend = 0;
 					var json = (findintext(content, "var lives = [", '}]"}]')[1] + '}]}').replace(/\\/g, "").replace(/"\[/g, "[").replace(/"\]/g, "]");
 					var map = JSON.parse(json);
 					//sort
@@ -523,9 +524,6 @@
 						};
 						if (beat.notes[i].type % 10 == 3){
 							beat.notes[i].endtime += thenote.effect_value;
-						};
-						if (beat.notes[i].endtime > lastend) {
-							lastend = beat.notes[i].endtime;
 						};
 						beat.notes[i].swing = (beat.notes[i].type >= 10);						
 						beat.notes[i].events = (beat.notes[i].type % 10 == 2);
