@@ -197,9 +197,6 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			id("audioplayer").oncanplaythrough = function() {
-			  alert('Can play through: ' + id("audioplayer").duration);
-			};
 			function timerefresh() {
 				if (isNaN(id("audioplayer").duration)) {
 					id("timebar").style.width = "0%";
@@ -556,8 +553,11 @@
 					first = 0;
 					last = 0;
 					finished = 0;
+					id("audioplayer").currentTime = beat.notes[beat.notes.length-1].endtime;	
+					id("audioplayer").play();		
 					id("demoarea").innerHTML = "";
 					timer = clearInterval(timer);
+					id("audioplayer").currentTime = 0;
 					id("audioplayer").play();	
 					timer = setInterval(check,1);
 				});
