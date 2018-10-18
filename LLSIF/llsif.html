@@ -198,7 +198,7 @@
 		<div class="shade" style="left:42vh"></div>
 		<script>	
 			id("audioplayer").oncanplaythrough = function() {
-			  alert(id("audioplayer").duration);
+			  alert('Can play through: ' + id("audioplayer").duration);
 			};
 			function timerefresh() {
 				if (isNaN(id("audioplayer").duration)) {
