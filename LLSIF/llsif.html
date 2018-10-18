@@ -197,6 +197,9 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
+			id("audioplayer").onloadedmetadata = function() {
+			  alert(id("audioplayer").duration);
+			};
 			function timerefresh() {
 				if (isNaN(id("audioplayer").duration)) {
 					id("timebar").style.width = "0%";
