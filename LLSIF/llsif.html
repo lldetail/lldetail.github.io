@@ -204,7 +204,7 @@
 				} else {
 					var ct = id("audioplayer").currentTime+0.16;
 					var tt = id("audioplayer").duration;
-					if (isNaN(tt)){
+					if (!isFinite(tt)){
 						tt = beat.notes[beat.notes.length-1].endtime + 10;
 					}
 					id("timebar").style.width = 100 * ct / tt + "%";
@@ -379,7 +379,7 @@
 			function check() {
 				var ct = id("audioplayer").currentTime+0.16;
 				var tt = id("audioplayer").duration;
-				if (isNaN(tt)){
+				if (!isFinite(tt)){
 					tt = beat.notes[beat.notes.length-1].endtime + 10;
 				}
 				if (ct >= tt){
