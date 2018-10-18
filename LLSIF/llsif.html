@@ -204,6 +204,9 @@
 				} else {
 					var ct = id("audioplayer").currentTime+0.16;
 					var tt = id("audioplayer").duration;
+					if (isNaN(tt)){
+						tt = beat.notes[beat.notes.length-1].endtime + 10;
+					}
 					id("timebar").style.width = 100 * ct / tt + "%";
 					id("time").innerHTML = "Time: " + Math.floor(ct/60).toString().padStart(2,"0") + ":" + Math.floor(ct%60).toString().padStart(2,"0") + "/" + Math.floor(tt/60).toString().padStart(2,"0") + ":" + Math.floor(tt%60).toString().padStart(2,"0");
 				}
@@ -376,6 +379,9 @@
 			function check() {
 				var ct = id("audioplayer").currentTime+0.16;
 				var tt = id("audioplayer").duration;
+				if (isNaN(tt)){
+					tt = beat.notes[beat.notes.length-1].endtime + 10;
+				}
 				if (ct >= tt){
 					clearInterval(timer);
 				} else {
