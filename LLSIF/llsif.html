@@ -199,6 +199,7 @@
 		<script>	
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
+			var jsonget = false;
 			if (iOS){
 				alert("iOS devices cannot play the sound completely using the original URL, so a manual update is required. The sound may not be playable right now.")
 			}
@@ -585,20 +586,35 @@
 					id("audioplayer").load();
 					nosource = false;
 				} else {
-					client.get(path,function(content) {
-						loadJSON("iOS_dropbox.json",function(response) {
-							var links = JSON.parse(response);
-							var required = obj.parentElement.getAttribute("sound").replace(/assets\/sound\/music\/(m_(?:s|)\d{3,5}).mp3/g, '$1')
-							if (links.hasOwnProperty(required)){
-								id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
-								nosource = false;
-							} else {
-								id("audiosrc").src = "https://card.niconi.co.ni/asset/" + obj.parentElement.getAttribute("sound");
-								nosource = true;
-							}
-							id("audioplayer").load();
-						});
-					})
+					if (jsonget) {
+						var links = JSON.parse(jsoncontent);
+						var required = obj.parentElement.getAttribute("sound").replace(/assets\/sound\/music\/(m_(?:s|)\d{3,5}).mp3/g, '$1')
+						if (links.hasOwnProperty(required)){
+							id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
+							nosource = false;
+						} else {
+							id("audiosrc").src = "https://card.niconi.co.ni/asset/" + obj.parentElement.getAttribute("sound");
+							nosource = true;
+						}
+						id("audioplayer").load();
+					} else {
+						client.get(path,function(content) {
+							loadJSON("iOS_dropbox.json",function(response) {
+								jsonget = true;
+								jsoncontent = response;
+								var links = JSON.parse(response);
+								var required = obj.parentElement.getAttribute("sound").replace(/assets\/sound\/music\/(m_(?:s|)\d{3,5}).mp3/g, '$1')
+								if (links.hasOwnProperty(required)){
+									id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
+									nosource = false;
+								} else {
+									id("audiosrc").src = "https://card.niconi.co.ni/asset/" + obj.parentElement.getAttribute("sound");
+									nosource = true;
+								}
+								id("audioplayer").load();
+							});
+						})
+					}
 				}
 			};
 			loadsong();
