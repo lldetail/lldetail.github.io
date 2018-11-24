@@ -197,6 +197,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
+			var ver = 201811250227;
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
 			var jsonget = false;
@@ -349,7 +350,7 @@
 					var json = '{"live":' + findintext(content, "var live = ", "}]}]")[1] + "}]}]}";
 					var live = JSON.parse(json);
 					id("songlist").innerHTML = "<br>";
-					id("songlist").innerHTML = "Version: 201811250223<br>";
+					id("songlist").innerHTML = "Version: " + ver + "<br>";
 					id("songlist").innerHTML += "Source: <a href='https://card.niconi.co.ni/live'>https://card.niconi.co.ni/live</a><br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
@@ -575,12 +576,9 @@
 					bpm = calculatebpm();					
 					first = 0;
 					last = 0;
-					finished = 0;	
-					fumenready = true;
+					finished = 0;
 					id("demoarea").innerHTML = "";
-					if (audioready){
-						plays()
-					}
+					play2()
 				});
 				id("extrastyle").innerHTML = "body:after {background-image: " + "url(" +"https://card.niconi.co.ni/asset/" + obj.parentElement.getAttribute("icon") + ")" + ";}";
 				if (!iOS){
@@ -624,6 +622,12 @@
 			function play1(){	
 				audioready = true; 
 				if (fumenready){
+					plays();
+				}
+			}
+			function play2(){	
+				fumenready = true; 
+				if (audioready){
 					plays();
 				}
 			}
