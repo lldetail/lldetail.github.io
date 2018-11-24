@@ -169,7 +169,7 @@
 		<span id="time"></span>
 		<span id="notecount"></span>
 		<span id="bpmcount"></span>
-		<audio id="audioplayer" preload="auto" controls="controls" style="position:absolute; z-index:10000" hidden>
+		<audio id="audioplayer" preload="auto" controls="controls" style="position:absolute; z-index:10000" hidden oncanplay="play1()">
 			<source id="audiosrc" src="" type="audio/mpeg">
 		</audio>
 		<audio id="audiose" src="https://dl.dropboxusercontent.com/s/nm7dewdf6gys0hu/SE_306.mp3" preload="auto"></audio>
@@ -524,6 +524,8 @@
  
 			function choose(obj){				
 				var path = "https://card.niconi.co.ni/live/" + obj.getAttribute("asset");
+				fumenready = false;
+				audioready = false;
 				client.get(path,function(content) {
 					var json = (findintext(content, "var lives = [", '}]"}]')[1] + '}]}').replace(/\\/g, "").replace(/"\[/g, "[").replace(/"\]/g, "]");
 					var map = JSON.parse(json);
@@ -573,13 +575,12 @@
 					bpm = calculatebpm();					
 					first = 0;
 					last = 0;
-					finished = 0;
-					id("audioplayer").play();		
+					finished = 0;	
+					fumenready = true;
 					id("demoarea").innerHTML = "";
-					timer = clearInterval(timer);
-					id("audioplayer").currentTime = 0;
-					id("audioplayer").play();	
-					timer = setInterval(check,1);
+					if (audioready){
+						plays()
+					}
 				});
 				id("extrastyle").innerHTML = "body:after {background-image: " + "url(" +"https://card.niconi.co.ni/asset/" + obj.parentElement.getAttribute("icon") + ")" + ";}";
 				if (!iOS){
@@ -619,6 +620,18 @@
 				}
 			};
 			loadsong();
+			
+			function play1(){	
+				audioready = true; 
+				if (fumenready){
+					plays();
+				}
+			}
+			function plays(){
+				clearInterval(timer);
+				id("audioplayer").play();	
+				timer = setInterval(check,1);
+			}
 		</script>
 	</body>
 </html>
