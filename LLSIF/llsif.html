@@ -197,12 +197,12 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201811250227;
+			var ver = 201811250341;
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
 			var jsonget = false;
 			if (iOS){
-				alert("iOS devices cannot play the sound completely using the original URL, so a manual update is required. The sound may not be playable right now.")
+				alert("iOS devices cannot play the sound till the end using the original URL, so a manual update is required. The sound may not be playable right now. You may need to click the button multiple times to get it working.")
 			}
 			function timerefresh() {
 				if (isNaN(id("audioplayer").duration)) {
