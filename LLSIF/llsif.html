@@ -588,7 +588,7 @@
 					client.get(path,function(content) {
 						loadJSON("iOS_dropbox.json",function(response) {
 							var links = JSON.parse(response);
-							var required = /assets\/sound\/music\/(m_(?:s|)\d{3,5}).mp3/g.replace(obj.parentElement.getAttribute("sound"), '$1')
+							var required = obj.parentElement.getAttribute("sound").replace(/assets\/sound\/music\/(m_(?:s|)\d{3,5}).mp3/g, '$1')
 							if (links.hasOwnProperty(required)){
 								id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
 								nosource = false;
