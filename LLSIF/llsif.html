@@ -349,7 +349,7 @@
 					var json = '{"live":' + findintext(content, "var live = ", "}]}]")[1] + "}]}]}";
 					var live = JSON.parse(json);
 					id("songlist").innerHTML = "<br>";
-					id("songlist").innerHTML = "Version: 201811250146<br>";
+					id("songlist").innerHTML = "Version: 201811250223<br>";
 					id("songlist").innerHTML += "Source: <a href='https://card.niconi.co.ni/live'>https://card.niconi.co.ni/live</a><br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
