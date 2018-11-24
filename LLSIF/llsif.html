@@ -169,10 +169,10 @@
 		<span id="time"></span>
 		<span id="notecount"></span>
 		<span id="bpmcount"></span>
-		<audio id="audioplayer" preload="auto" controls="controls" style="position:absolute; z-index:10000">
+		<audio id="audioplayer" preload="auto" controls="controls" style="position:absolute; z-index:10000" hidden>
 			<source id="audiosrc" src="" type="audio/mpeg">
 		</audio>
-		<audio id="audiose" src="https://card.niconi.co.ni/asset/assets/sound/ui/se/SE_306.mp3" preload="auto"></audio>
+		<audio id="audiose" src="https://dl.dropboxusercontent.com/s/nm7dewdf6gys0hu/SE_306.mp3" preload="auto"></audio>
 		<div id="demoarea">
 		</div>
 		<div id="border">
@@ -197,6 +197,11 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
+			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+			var nosource = false;
+			if (iOS){
+				alert("iOS devices cannot play the sound completely using the original URL, so a manual update is required. The sound may not be playable right now.")
+			}
 			function timerefresh() {
 				if (isNaN(id("audioplayer").duration)) {
 					id("timebar").style.width = "0%";
@@ -204,8 +209,8 @@
 				} else {
 					var ct = id("audioplayer").currentTime+0.16;
 					var tt = id("audioplayer").duration;
-					if (!isFinite(tt)){
-						tt = beat.notes[beat.notes.length-1].endtime + 10;
+					if (iOS && nosource){
+						tt = ct;
 					}
 					id("timebar").style.width = 100 * ct / tt + "%";
 					id("time").innerHTML = "Time: " + Math.floor(ct/60).toString().padStart(2,"0") + ":" + Math.floor(ct%60).toString().padStart(2,"0") + "/" + Math.floor(tt/60).toString().padStart(2,"0") + ":" + Math.floor(tt%60).toString().padStart(2,"0");
@@ -343,7 +348,6 @@
 					var json = '{"live":' + findintext(content, "var live = ", "}]}]")[1] + "}]}]}";
 					var live = JSON.parse(json);
 					id("songlist").innerHTML = "<br>";
-					id("songlist").innerHTML += "Please use desktop devices to ensure that sound can be played properly.<br>";
 					id("songlist").innerHTML += "Source: <a href='https://card.niconi.co.ni/live'>https://card.niconi.co.ni/live</a><br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
@@ -503,6 +507,19 @@
 					};
 				};
 			};
+			
+			function loadJSON(path, callback) {   
+				var xobj = new XMLHttpRequest();
+				xobj.overrideMimeType("application/json");
+				xobj.open('GET', path, true);
+				xobj.onreadystatechange = function () {
+					  if (xobj.readyState == 4 && xobj.status == "200") {
+						callback(xobj.responseText);
+					  }
+				};
+				xobj.send(null);  
+			 }
+ 
 			function choose(obj){				
 				var path = "https://card.niconi.co.ni/live/" + obj.getAttribute("asset");
 				client.get(path,function(content) {
@@ -555,7 +572,6 @@
 					first = 0;
 					last = 0;
 					finished = 0;
-					id("audioplayer").currentTime = beat.notes[beat.notes.length-1].endtime;	
 					id("audioplayer").play();		
 					id("demoarea").innerHTML = "";
 					timer = clearInterval(timer);
@@ -564,8 +580,26 @@
 					timer = setInterval(check,1);
 				});
 				id("extrastyle").innerHTML = "body:after {background-image: " + "url(" +"https://card.niconi.co.ni/asset/" + obj.parentElement.getAttribute("icon") + ")" + ";}";
-				id("audiosrc").src = "https://card.niconi.co.ni/asset/" + obj.parentElement.getAttribute("sound");
-				id("audioplayer").load();
+				if (!iOS){
+					id("audiosrc").src = "https://card.niconi.co.ni/asset/" + obj.parentElement.getAttribute("sound");
+					id("audioplayer").load();
+					nosource = false;
+				} else {
+					client.get(path,function(content) {
+						loadJSON("iOS_dropbox.json",function(response) {
+							var links = JSON.parse(response);
+							var required = /assets\/sound\/music\/(m_(?:s|)\d{3,5}).mp3/g.replace(obj.parentElement.getAttribute("sound"), '$1')
+							if (links.hasOwnProperty(required)){
+								id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
+								nosource = false;
+							} else {
+								id("audiosrc").src = "https://card.niconi.co.ni/asset/" + obj.parentElement.getAttribute("sound");
+								nosource = true;
+							}
+							id("audioplayer").load();
+						});
+					})
+				}
 			};
 			loadsong();
 		</script>
