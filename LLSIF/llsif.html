@@ -197,7 +197,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201811250341;
+			var ver = 201812250616;
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
 			var jsonget = false;
@@ -528,6 +528,7 @@
 				fumenready = false;
 				audioready = false;
 				client.get(path,function(content) {
+					content = content.replace(/\\r\\n +/g,"");
 					var json = (findintext(content, "var lives = [", '}]"}]')[1] + '}]}').replace(/\\/g, "").replace(/"\[/g, "[").replace(/"\]/g, "]");
 					var map = JSON.parse(json);
 					//sort
