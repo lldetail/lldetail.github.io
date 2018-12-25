@@ -42,6 +42,14 @@
 				background-position: center;
 				background-size: cover;
 			}
+			
+			input {
+				font-size: 3vh;
+				border-radius: 999px;
+				width: 500px;
+				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
+			}
+			
 			button {
 				font-size: 2vh;
 				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
@@ -174,6 +182,9 @@
 				color: #AAAAAA;
 				z-index: 500;
 			}
+			.node.hidden {
+				display: none;
+			}
 		</style>
 		<style id="extrastyle">
 		</style>
@@ -219,6 +230,20 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
+			function convert(str){
+				var temp = "";
+				for (i = 0; i < str.length; i++){
+					var cc = str.charCodeAt(i); //charcode
+					if (cc >= 97 && cc <= 122){ //small letter
+						temp += String.fromCharCode(cc - 32); //to capital letter
+					} else if (cc >= 0x3041 && cc <= 0x3096) { //hiragana
+						temp += String.fromCharCode(cc + 96); // to katakana
+					} else {
+						temp += String.fromCharCode(cc); //no change
+					}
+				}
+				return temp;
+			}
 			var ver = 201812251700;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
@@ -392,15 +417,19 @@
 					id("songlist").innerHTML = "<br>";
 					id("songlist").innerHTML = "Version: " + ver + "<br>";
 					id("songlist").innerHTML += "Source: <a href='https://card.niconi.co.ni/live'>https://card.niconi.co.ni/live</a><br>";
+					//Search Tool
+					id("songlist").innerHTML += "Search: <input placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
-						id("songlist").innerHTML += '<div class="node">' + song.name + '<br></div>';
+						id("songlist").innerHTML += '<div class="node shown">' + song.name + '<br></div>';
 						var songroot = document.getElementsByClassName("node")[document.getElementsByClassName("node").length-1];
 						songroot.style.color = ["black", "red", "green", "blue"][song.attribute];
 						songroot.setAttribute('icon',song.icon);
 						songroot.setAttribute('sound',song.sound);
 						songroot.setAttribute('attribute',song.attribute);
 						songroot.setAttribute('member_category',song.member_filter_cond);
+						songroot.setAttribute('name1',convert(song.name));
+						songroot.setAttribute('name2',convert(song.name_kana));
 						for (var j = 0; j < song.difficulties.length; j++){
 							var diff = song.difficulties[j];
 							songroot.innerHTML += "<button class='btn' onclick='choose(this)'" + (diff.available?"":" disabled") + ">" + ["Unknown-0", "Easy", "Normal", "Hard", "Expert", "Unknown-5", "Master", "Challenge"][diff.difficulty + diff.ac_flag] + " (" + diff.stage_level + "★, " + diff.s_rank_combo + "x" + (diff.ac_flag?", AC":"") + (diff.swing_flag?", Swing":"") + ")" + "</button>";
@@ -705,6 +734,20 @@
 				clearInterval(timer);
 				id("audioplayer").play();	
 				timer = setInterval(check,1);
+			}
+			
+			function search(val){
+				var allnode = document.getElementsByClassName("node");
+				for (var k = 0; k < allnode.length; k++){
+					var name1 = allnode[k].getAttribute("name1");
+					var name2 = allnode[k].getAttribute("name2");
+					var seark = convert(val);
+					if (name1.includes(seark) || name2.includes(seark)){
+						allnode[k].setAttribute("class", "node shown");
+					} else {
+						allnode[k].setAttribute("class", "node hidden");
+					}
+				}
 			}
 		</script>
 	</body>
