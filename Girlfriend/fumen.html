@@ -244,7 +244,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812252235;
+			var ver = 201812252249;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -493,6 +493,7 @@
 									beat.notes[i].created = true;
 									var newnote = document.createElement("div");					
 									//newnote.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
+									newnote.style.backgroundImage = "linear-gradient(to right, " + ["#000000","#F00, #F80","#080, #FF0", "#00F, #00F"][beat.notes[i].attribute] + ")";
 									newnote.id = "note" + i;
 									newnote.className = "note";
 									var att = document.createAttribute("processed");
@@ -507,13 +508,15 @@
 										var att2 = document.createAttribute("processed");
 										att2.value = false; 
 										newnote2.setAttributeNode(att2);
-										newnote2.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
+										//newnote2.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
+										newnote2.style.backgroundImage = "linear-gradient(to right, " + ["#000000","#F00, #F80","#080, #FF0", "#00F, #00F"][beat.notes[i].attribute] + ")";
 										newnote2.style.left = 6 * (beat.notes[i].position-1) + "vh";
 										id("demoarea").appendChild(newnote2);
 										var newnote3 = document.createElement("div");
 										newnote3.id = "note" + i + "_connect";
 										newnote3.className = "notec";
-										newnote3.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
+										//newnote3.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
+										newnote3.style.backgroundImage = "linear-gradient(to right, " + ["#000000","#F00, #F80","#080, #FF0", "#00F, #00F"][beat.notes[i].attribute] + ")";
 										newnote3.style.left = (6 * (beat.notes[i].position-1) + 1) + "vh";
 										id("demoarea").appendChild(newnote3);										
 									};
