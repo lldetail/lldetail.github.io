@@ -453,6 +453,9 @@
 								};
 								finished++;
 							};
+							if (!id("note" + i).getAttribute("processed")){
+								finished++;
+							};
 						} else {
 							moving = false;
 							if (beat.notes[i].starttime <= ct + approach){
