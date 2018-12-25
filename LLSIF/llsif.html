@@ -179,7 +179,7 @@
 		</style>
 	</head>
 	<body>
-		<div id="iOS_block" onclick="this.style.display = 'none';plays()">iOS: Click here to play</div>
+		<div id="iOS_block" style="display:none" onclick="this.style.display = 'none';plays()">iOS: Click here to play</div>
 		<div id="combotext"></div>
 		<div id="timeline"></div>
 		<div id="timebar"></div>
@@ -214,7 +214,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812251545;
+			var ver = 201812251550;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
