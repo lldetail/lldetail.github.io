@@ -325,7 +325,7 @@
 				if (!iOS){
 					id("audiose").cloneNode().play(); //iOS device cannot play this audio
 				} else {
-					id("audiose").stop();
+					id("audiose").currentTime=0;
 					id("audiose").play();
 				}
 			};
