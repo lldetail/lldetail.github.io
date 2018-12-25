@@ -91,12 +91,6 @@
 				border: 0.2vh solid black;
 				z-index: 2000;
 			}
-			.linkage {
-				position: fixed;
-				transform-origin: 0 0;
-				border: 0.2vh solid black;
-				z-index: 1999;
-			}
 			#songlistcontainer {
 				position: fixed;
 				left: 54vh;
@@ -476,9 +470,6 @@
 								if (beat.notes[i].type % 10 == 3){ //slider
 									id("demoarea").removeChild(id("note" + i + "_tail"));
 									id("demoarea").removeChild(id("note" + i + "_connect"));
-								};
-								for (var k = 0; k < beat.notes[i].link.length; k++) {
-									id("demoarea").removeChild(id("note" + i + "_link" + k));
 								};
 								finished++;
 							};
