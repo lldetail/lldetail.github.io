@@ -625,12 +625,14 @@
 			loadsong();
 			
 			function play1(){	
+				console.log("play1")
 				audioready = true; 
 				if (fumenready){
 					plays();
 				}
 			}
 			function play2(){	
+				console.log("play2")
 				fumenready = true; 
 				if (audioready){
 					plays();
