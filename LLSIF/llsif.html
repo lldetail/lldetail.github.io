@@ -8,7 +8,23 @@
 			  -webkit-box-sizing: border-box;
 				 -moz-box-sizing: border-box;
 					  box-sizing: border-box;
+				z-index: -1;
 			}
+			
+			#iOS_block {
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: 100vh;
+				opacity: 0.5;
+				background-color: #808080;
+				line-height: 100vh;
+				font-size: 12vh;
+				color: black;
+				text-align: center;
+				z-index: 123456789;
+			}
+			
 			body {
 				margin: 0px;
 				font-size: 3vh;
@@ -163,6 +179,7 @@
 		</style>
 	</head>
 	<body>
+		<div id="iOS_block" onclick="this.style.display = 'none';plays()">iOS: Click here to play</div>
 		<div id="combotext"></div>
 		<div id="timeline"></div>
 		<div id="timebar"></div>
@@ -197,7 +214,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812251534;
+			var ver = 201812251545;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -644,8 +661,7 @@
 				if (audioready) {
 					//iOS click to play
 					clearInterval(timer3);
-					alert("iOS: Click OK to play for the first time");
-					plays();
+					id("iOS_block").style.display = "block";
 				}
 			}
 			
