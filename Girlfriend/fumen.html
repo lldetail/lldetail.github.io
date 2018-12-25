@@ -171,6 +171,14 @@
 				background-color: #808080;
 				opacity: 0.2;
 			}
+			.dshade {
+				position: fixed;
+				width: 6vh;
+				height: 100vh;
+				top: 0vh;
+				background-color: #000000;
+				opacity: 0.2;
+			}
 			#combotext {
 				position: fixed;
 				top: 0px;
@@ -237,6 +245,7 @@
 		<div class="shade" style="left:18vh"></div>
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
+		<div class="dshade" style="left:24vh"></div>
 		<script>	
 			var ver = 201812252249;
 			console.log("Version: " + ver);
@@ -547,7 +556,6 @@
 				client.get(path,function(content) {
 					content = content.replace(/\\r\\n +/g,"");
 					var json = (findintext(content, "var lives = [", "}]\n")[1] + '}').replace(/\\/g, "").replace(/}]",/g, "}],").replace(/"\[/g, "[").replace(/"\]/g, "]");
-					console.log(json);
 					var map = JSON.parse(json);
 					//sort
 					map.notes_list.sort(function(a, b) {return a.timing_sec - b.timing_sec;});
