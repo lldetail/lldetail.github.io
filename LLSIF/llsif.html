@@ -184,7 +184,7 @@
 				return document.getElementById(ids);
 			};
 		</script>
-		<div id="iOS_block" style="display:none" onclick="id('audiose').play();this.style.display = 'none';plays()">iOS: Click here to play</div>
+		<div id="iOS_block" style="display:none" onclick="this.style.display = 'none';playse();plays()">iOS: Click here to play</div>
 		<div id="combotext"></div>
 		<div id="timeline"></div>
 		<div id="timebar"></div>
@@ -219,7 +219,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812251604;
+			var ver = 201812251608;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -665,6 +665,10 @@
 					clearInterval(timer3);
 					id("iOS_block").style.display = "block";
 				}
+			}
+			
+			function playse(){
+				id('audiose').play();
 			}
 			
 			function plays(){
