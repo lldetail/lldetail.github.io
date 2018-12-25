@@ -427,7 +427,7 @@
 						songroot.setAttribute('attribute',song.attribute_id);
 						for (var j = 0; j < song.difficulties.length; j++){
 							var diff = song.difficulties[j];
-							songroot.innerHTML += "<button class='btn' onclick='choose(this)'>難易度 " + ["Unknown-0", "カンタン", "フツウ", "ムズカシイ", "激ムズ"][diff.difficulty] + " (" + diff.stage_level + ", " + diff.s_rank_combo + "x" + ")" + "</button>";
+							songroot.innerHTML += "<button class='btn' onclick='choose(this)'>" + ["Unknown-0", "カンタン", "フツウ", "ムズカシイ", "激ムズ"][diff.difficulty] + " (難易度 " + diff.stage_level + ", " + diff.s_rank_combo + "x" + ")" + "</button>";
 							var diffroot = songroot.getElementsByClassName("btn")[songroot.getElementsByClassName("btn").length-1];
 							diffroot.setAttribute('difficulty',diff.difficulty);
 							diffroot.setAttribute('stage_level',diff.stage_level);
