@@ -198,6 +198,7 @@
 		<div class="shade" style="left:42vh"></div>
 		<script>	
 			var ver = 201812251456;
+			console.log(ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
 			var jsonget = false;
@@ -501,6 +502,9 @@
 									id("note" + i + "_link" + k).style.left = (6 * (beat.notes[i].position-1) + 3) + "vh";
 									id("note" + i + "_link" + k).style.width = Math.sqrt(dx*dx+dy*dy) + "vh";
 									id("note" + i + "_link" + k).style.transform = "rotate(" + (Math.atan2(dy,dx) * 180 / Math.PI) + "deg)";
+									if (iOS){
+										console.log(ct + ' ' + beat.notes[i].starttime);
+									}
 									if (ct > beat.notes[i].starttime) {
 										id("note" + i + "_link" + k).style.width = "0vh";
 									};
