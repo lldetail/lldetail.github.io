@@ -179,6 +179,11 @@
 		</style>
 	</head>
 	<body>
+		<script>
+			function id(ids){
+				return document.getElementById(ids);
+			};
+		</script>
 		<div id="iOS_block" style="display:none" onclick="id('audiose').play();this.style.display = 'none';plays()">iOS: Click here to play</div>
 		<div id="combotext"></div>
 		<div id="timeline"></div>
@@ -214,7 +219,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812251600;
+			var ver = 201812251604;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -248,9 +253,6 @@
 				};
 			};
 			setInterval(timerefresh,100);
-			function id(ids){
-				return document.getElementById(ids);
-			};
 			var HttpClient = function() {
 				this.get = function(url, callback) {
 					var HttpRequest = new XMLHttpRequest();
