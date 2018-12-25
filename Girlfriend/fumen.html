@@ -594,7 +594,7 @@
 				} else {
 					if (jsonget) {
 						var links = JSON.parse(jsoncontent);
-						var required = obj.parentElement.getAttribute("sound").replace(/assets\/sound\/music\/(m_(?:s|)\d{3,5}).mp3/g, '$1')
+						var required = obj.parentElement.getAttribute("sound").replace(/\/static\/custom_live_assets\/gf\/music\/(\d{3,5}).mp3/g, '$1')
 						if (links.hasOwnProperty(required)){
 							id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
 							nosource = false;
