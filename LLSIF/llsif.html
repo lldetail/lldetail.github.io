@@ -219,7 +219,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812251633;
+			var ver = 201812251655;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -453,13 +453,15 @@
 								};
 								finished++;
 							};
-							if (!id("note" + i).getAttribute("processed")){
+							if (!beat.notes[i].created){
+								beat.notes[i].created = true;
 								finished++;
-							};
+							}
 						} else {
 							moving = false;
 							if (beat.notes[i].starttime <= ct + approach){
 								if (id("note" + i) == null){
+									beat.notes[i].created = true;
 									var newnote = document.createElement("div");
 									if (beat.notes[i].swing){ //swing
 										newnote.style.backgroundColor = "#000000";
@@ -586,7 +588,8 @@
 							swing: false,
 							link: [],
 							swingdir: 0, //left:-1, right:1, no:0
-							parallel: false
+							parallel: false,
+							created: false
 						};
 						if (beat.notes[i].type % 10 == 3){
 							beat.notes[i].endtime += thenote.effect_value;
