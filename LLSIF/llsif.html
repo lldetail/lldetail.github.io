@@ -2,7 +2,7 @@
 	<head>
 		<!--<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no"> -->
 		<meta charset="UTF-8">
-		<title>Game Test</title>
+		<title>スクフェス譜面</title>
 		<style>
 			* {
 			  -webkit-box-sizing: border-box;
@@ -158,7 +158,7 @@
 				position: fixed;
 				width: 1vh;
 				height: 1vh;
-				top: 79.5%;
+				top: calc(80% - 0.5vh);
 				border-radius: 0.5vh;
 				background-color: #000000;
 			}
@@ -244,7 +244,7 @@
 				}
 				return temp;
 			}
-			var ver = 201812251700;
+			var ver = 201812252044;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;

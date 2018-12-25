@@ -1,0 +1,668 @@
+<html>
+	<head>
+		<!--<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no"> -->
+		<meta charset="UTF-8">
+		<title>ガールフレンド(仮)譜面</title>
+		<style>
+			* {
+			  -webkit-box-sizing: border-box;
+				 -moz-box-sizing: border-box;
+					  box-sizing: border-box;
+			}
+			
+			#iOS_block {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: 100vh;
+				opacity: 0.5;
+				background-color: #808080;
+				line-height: 100vh;
+				font-size: 12vh;
+				color: black;
+				text-align: center;
+				z-index: 123456789;
+			}
+			
+			body {
+				margin: 0px;
+				font-size: 3vh;
+				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
+			}
+			body:after{
+				opacity: 0.2;
+				z-index: -1;
+				position: absolute;
+				top: 0;
+				left: 0;
+				content: "";
+				width: 100%;
+				height: 100%;
+				background-position: center;
+				background-size: cover;
+			}
+			
+			input {
+				font-size: 3vh;
+				border-radius: 999px;
+				width: 500px;
+				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
+			}
+			
+			button {
+				font-size: 2vh;
+				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
+			}
+			#demoarea {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				height: 100%;
+				width: 54vh;
+				border: 0.2vh solid black;
+				z-index: 1000;
+			}
+			#border {
+				position: fixed;
+				top: 80%;
+				height: 0px;
+				width: 54vh;
+				border: 0.2vh solid black;
+				z-index: 1001;
+			}
+			.note {
+				position: fixed;
+				height: 2vh;
+				line-height: 2vh;
+				width: 6vh;
+				font-size: 4vh;
+				text-align: center;
+				vertical-align: middle;
+				color: white;
+				border: 0.2vh solid black;
+				z-index: 2001;
+			}
+			.notec {
+				position: fixed;
+				height: 2vh;
+				width: 4vh;
+				font-size: 6vh;
+				border: 0.2vh solid black;
+				z-index: 2000;
+			}
+			.linkage {
+				position: fixed;
+				transform-origin: 0 0;
+				border: 0.2vh solid black;
+				z-index: 1999;
+			}
+			#songlistcontainer {
+				position: fixed;
+				left: 54vh;
+				top: 0px;
+				height: 100%;
+				width: calc(100vw - 54vh);
+				border: 0.2vh solid black;
+			}
+			#songlist {
+				width: 100%;
+				height: 100%;
+				overflow-y: scroll;
+			}
+			#timeline {
+				position: fixed;
+				width: 100%;
+				height: 0.5vh;
+				background-color: #AAAAAA;
+				z-index: 3999;
+			}
+			#timebar {
+				position: fixed;
+				width: 0%;
+				height: 0.5vh;
+				background-color: #00FF00;
+				z-index: 4000;
+			}
+			#time {
+				position: fixed;
+				top: 0.5vh;
+				right: 0px;
+				font-style: normal;
+				font-size: 2vh;
+				font-weight: bold;
+				font-family: "Consolas", sans-serif;
+				z-index: 1001;
+			}
+			#notecount {
+				position: fixed;
+				top: 2.5vh;
+				right: 0px;
+				font-style: normal;
+				font-size: 2vh;
+				font-weight: bold;
+				font-family: "Consolas", sans-serif;
+				z-index: 1001;
+			}
+			#bpmcount {
+				position: fixed;
+				top: 4.5vh;
+				right: 0px;
+				font-style: normal;
+				font-size: 2vh;
+				font-weight: bold;
+				font-family: "Consolas", sans-serif;
+				z-index: 1001;
+			}
+			.dot {
+				position: fixed;
+				width: 1vh;
+				height: 1vh;
+				top: calc(80% - 0.5vh);
+				border-radius: 0.5vh;
+				background-color: #000000;
+			}
+			.dot.silver {
+				width: 6vh;
+				height: 6vh;
+				top: calc(80% - 3vh);
+				border-radius: 3vh;
+				background-color: #808080;
+			}
+			.shade {
+				position: fixed;
+				width: 6vh;
+				height: 100vh;
+				top: 0vh;
+				background-color: #808080;
+				opacity: 0.2;
+			}
+			#combotext {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				width: 54vh;
+				height: 80vh;
+				line-height: 80vh;
+				font-size: 22vh;
+				text-align: center;
+				color: #AAAAAA;
+				z-index: 500;
+			}
+			.node span{
+				background-clip: text;
+				-webkit-background-clip: text;
+				color: transparent;
+				-webkit-text-fill-color: transparent;
+			}
+			.node button {
+				color: buttontext;
+				
+			}
+		</style>
+		<style id="extrastyle">
+		</style>
+	</head>
+	<body>
+		<script>
+			function id(ids){
+				return document.getElementById(ids);
+			};
+		</script>
+		<div id="iOS_block" style="display:none" onclick="this.style.display = 'none'; playse(); plays()">iOS: Click here to play</div>
+		<div id="combotext"></div>
+		<div id="timeline"></div>
+		<div id="timebar"></div>
+		<span id="time"></span>
+		<span id="notecount"></span>
+		<span id="bpmcount"></span>
+		<audio id="audioplayer" preload="auto" controls="controls" style="position:absolute; z-index:10000" hidden oncanplay="play1()">
+			<source id="audiosrc" src="" type="audio/mpeg">
+		</audio>
+		<audio id="audiose" src="https://dl.dropboxusercontent.com/s/nm7dewdf6gys0hu/SE_306.mp3" preload="auto"></audio>
+		<div id="demoarea">
+		</div>
+		<div id="border">
+		</div>
+		<div id="songlistcontainer">
+			<div id="songlist">
+				<h1>Loading...</h1>
+				<h1>Please Wait...</h1>
+			</div>
+		</div>
+		<div class="dot" style="left:2.5vh"></div>
+		<div class="dot" style="left:8.5vh"></div>
+		<div class="dot" style="left:14.5vh"></div>
+		<div class="dot" style="left:20.5vh"></div>
+		<div class="dot silver" style="left:24vh"></div>
+		<div class="dot" style="left:32.5vh"></div>
+		<div class="dot" style="left:38.5vh"></div>
+		<div class="dot" style="left:44.5vh"></div>
+		<div class="dot" style="left:50.5vh"></div>
+		<div class="shade" style="left:6vh"></div>
+		<div class="shade" style="left:18vh"></div>
+		<div class="shade" style="left:30vh"></div>
+		<div class="shade" style="left:42vh"></div>
+		<script>	
+			var ver = 201812252235;
+			console.log("Version: " + ver);
+			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+			var nosource = false;
+			var jsonget = false;
+			var sound = false;
+			if (iOS){
+				alert("iOS devices cannot play the sound till the end using the original URL, so a manual update is required. The sound may not be playable right now. You may need to click the button multiple times to get it working.")
+				var s = "";
+				iOSAudio = 0;
+				for (var i = 0; i < 12; i++){
+					s += '<audio id="audiose' + i + '" src="https://dl.dropboxusercontent.com/s/nm7dewdf6gys0hu/SE_306.mp3" preload="auto"></audio>';
+				}
+				id("audiose").outerHTML = s;
+			}
+			if (confirm("Enable Sound Effect? (OK to enable, Cancel to disable) (Cancel recommended for iOS devices and old devices to provent lag.)")) {
+				sound = true;
+			} else {
+				sound = false;
+			}
+			function timerefresh() {
+				if (isNaN(id("audioplayer").duration)) {
+					id("timebar").style.width = "0%";
+					id("time").innerHTML = "Time: 00:00/00:00";
+				} else {
+					var ct = id("audioplayer").currentTime+0.16;
+					var tt = id("audioplayer").duration;
+					if (iOS && nosource){
+						tt = ct;
+					}
+					id("timebar").style.width = 100 * ct / tt + "%";
+					id("time").innerHTML = "Time: " + Math.floor(ct/60).toString().padStart(2,"0") + ":" + Math.floor(ct%60).toString().padStart(2,"0") + "/" + Math.floor(tt/60).toString().padStart(2,"0") + ":" + Math.floor(tt%60).toString().padStart(2,"0");
+				}
+				if (beat == undefined) {
+					id("notecount").innerHTML = "Note: 0/0";
+					id("combotext").innerHTML = "";
+					id("bpmcount").innerHTML = "(Expermental) Bar: 0:0";
+				} else {
+					var ct = id("audioplayer").currentTime+0.16;
+					var beatc = Math.floor((ct-beat.notes[0].starttime)/(60/bpm));
+					id("notecount").innerHTML = "Note: " + finished + "/" + beat.notes.length;
+					id("combotext").innerHTML = finished;
+					id("bpmcount").innerHTML = "(Expermental) Bar: " + Math.floor(beatc / 4) + ":" + ((beatc % 4) + 1);
+				};
+			};
+			setInterval(timerefresh,100);
+			var HttpClient = function() {
+				this.get = function(url, callback) {
+					var HttpRequest = new XMLHttpRequest();
+					HttpRequest.onreadystatechange = function() {
+						if (HttpRequest.readyState == 4 & HttpRequest.status == 200) {
+							callback(HttpRequest.response);
+						}
+					}
+					//HttpRequest.open("GET",'http://student.tanghin.edu.hk/~S121429/getsource.php?url=' + url,true);
+					HttpRequest.open("GET",'https://wytangae.student.ust.hk/getsource.php?url=' + url,true);
+					HttpRequest.send(null);
+				}
+			}	
+			var client = new HttpClient();
+			function findintext(text, first, last, r1, r2){
+				try {
+					if (last == undefined) {
+						last = "";
+					};
+					if (r1 == undefined) {
+						r1 = false;
+					};
+					if (r2 == undefined) {
+						r2 = false;
+					};					
+					if (last == ""){
+						var place;
+						if (r1) {
+							place = text.lastIndexOf(first);
+						} else {
+							place = text.indexOf(first);
+						};
+						if (place == -1){
+							return ["Error","Error","Error"];
+						} else {
+							return [text.substring(0, place), text.substring(place + first.length),""];
+						};
+					} else {
+						var place1;
+						if (r1) {
+							place = text.lastIndexOf(first);
+						} else {
+							place = text.indexOf(first);
+						};
+						if (place == -1){
+							return ["Error","Error","Error"];
+						} else {
+							var place2;
+							if (r2) {
+								place2 = text.lastIndexOf(last);
+								if (place2 < place1 + first.length){
+									place2 = -1;
+								};
+							} else {
+								place2 = text.indexOf(last, place + first.length);
+							};
+							if (place2 == -1){
+								return ["Error","Error","Error"];
+							} else {
+								return [text.substring(0, place), text.substring(place + first.length, place2), text.substring(place2 + last.length)];
+							};
+						};
+					}
+				}
+				catch(err) {
+					return ["Error","Error","Error"];
+				}
+			}
+			function playsound() {
+				if (sound){
+					if (!iOS){
+						id("audiose").cloneNode().play(); //iOS device cannot play this audio
+					} else {
+						id("audiose" + iOSAudio).currentTime=0;
+						id("audiose" + iOSAudio).play();
+						iOSAudio = (iOSAudio + 1)%12;
+					}
+				}
+			};
+			function calculatebpm() {
+				var s1 = 10000;
+				for (var i = 1; i < beat.notes.length; i++){
+					var dist = beat.notes[i].starttime - beat.notes[i-1].starttime;
+					if (dist > 0.001) {
+						if (dist < s1 - 0.002) {
+							s1 = dist;
+						};
+					};
+				}
+				var c = 0;
+				for (var i = 1; i < beat.notes.length; i++){
+					var dist = beat.notes[i].starttime - beat.notes[i-1].starttime;
+					var b = dist / s1;
+					var frac = b - Math.floor(b);
+					if (b < 0.13 || b > 0.87) {
+						c += Math.round(dist / s1);
+					} else if (b >= 0.2 && b < 0.4) {
+						s1 /= 3;
+						c *= 3;
+						c += Math.round(dist / s1);
+					} else if (b >= 0.4 && b < 0.6) {
+						s1 /= 2;
+						c *= 2;
+						c += Math.round(dist / s1);
+					} else if (b >= 0.6 && b < 0.8) {
+						s1 /= 3;
+						c *= 3;
+						c += Math.round(dist / s1);
+					} else {
+						console.log([dist, s1, dist/s1]);
+						c += Math.round(dist / s1);
+					};
+				}
+				var s2 = (beat.notes[beat.notes.length - 1].starttime - beat.notes[0].starttime)/c;
+				var bpm = 60/s2;
+				while (bpm > 200){
+					bpm /= 2;
+				};
+				return bpm;
+			};
+			function loadsong() {
+				client.get('https://card.niconi.co.ni/static/custom_live_assets/gf/gf_list.html',function(content) {
+					var json = '{"live":' + findintext(content, "var live = ", "}]}]")[1] + "}]}]}";
+					var live = JSON.parse(json);
+					id("songlist").innerHTML = "<br>";
+					id("songlist").innerHTML = "Version: " + ver + "<br>";
+					id("songlist").innerHTML += "Source: <a href='https://card.niconi.co.ni/static/custom_live_assets/gf/gf_list.html'>https://card.niconi.co.ni/static/custom_live_assets/gf/gf_list.html</a><br>";
+					id("songlist").innerHTML = "Since niconi.co.ni use elements from LLSIF to store the element in Girlfriend(Onpu), the true element cannot be retrieved and thus gradient color is used instead.<br>";
+					for (var i = 0; i < live.live.length; i++){
+						var song = live.live[i];
+						id("songlist").innerHTML += '<div class="node"><span style="background-image:-webkit-linear-gradient(' + ["#000", "#F00, #F80", "#080, #FF0", "#00F, #00F"][song.attribute_id] + ')">' + song.name + '</span><br></div>';
+						var songroot = document.getElementsByClassName("node")[document.getElementsByClassName("node").length-1];
+						songroot.setAttribute('icon',song.jacket_asset);
+						songroot.setAttribute('sound',song.sound_asset);
+						songroot.setAttribute('attribute',song.attribute_id);
+						for (var j = 0; j < song.difficulties.length; j++){
+							var diff = song.difficulties[j];
+							songroot.innerHTML += "<button class='btn' onclick='choose(this)'>難易度 " + ["Unknown-0", "カンタン", "フツウ", "ムズカシイ", "激ムズ"][diff.difficulty] + " (" + diff.stage_level + ", " + diff.s_rank_combo + "x" + ")" + "</button>";
+							var diffroot = songroot.getElementsByClassName("btn")[songroot.getElementsByClassName("btn").length-1];
+							diffroot.setAttribute('difficulty',diff.difficulty);
+							diffroot.setAttribute('stage_level',diff.stage_level);
+							diffroot.setAttribute('s_rank_combo',diff.s_rank_combo);
+							diffroot.setAttribute('attribute',song.attribute_id);
+							diffroot.setAttribute('asset',diff.json_name);
+						}
+					};
+				});
+			};
+			var timer;
+			var first = 0;
+			var last = 0;
+			var finished = 0;
+			var bpm = 100;
+			var beat;
+			//var ready1 = false;
+			//var ready2 = false;
+			function check() {
+				var ct = id("audioplayer").currentTime+0.16;
+				var tt = id("audioplayer").duration;
+				if (!isFinite(tt)){
+					tt = beat.notes[beat.notes.length-1].endtime + 10;
+				}
+				if (ct >= tt){
+					clearInterval(timer);
+				} else {
+					var moving = true;
+					//1.12*[2,4,6,8,9]
+					for (var i=first; i < beat.notes.length; i++){
+						var approach = [2, 1.8, 1.6, 1.45, 1.3, 1.15, 1, 0.9, 0.8, 0.7, 0.6][[2,2,4,6,8,9,9,9][beat.diff]];
+						if (beat.notes[i].starttime < ct && !(id("note" + i) == null) && id("note" + i).getAttribute("processed")=="false") {
+							moving = false;
+							playsound();
+							id("note" + i).setAttribute("processed",true);
+						} else if (beat.notes[i].endtime < ct && !(id("note" + i + "_tail") == null) && id("note" + i + "_tail").getAttribute("processed")=="false") {
+							moving = false;
+							playsound();
+							id("note" + i + "_tail").setAttribute("processed",true);
+						} else if (beat.notes[i].endtime < ct) {// + approach * 0.25 < ct) {
+							if (moving){
+								first++;
+							};
+							if (!(id("note" + i) == null)){
+								id("demoarea").removeChild(id("note" + i));
+								if (beat.notes[i].type % 10 == 3){ //slider
+									id("demoarea").removeChild(id("note" + i + "_tail"));
+									id("demoarea").removeChild(id("note" + i + "_connect"));
+								};
+								for (var k = 0; k < beat.notes[i].link.length; k++) {
+									id("demoarea").removeChild(id("note" + i + "_link" + k));
+								};
+								finished++;
+							};
+							if (!beat.notes[i].created){
+								beat.notes[i].created = true;
+								finished++;
+							}
+						} else {
+							moving = false;
+							if (beat.notes[i].starttime <= ct + approach){
+								if (id("note" + i) == null){
+									beat.notes[i].created = true;
+									var newnote = document.createElement("div");					
+									//newnote.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
+									newnote.id = "note" + i;
+									newnote.className = "note";
+									var att = document.createAttribute("processed");
+									att.value = false; 
+									newnote.setAttributeNode(att);
+									newnote.style.left = 6 * (beat.notes[i].position-1) + "vh";
+									id("demoarea").appendChild(newnote);
+									if (beat.notes[i].type % 10 == 3){ //slider
+										var newnote2 = document.createElement("div");
+										newnote2.id = "note" + i + "_tail";
+										newnote2.className = "note";
+										var att2 = document.createAttribute("processed");
+										att2.value = false; 
+										newnote2.setAttributeNode(att2);
+										newnote2.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
+										newnote2.style.left = 6 * (beat.notes[i].position-1) + "vh";
+										id("demoarea").appendChild(newnote2);
+										var newnote3 = document.createElement("div");
+										newnote3.id = "note" + i + "_connect";
+										newnote3.className = "notec";
+										newnote3.style.backgroundColor = ["#000000","#FF0000","#008000","#0000FF"][beat.notes[i].attribute];
+										newnote3.style.left = (6 * (beat.notes[i].position-1) + 1) + "vh";
+										id("demoarea").appendChild(newnote3);										
+									};
+								};
+								var ratio = (ct + approach - beat.notes[i].starttime) / approach;
+								ratio = ratio>1?1:ratio;
+								id("note" + i).style.top = ratio>=1?"79%":((ratio*80-1)+"%");
+								if (beat.notes[i].type % 10 == 3){
+									var ratio2 = (ct + approach - beat.notes[i].endtime) / approach;
+									ratio2 = ratio2>1?1:ratio2;
+									id("note" + i + "_tail").style.top = ratio2>=1?"79%":((ratio2*80-1)+"%");
+									id("note" + i + "_connect").style.top = ratio2*80 + "%";
+									id("note" + i + "_connect").style.height = (ratio-ratio2)*80 + "%";
+								}
+							};
+						};
+					};
+				};
+			};
+			
+			function loadJSON(path, callback) {   
+				var xobj = new XMLHttpRequest();
+				xobj.overrideMimeType("application/json");
+				xobj.open('GET', path, true);
+				xobj.onreadystatechange = function () {
+					  if (xobj.readyState == 4 && xobj.status == "200") {
+						callback(xobj.responseText);
+					  }
+				};
+				xobj.send(null);  
+			 }
+ 
+			function choose(obj){				
+				var path = "https://card.niconi.co.ni/live/" + obj.getAttribute("asset");
+				fumenready = false;
+				audioready = false;
+				client.get(path,function(content) {
+					content = content.replace(/\\r\\n +/g,"");
+					var json = (findintext(content, "var lives = [", "}]\n")[1] + '}').replace(/\\/g, "").replace(/}]",/g, "}],").replace(/"\[/g, "[").replace(/"\]/g, "]");
+					console.log(json);
+					var map = JSON.parse(json);
+					//sort
+					map.notes_list.sort(function(a, b) {return a.timing_sec - b.timing_sec;});
+					//parse
+					beat = {column:9, attribute:obj.getAttribute("attribute"), diff:obj.getAttribute("difficulty"), notes:[]};
+					for (i = 0; i < map.notes_list.length; i++){
+						var thenote = map.notes_list[i];
+						beat.notes[i] = {
+							starttime: thenote.timing_sec,
+							attribute: beat.attribute,
+							type: thenote.effect,
+							endtime: thenote.timing_sec,
+							level: thenote.notes_level,
+							position: 10 - thenote.position,
+							element: thenote.notes_attribute,
+							star: false,
+							parallel: false,
+							created: false
+						};
+						if (beat.notes[i].type % 10 == 3){
+							beat.notes[i].endtime += thenote.effect_value;
+						};
+					};		
+					bpm = calculatebpm();					
+					first = 0;
+					last = 0;
+					finished = 0;
+					id("demoarea").innerHTML = "";
+					play2()
+				});
+				id("extrastyle").innerHTML = "body:after {background-image: " + "url(" +"https://card.niconi.co.ni/" + obj.parentElement.getAttribute("icon") + ")" + ";}";
+				if (!iOS){
+					id("audiosrc").src = "https://card.niconi.co.ni/" + obj.parentElement.getAttribute("sound");
+					id("audioplayer").load();
+					nosource = false;
+				} else {
+					if (jsonget) {
+						var links = JSON.parse(jsoncontent);
+						var required = obj.parentElement.getAttribute("sound").replace(/assets\/sound\/music\/(m_(?:s|)\d{3,5}).mp3/g, '$1')
+						if (links.hasOwnProperty(required)){
+							id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
+							nosource = false;
+						} else {
+							id("audiosrc").src = "https://card.niconi.co.ni/" + obj.parentElement.getAttribute("sound");
+							nosource = true;
+						}
+						id("audioplayer").load();
+					} else {
+						client.get(path,function(content) {
+							loadJSON("iOS_dropbox.json",function(response) {
+								jsonget = true;
+								jsoncontent = response;
+								var links = JSON.parse(response);
+								var required = obj.parentElement.getAttribute("sound").replace(/assets\/sound\/music\/(m_(?:s|)\d{3,5}).mp3/g, '$1')
+								if (links.hasOwnProperty(required)){
+									id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
+									nosource = false;
+								} else {
+									id("audiosrc").src = "https://card.niconi.co.ni/" + obj.parentElement.getAttribute("sound");
+									nosource = true;
+								}
+								id("audioplayer").load();
+							});
+						})
+					}
+				}
+			};
+			loadsong();
+			
+			function play1(){	
+				//console.log("play1")
+				audioready = true; 
+				if (fumenready){
+					if (!iOS){ //canplaythrough event
+						plays();
+					}
+				}
+			}
+			function play2(){	
+				//console.log("play2")
+				fumenready = true; 
+				if (audioready){
+					plays();
+				} else if (iOS){
+					timer3 = setInterval(checkplay1, 10); //iOS need to monitor canplaythrough
+				}
+			}
+			
+			function checkplay1(){
+				if (audioready) {
+					//iOS click to play
+					clearInterval(timer3);
+					id("iOS_block").style.display = "block";
+				}
+			}
+			
+			function playse(){
+				if (sound){
+					for (var i = 0; i < 12; i++){
+						id("audiose" + i).play();
+					}
+				}
+			}
+			
+			function plays(){
+				clearInterval(timer);
+				id("audioplayer").play();	
+				timer = setInterval(check,1);
+			}
+		</script>
+	</body>
+</html>
