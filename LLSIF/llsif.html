@@ -219,7 +219,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812251631;
+			var ver = 201812251633;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -682,6 +682,8 @@
 			function playse(){
 				for (var i = 0; i < 12; i++){
 					id("audiose" + i).play();
+				}
+				for (var i = 0; i < 12; i++){
 					id("audiose" + i).pause();
 				}
 			}
