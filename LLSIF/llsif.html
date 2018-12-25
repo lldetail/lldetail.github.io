@@ -107,14 +107,14 @@
 				width: 100%;
 				height: 0.5vh;
 				background-color: #AAAAAA;
-				z-index: 999;
+				z-index: 3999;
 			}
 			#timebar {
 				position: fixed;
 				width: 0%;
 				height: 0.5vh;
 				background-color: #00FF00;
-				z-index: 1000;
+				z-index: 4000;
 			}
 			#time {
 				position: fixed;
@@ -184,7 +184,7 @@
 				return document.getElementById(ids);
 			};
 		</script>
-		<div id="iOS_block" style="display:none" onclick="this.style.display = 'none';playse();plays()">iOS: Click here to play</div>
+		<div id="iOS_block" style="display:none" onclick="this.style.display = 'none'; plays()">iOS: Click here to play</div>
 		<div id="combotext"></div>
 		<div id="timeline"></div>
 		<div id="timebar"></div>
@@ -219,7 +219,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812251608;
+			var ver = 201812251611;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -322,7 +322,12 @@
 				}
 			}
 			function playsound() {
-				id("audiose").cloneNode().play(); //iOS device cannot play this audio
+				if (!iOS){
+					id("audiose").cloneNode().play(); //iOS device cannot play this audio
+				} else {
+					id("audiose").stop();
+					id("audiose").play();
+				}
 			};
 			function calculatebpm() {
 				var s1 = 10000;
@@ -668,7 +673,7 @@
 			}
 			
 			function playse(){
-				id('audiose').play();
+				id("audiose").play();
 			}
 			
 			function plays(){
