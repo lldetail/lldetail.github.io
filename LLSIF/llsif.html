@@ -694,8 +694,10 @@
 			}
 			
 			function playse(){
-				for (var i = 0; i < 12; i++){
-					id("audiose" + i).play();
+				if (sound){
+					for (var i = 0; i < 12; i++){
+						id("audiose" + i).play();
+					}
 				}
 			}
 			
