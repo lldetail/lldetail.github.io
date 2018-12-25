@@ -219,13 +219,19 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812251611;
+			var ver = 201812251628;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
 			var jsonget = false;
 			if (iOS){
 				alert("iOS devices cannot play the sound till the end using the original URL, so a manual update is required. The sound may not be playable right now. You may need to click the button multiple times to get it working.")
+				var s = "";
+				iOSAudio = 0;
+				for (var i = 0; i < 12; i++){
+					s += '<audio id="audiose' + i + '" src="https://dl.dropboxusercontent.com/s/nm7dewdf6gys0hu/SE_306.mp3" preload="auto"></audio>';
+				}
+				id("audiose").outerHTML = s;
 			}
 			function timerefresh() {
 				if (isNaN(id("audioplayer").duration)) {
@@ -325,8 +331,9 @@
 				if (!iOS){
 					id("audiose").cloneNode().play(); //iOS device cannot play this audio
 				} else {
-					id("audiose").currentTime=0;
-					id("audiose").play();
+					id("audiose" + iOSAudio).currentTime=0;
+					id("audiose" + iOSAudio).play();
+					iOSAudio = (iOSAudio + 1)%12;
 				}
 			};
 			function calculatebpm() {
@@ -673,7 +680,11 @@
 			}
 			
 			function playse(){
-				id("audiose").play();
+				for (var i = 0; i < 12; i++){
+					id("audiose" + i).volume = 1;	
+					id("audiose" + i).play();
+					id("audiose" + i).volume = 100;	
+				}
 			}
 			
 			function plays(){
