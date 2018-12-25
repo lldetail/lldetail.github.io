@@ -197,7 +197,7 @@
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
 		<script>	
-			var ver = 201812251527;
+			var ver = 201812251534;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -622,7 +622,7 @@
 			loadsong();
 			
 			function play1(){	
-				console.log("play1")
+				//console.log("play1")
 				audioready = true; 
 				if (fumenready){
 					if (!iOS){ //canplaythrough event
@@ -631,7 +631,7 @@
 				}
 			}
 			function play2(){	
-				console.log("play2")
+				//console.log("play2")
 				fumenready = true; 
 				if (audioready){
 					plays();
@@ -642,8 +642,10 @@
 			
 			function checkplay1(){
 				if (audioready) {
+					//iOS click to play
 					clearInterval(timer3);
-					plays(); //iOS check
+					alert("iOS: Click OK to play for the first time");
+					plays();
 				}
 			}
 			
