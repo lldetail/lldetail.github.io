@@ -417,7 +417,7 @@
 					id("songlist").innerHTML = "<br>";
 					id("songlist").innerHTML = "Version: " + ver + "<br>";
 					id("songlist").innerHTML += "Source: <a href='https://card.niconi.co.ni/static/custom_live_assets/gf/gf_list.html'>https://card.niconi.co.ni/static/custom_live_assets/gf/gf_list.html</a><br>";
-					id("songlist").innerHTML = "Since niconi.co.ni use elements from LLSIF to store the element in Girlfriend(Onpu), the true element cannot be retrieved and thus gradient color is used instead.<br>";
+					id("songlist").innerHTML += "Since niconi.co.ni use elements from LLSIF to store the element in Girlfriend(Onpu), the true element cannot be retrieved and thus gradient color is used instead.<br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
 						id("songlist").innerHTML += '<div class="node"><span style="background-image:-webkit-linear-gradient(' + ["#000", "#F00, #F80", "#080, #FF0", "#00F, #00F"][song.attribute_id] + ')">' + song.name + '</span><br></div>';
