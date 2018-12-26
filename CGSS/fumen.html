@@ -301,8 +301,7 @@
 							callback(HttpRequest.response);
 						}
 					}
-					//HttpRequest.open("GET",'http://student.tanghin.edu.hk/~S121429/getsource.php?url=' + url,true);
-					HttpRequest.open("GET",'https://wytangae.student.ust.hk/getsource.php?url=' + url,true);
+					HttpRequest.open("GET",url,true);
 					HttpRequest.send(null);
 				}
 			}	
@@ -414,8 +413,10 @@
 							diffroot.setAttribute('stage_level',diff.stage_level);
 							diffroot.setAttribute('s_rank_combo',diff.notes_number);
 							diffroot.setAttribute('attribute',song.type);
-							//diffroot.setAttribute('asset',diff.asset);
 							diffroot.setAttribute('available',diff.available);
+							if (diff.available){
+								diffroot.setAttribute('asset',diff.asset);
+							}
 						}
 					};
 				});
