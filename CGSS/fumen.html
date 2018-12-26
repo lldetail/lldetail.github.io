@@ -301,7 +301,7 @@
 							callback(HttpRequest.response);
 						}
 					}
-					HttpRequest.open("GET",url,true);
+					HttpRequest.open("GET",'https://wytangae.student.ust.hk/getsource.php?url=' + url,true);
 					HttpRequest.send(null);
 				}
 			}	
@@ -438,6 +438,77 @@
 				};
 				xobj.send(null);  
 			 }
+			 
+			function choose(obj){				
+				var path = "https://lldetail.github.io/CGSS/musicscores/" + obj.getAttribute("asset") + ".json";
+				fumenready = false;
+				audioready = false;
+				client.get(path,function(content) {
+					var map = JSON.parse(content);
+					//sort
+					map.notes_list.sort(function(a, b) {return a.sec - b.sec;});
+					//parse
+					lastlevel = [];
+					lastlane = [-1,-1,-1,-1,-1];
+					beat = {column:5, attribute:obj.getAttribute("attribute"), diff:obj.getAttribute("difficulty"), notes:[]};
+					for (i = 0; i < map.notes_list.length; i++){
+						var thenote = map.notes_list[i];
+						beat.notes[i] = {
+							starttime: thenote.sec,
+							endtime: thenote.sec,
+							attribute: beat.attribute,
+							type: thenote.type,
+							groupId: thenote.groupId,
+							startPos: thenote.startPos,
+							finishPos: thenote.finishPos,
+							swing: (thenote.groupId != 0),
+							link: [],
+							slink: [],
+							swingdir: 0, //left:-1, right:1, no:0
+							sync: thenote.sync,
+							created: false
+						};
+						if (thenote.type == 2){ //slider
+							if (lastlane[beat.notes[i].level] != -1){
+								beat.notes[i].slink[beat.notes[i].slink.length] = lastlane[beat.notes[i].level];
+							};
+							lastlane[beat.notes[i].finishPos] = i;
+						};
+						if (beat.notes[i].swing){ //swing
+							if (!(lastlevel[beat.notes[i].level] == undefined)){
+								var dir = (beat.notes[i].position > beat.notes[lastlevel[beat.notes[i].level]].position)?1:-1;
+								beat.notes[i].swingdir = dir;
+								beat.notes[i].link[beat.notes[i].link.length] = lastlevel[beat.notes[i].level];
+								beat.notes[lastlevel[beat.notes[i].level]].swingdir = dir;
+							};
+						};
+						lastlevel[beat.notes[i].level] = i;
+					};		
+					bpm = calculatebpm();					
+					first = 0;
+					last = 0;
+					finished = 0;
+					id("demoarea").innerHTML = "";
+					play2()
+				});
+				id("extrastyle").innerHTML = "body:after {background-image: " + "url(" +"jacket/jacket_" + obj.parentElement.getAttribute("icon") +"_m.png" + ")" + ";}";			
+				var required = "song_" + obj.parentElement.getAttribute("sound");
+				if (jsonget) {
+					var links = JSON.parse(jsoncontent);
+					id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".wav"
+					id("audioplayer").load();
+				} else {
+					client.get(path,function(content) {
+						loadJSON("https://lldetail.github.io/CGSS/dropbox.json",function(response) {
+							jsonget = true;
+							jsoncontent = response;
+							var links = JSON.parse(response);
+							id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".wav"
+							id("audioplayer").load();
+						});
+					})
+				}
+			};
 			loadsong();
 			
 			function play1(){	
