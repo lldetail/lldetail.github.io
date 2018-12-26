@@ -604,24 +604,22 @@
 						}
 						id("audioplayer").load();
 					} else {
-						client.get(path,function(content) {
-							loadJSON("iOS_dropbox.json",function(response) {
-								jsonget = true;
-								jsoncontent = response;
-								var links = JSON.parse(response);
-								var required = obj.parentElement.getAttribute("sound").replace(/\/static\/custom_live_assets\/gf\/music\/(\d{3,5}).mp3/g, '$1')
-								console.log(required);
-								
-								if (links.hasOwnProperty(required)){
-									id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
-									nosource = false;
-								} else {
-									id("audiosrc").src = "https://card.niconi.co.ni/" + obj.parentElement.getAttribute("sound");
-									nosource = true;
-								}
-								id("audioplayer").load();
-							});
-						})
+						loadJSON("iOS_dropbox.json",function(response) {
+							jsonget = true;
+							jsoncontent = response;
+							var links = JSON.parse(response);
+							var required = obj.parentElement.getAttribute("sound").replace(/\/static\/custom_live_assets\/gf\/music\/(\d{3,5}).mp3/g, '$1')
+							console.log(required);
+							
+							if (links.hasOwnProperty(required)){
+								id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
+								nosource = false;
+							} else {
+								id("audiosrc").src = "https://card.niconi.co.ni/" + obj.parentElement.getAttribute("sound");
+								nosource = true;
+							}
+							id("audioplayer").load();
+						});
 					}
 				}
 			};
