@@ -62,6 +62,7 @@
 				width: 54vh;
 				border: 0.2vh solid black;
 				z-index: 1000;
+				clip: rect(0vh,54vh,80vh,0vh);
 			}
 			#border {
 				position: fixed;
@@ -73,29 +74,28 @@
 			}
 			.note {
 				position: fixed;
-				height: 2vh;
-				line-height: 2vh;
+				height: 6vh;
+				line-height: 6vh;
 				width: 6vh;
 				font-size: 4vh;
 				text-align: center;
 				vertical-align: middle;
 				color: white;
+				border-radius: 3vh;
 				border: 0.2vh solid black;
 				z-index: 2001;
 			}
-			.notec {
-				position: fixed;
-				height: 2vh;
-				width: 4vh;
-				font-size: 6vh;
-				border: 0.2vh solid black;
-				z-index: 2000;
-			}
 			.linkage {
 				position: fixed;
-				transform-origin: 0 0;
-				border: 0.2vh solid black;
 				z-index: 1999;
+				background-color: #ffffff;
+				opacity: 1;
+			}
+			.slinkage {
+				position: fixed;
+				z-index: 1999;
+				background-color: #ffffff;
+				opacity: 0.8;
 			}
 			#songlistcontainer {
 				position: fixed;
@@ -162,13 +162,21 @@
 				border-radius: 0.5vh;
 				background-color: #000000;
 			}
-			.shade {
+			.shade1 {
 				position: fixed;
 				width: 6vh;
 				height: 100vh;
 				top: 0vh;
-				background-color: #808080;
-				opacity: 0.2;
+				background-color: #000000;
+				opacity: 0.5;
+			}
+			.shade2 {
+				position: fixed;
+				width: 6vh;
+				height: 100vh;
+				top: 0vh;
+				background-color: #404040;
+				opacity: 0.5;
 			}
 			#combotext {
 				position: fixed;
@@ -179,7 +187,7 @@
 				line-height: 80vh;
 				font-size: 22vh;
 				text-align: center;
-				color: #AAAAAA;
+				color: #DDDDDD;
 				z-index: 500;
 			}
 			.node.hidden {
@@ -221,10 +229,15 @@
 		<div class="dot" style="left:26.5vh"></div>
 		<div class="dot" style="left:38.5vh"></div>
 		<div class="dot" style="left:50.5vh"></div>
-		<div class="shade" style="left:6vh"></div>
-		<div class="shade" style="left:18vh"></div>
-		<div class="shade" style="left:30vh"></div>
-		<div class="shade" style="left:42vh"></div>
+		<div class="shade1" style="left:6vh"></div>
+		<div class="shade1" style="left:18vh"></div>
+		<div class="shade1" style="left:30vh"></div>
+		<div class="shade1" style="left:42vh"></div>
+		<div class="shade2" style="left:0vh"></div>
+		<div class="shade2" style="left:12vh"></div>
+		<div class="shade2" style="left:24vh"></div>
+		<div class="shade2" style="left:36vh"></div>
+		<div class="shade2" style="left:48vh"></div>
 		<script>	
 			function convert(str){
 				var temp = "";
@@ -247,7 +260,7 @@
 				}
 				return temp;
 			}
-			var ver = 201812262148;
+			var ver = 201812270532;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -301,7 +314,7 @@
 							callback(HttpRequest.response);
 						}
 					}
-					HttpRequest.open("GET",'https://wytangae.student.ust.hk/getsource.php?url=' + url,true);
+					HttpRequest.open("GET",url,true);
 					HttpRequest.send(null);
 				}
 			}	
@@ -371,9 +384,6 @@
 					}
 				}
 			};
-			function calculatebpm() {
-				//return beat.
-			}
 			function loadsong() {
 				//https://lldetail.github.io/CGSS/CGSS.csv.json
 				//CGSS.csv.json
@@ -393,6 +403,7 @@
 						songroot.setAttribute('icon',song.jacket_id);
 						songroot.setAttribute('sound',song.sound_id);
 						songroot.setAttribute('attribute',song.type);
+						songroot.setAttribute('bpm',song.bpm);
 						songroot.setAttribute('name1',convert(song.name));
 						songroot.setAttribute('name2',convert(song.name_kana));
 						songroot.setAttribute('fumen_id',song.fumen_id);
@@ -427,6 +438,147 @@
 			var finished = 0;
 			var bpm = 100;
 			var beat;
+			
+			function check() {
+				var ct = id("audioplayer").currentTime+0.16;
+				var tt = id("audioplayer").duration;
+				if (!isFinite(tt)){
+					tt = beat.notes[beat.notes.length-1].endtime + 10;
+				}
+				if (ct >= tt){
+					clearInterval(timer);
+				} else {
+					var moving = true;
+					//1.12*[2,4,6,8,9]
+					for (var i=first; i < beat.notes.length; i++){
+						var approach = [2, 1.8, 1.6, 1.45, 1.3, 1.15, 1, 0.9, 0.8, 0.7, 0.6][[0,2,4,5,6,8,3,6,8][beat.diff]];
+						if (beat.notes[i].starttime < ct) {	
+							if(!(id("note" + i) == null) && id("note" + i).getAttribute("processed")=="false"){
+								playsound();						
+								id("demoarea").removeChild(id("note" + i));
+								finished++;
+							}
+							connectors = document.getElementsByClassName("to" + i);
+							for (var k = 0; k < connectors.length; k++) {
+								id("demoarea").removeChild(connectors[k]);
+							};
+							if (document.getElementsByClassName("from" + i).length == 0){
+								if (moving){
+									first++;
+								};
+							} else {
+								moving = false;
+							}
+							if (!beat.notes[i].created){
+								beat.notes[i].created = true;
+								finished++;
+							}
+						} else {
+							moving = false;
+							if (beat.notes[i].starttime <= ct + approach){
+								if (id("note" + i) == null){
+									beat.notes[i].created = true;
+									var newnote = document.createElement("div");
+									if (beat.notes[i].status != "0"){ //swing
+										newnote.style.backgroundColor = "#8080FF";
+										if (beat.notes[i].status == "2") {
+											var b = document.createElement("b");
+											b.innerHTML = "→";
+											newnote.appendChild(b); 
+										} else if (beat.notes[i].status == "1") {
+											var b = document.createElement("b");
+											b.innerHTML = "←";
+											newnote.appendChild(b); 
+										} else {
+											var b = document.createElement("b");
+											b.innerHTML = "?";
+											newnote.appendChild(b); 
+										};
+									} else if (beat.notes[i].type == "3") {		
+										newnote.style.backgroundColor = "#FF80FF";
+									} else if (beat.notes[i].type == "2") {		
+										newnote.style.backgroundColor = "#FFFF00"
+									} else if (beat.notes[i].type == "1") {									
+										newnote.style.backgroundColor = "#FF8080";
+									} else {
+										newnote.style.backgroundColor = "#808080";
+									};
+									newnote.id = "note" + i;
+									newnote.className = "note";
+									var att = document.createAttribute("processed");
+									att.value = false; 
+									newnote.setAttributeNode(att);
+									newnote.style.left = 6 * ((beat.notes[i].finishPos-1)*2) + "vh";
+									id("demoarea").appendChild(newnote);
+									for (var k = 0; k < beat.notes[i].link.length; k++) {
+										var newnote2 = document.createElement("div");
+										newnote2.id = "note" + i + "_link" + k;
+										newnote2.className = "slinkage from" + i + " to" + beat.notes[i].link[k];
+										id("demoarea").appendChild(newnote2);
+									};
+									for (var k = 0; k < beat.notes[i].slink.length; k++) {
+										var newnote2 = document.createElement("div");
+										newnote2.id = "note" + i + "_slink" + k;
+										newnote2.className = "slinkage from" + i + " to" + beat.notes[i].slink[k];
+										id("demoarea").appendChild(newnote2);
+									};
+									for (var k = 0; k < beat.notes[i].plink.length; k++) {
+										var newnote2 = document.createElement("div");
+										newnote2.id = "note" + i + "_plink" + k;
+										newnote2.className = "linkage from" + i + " to" + beat.notes[i].plink[k];
+										id("demoarea").appendChild(newnote2);
+									};
+								};
+								var ratio = (ct + approach - beat.notes[i].starttime) / approach;
+								ratio = ratio>1?1:ratio;
+								id("note" + i).style.top = ratio>=1?"77%":((ratio*80-3)+"%");
+							};
+						};
+						var ratio1 = (ct + approach - beat.notes[i].starttime) / approach;
+						for (var k = 0; k < beat.notes[i].link.length; k++) { //flick linkage
+							if (id("note" + i + "_link" + k) != undefined){
+								var widths = (beat.notes[i].status == "0"?6:4);
+								var dx = (beat.notes[beat.notes[i].link[k]].finishPos - beat.notes[i].finishPos) * 12; //in vh
+								var dy = -(beat.notes[beat.notes[i].link[k]].starttime - beat.notes[i].starttime) * 80 / approach; 
+								if (dy > 0.1){
+									var ratio2 = -(ct - beat.notes[i].starttime) * 80 / approach; 
+									if (ratio2 < dy) {
+										dx = dx * ratio2 / dy;
+										dy = ratio2;
+									};
+								};
+								id("note" + i + "_link" + k).style.top = ratio1*80-widths/2+"%";
+								id("note" + i + "_link" + k).style.left = (12 * (beat.notes[i].finishPos-1) + 3) + "vh";
+								id("note" + i + "_link" + k).style.width = Math.sqrt(dx*dx+dy*dy) + "vh";
+								id("note" + i + "_link" + k).style.transform = "rotate(" + (Math.atan2(dy,dx) * 180 / Math.PI) + "deg)";
+								id("note" + i + "_link" + k).style.transformOrigin = "0 " + widths/2 + "vh";
+								id("note" + i + "_link" + k).style.height = widths + "vh";
+							}
+						};
+						for (var k = 0; k < beat.notes[i].slink.length; k++) { //slider linkage
+							if (id("note" + i + "_slink" + k) != undefined){
+								var ratio2 = (ct + approach - beat.notes[beat.notes[i].slink[k]].starttime) / approach;
+								ratio1 = ratio1>1?1:ratio1;
+								ratio2 = ratio2>1?1:ratio2;
+								var dy = (ratio1-ratio2) * 80; 
+								id("note" + i + "_slink" + k).style.top = ratio1>=1?(80-dy)+"%":((ratio1*80-dy)+"%");
+								id("note" + i + "_slink" + k).style.left = (12 * (beat.notes[i].finishPos-1)) + "vh";
+								id("note" + i + "_slink" + k).style.height = dy + "vh";
+								id("note" + i + "_slink" + k).style.width = "6vh";
+							}
+						};
+						for (var k = 0; k < beat.notes[i].plink.length; k++) { //sync
+							if (id("note" + i + "_plink" + k) != undefined){
+								var dx = (beat.notes[beat.notes[i].plink[k]].finishPos - beat.notes[i].finishPos) * 12;
+								id("note" + i + "_plink" + k).style.top = ratio1>=1?"79.5%":((ratio1*80-0.5)+"%");
+								id("note" + i + "_plink" + k).style.left = 12 * (Math.min(beat.notes[i].finishPos, beat.notes[beat.notes[i].plink[k]].finishPos)-1) + "vh";
+								id("note" + i + "_plink" + k).style.height = "1vh";
+								id("note" + i + "_plink" + k).style.width = Math.abs(dx) + "vh";
+							}
+						};
+					};
+				};
+			};
 			function loadJSON(path, callback) {   
 				var xobj = new XMLHttpRequest();
 				xobj.overrideMimeType("application/json");
@@ -440,7 +592,7 @@
 			 }
 			 
 			function choose(obj){				
-				var path = "https://lldetail.github.io/CGSS/musicscores/" + obj.getAttribute("asset") + ".json";
+				var path = "musicscores/" + obj.getAttribute("asset") + ".json";
 				fumenready = false;
 				audioready = false;
 				client.get(path,function(content) {
@@ -449,42 +601,49 @@
 					map.notes_list.sort(function(a, b) {return a.sec - b.sec;});
 					//parse
 					lastlevel = [];
-					lastlane = [-1,-1,-1,-1,-1];
+					lastlane = [-1,-1,-1,-1,-1,-1];
 					beat = {column:5, attribute:obj.getAttribute("attribute"), diff:obj.getAttribute("difficulty"), notes:[]};
+					var c = -1;
 					for (i = 0; i < map.notes_list.length; i++){
 						var thenote = map.notes_list[i];
-						beat.notes[i] = {
-							starttime: thenote.sec,
-							endtime: thenote.sec,
-							attribute: beat.attribute,
-							type: thenote.type,
-							groupId: thenote.groupId,
-							startPos: thenote.startPos,
-							finishPos: thenote.finishPos,
-							swing: (thenote.groupId != 0),
-							link: [],
-							slink: [],
-							swingdir: 0, //left:-1, right:1, no:0
-							sync: thenote.sync,
-							created: false
-						};
-						if (thenote.type == 2){ //slider
-							if (lastlane[beat.notes[i].level] != -1){
-								beat.notes[i].slink[beat.notes[i].slink.length] = lastlane[beat.notes[i].level];
+						if (thenote.type < 80){
+							c++;
+							beat.notes[c] = {
+								starttime: thenote.sec,
+								attribute: beat.attribute,
+								type: thenote.type,
+								groupId: thenote.groupId,
+								startPos: thenote.startPos,
+								finishPos: thenote.finishPos,
+								swing: (thenote.groupId != 0),
+								link: [],
+								slink: [],
+								plink: [],
+								status: thenote.status, //left:1, right:2, no:0
+								sync: thenote.sync,
+								created: false
 							};
-							lastlane[beat.notes[i].finishPos] = i;
-						};
-						if (beat.notes[i].swing){ //swing
-							if (!(lastlevel[beat.notes[i].level] == undefined)){
-								var dir = (beat.notes[i].position > beat.notes[lastlevel[beat.notes[i].level]].position)?1:-1;
-								beat.notes[i].swingdir = dir;
-								beat.notes[i].link[beat.notes[i].link.length] = lastlevel[beat.notes[i].level];
-								beat.notes[lastlevel[beat.notes[i].level]].swingdir = dir;
+							if (lastlane[beat.notes[c].finishPos] != -1){
+								beat.notes[c].type = 2;
+								beat.notes[lastlane[beat.notes[c].finishPos]].slink[beat.notes[lastlane[beat.notes[c].finishPos]].slink.length] = c;
+								lastlane[beat.notes[c].finishPos] = -1;
+							}else if (thenote.type == 2){ //slider
+								lastlane[beat.notes[c].finishPos] = c;
 							};
-						};
-						lastlevel[beat.notes[i].level] = i;
+							if (thenote.sync){ //sync
+								if (c > 0 && beat.notes[c].starttime == beat.notes[c-1].starttime){
+									beat.notes[c-1].plink[beat.notes[c-1].plink.length] = c;
+								};
+							};
+							if (beat.notes[c].swing){ //swing or multi-track slider
+								if (!(lastlevel[beat.notes[c].groupId] == undefined)){
+									beat.notes[lastlevel[beat.notes[c].groupId]].link[beat.notes[lastlevel[beat.notes[c].groupId]].link.length] = c;
+								};
+							};
+							lastlevel[beat.notes[c].groupId] = c;
+						}
 					};		
-					bpm = calculatebpm();					
+					bpm = obj.parentElement.getAttribute("bpm");					
 					first = 0;
 					last = 0;
 					finished = 0;
@@ -498,15 +657,13 @@
 					id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".wav"
 					id("audioplayer").load();
 				} else {
-					client.get(path,function(content) {
-						loadJSON("https://lldetail.github.io/CGSS/dropbox.json",function(response) {
-							jsonget = true;
-							jsoncontent = response;
-							var links = JSON.parse(response);
-							id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".wav"
-							id("audioplayer").load();
-						});
-					})
+					loadJSON("dropbox.json",function(response) {
+						jsonget = true;
+						jsoncontent = response;
+						var links = JSON.parse(response);
+						id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".wav"
+						id("audioplayer").load();
+					});
 				}
 			};
 			loadsong();
@@ -550,6 +707,7 @@
 				clearInterval(timer);
 				id("audioplayer").play();	
 				timer = setInterval(check,1);
+				//console.log(beat);
 			}
 			
 			function search(val){
