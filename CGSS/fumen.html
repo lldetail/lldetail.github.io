@@ -239,10 +239,10 @@
 					} else {
 						temp += String.fromCharCode(cc); //no change
 					}
-					for (j = 0; j < finds.length; j++){
-						while (temp.includes(finds[j])){
-							temp = temp.replace(finds[j],repls[j]);
-						}
+				}
+				for (j = 0; j < finds.length; j++){
+					while (temp.includes(finds[j])){
+						temp = temp.replace(finds[j],repls[j]);
 					}
 				}
 				return temp;
