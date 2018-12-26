@@ -229,9 +229,11 @@
 		<div class="shade" style="left:18vh"></div>
 		<div class="shade" style="left:30vh"></div>
 		<div class="shade" style="left:42vh"></div>
-		<script>	
+		<script>				
 			function convert(str){
 				var temp = "";
+				var finds = "ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヴヷヸヹヺヾゞ";
+				var repls = "カキクケコサシスセソタチツテトハヒフヘホハヒフヘホウワヰヱヲヽゝ";
 				for (i = 0; i < str.length; i++){
 					var cc = str.charCodeAt(i); //charcode
 					if (cc >= 97 && cc <= 122){ //small letter
@@ -240,6 +242,11 @@
 						temp += String.fromCharCode(cc + 96); // to katakana
 					} else {
 						temp += String.fromCharCode(cc); //no change
+					}
+					for (j = 0; j < finds.length; j++){
+						while (temp.includes(finds[j])){
+							temp = temp.replace(finds[j],repls[j]);
+						}
 					}
 				}
 				return temp;

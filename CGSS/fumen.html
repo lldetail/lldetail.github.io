@@ -1,0 +1,496 @@
+<html>
+	<head>
+		<!--<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no"> -->
+		<meta charset="UTF-8">
+		<title>デレステ譜面</title>
+		<style>
+			* {
+			  -webkit-box-sizing: border-box;
+				 -moz-box-sizing: border-box;
+					  box-sizing: border-box;
+			}
+			
+			#iOS_block {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: 100vh;
+				opacity: 0.5;
+				background-color: #808080;
+				line-height: 100vh;
+				font-size: 12vh;
+				color: black;
+				text-align: center;
+				z-index: 123456789;
+			}
+			
+			body {
+				margin: 0px;
+				font-size: 3vh;
+				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
+			}
+			body:after{
+				opacity: 0.2;
+				z-index: -1;
+				position: absolute;
+				top: 0;
+				left: 0;
+				content: "";
+				width: 100%;
+				height: 100%;
+				background-position: center;
+				background-size: cover;
+			}
+			
+			input {
+				font-size: 3vh;
+				border-radius: 999px;
+				width: 500px;
+				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
+			}
+			
+			button {
+				font-size: 2vh;
+				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
+			}
+			#demoarea {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				height: 100%;
+				width: 54vh;
+				border: 0.2vh solid black;
+				z-index: 1000;
+			}
+			#border {
+				position: fixed;
+				top: 80%;
+				height: 0px;
+				width: 54vh;
+				border: 0.2vh solid black;
+				z-index: 1001;
+			}
+			.note {
+				position: fixed;
+				height: 2vh;
+				line-height: 2vh;
+				width: 6vh;
+				font-size: 4vh;
+				text-align: center;
+				vertical-align: middle;
+				color: white;
+				border: 0.2vh solid black;
+				z-index: 2001;
+			}
+			.notec {
+				position: fixed;
+				height: 2vh;
+				width: 4vh;
+				font-size: 6vh;
+				border: 0.2vh solid black;
+				z-index: 2000;
+			}
+			.linkage {
+				position: fixed;
+				transform-origin: 0 0;
+				border: 0.2vh solid black;
+				z-index: 1999;
+			}
+			#songlistcontainer {
+				position: fixed;
+				left: 54vh;
+				top: 0px;
+				height: 100%;
+				width: calc(100vw - 54vh);
+				border: 0.2vh solid black;
+			}
+			#songlist {
+				width: 100%;
+				height: 100%;
+				overflow-y: scroll;
+			}
+			#timeline {
+				position: fixed;
+				width: 100%;
+				height: 0.5vh;
+				background-color: #AAAAAA;
+				z-index: 3999;
+			}
+			#timebar {
+				position: fixed;
+				width: 0%;
+				height: 0.5vh;
+				background-color: #00FF00;
+				z-index: 4000;
+			}
+			#time {
+				position: fixed;
+				top: 0.5vh;
+				right: 0px;
+				font-style: normal;
+				font-size: 2vh;
+				font-weight: bold;
+				font-family: "Consolas", sans-serif;
+				z-index: 1001;
+			}
+			#notecount {
+				position: fixed;
+				top: 2.5vh;
+				right: 0px;
+				font-style: normal;
+				font-size: 2vh;
+				font-weight: bold;
+				font-family: "Consolas", sans-serif;
+				z-index: 1001;
+			}
+			#bpmcount {
+				position: fixed;
+				top: 4.5vh;
+				right: 0px;
+				font-style: normal;
+				font-size: 2vh;
+				font-weight: bold;
+				font-family: "Consolas", sans-serif;
+				z-index: 1001;
+			}
+			.dot {
+				position: fixed;
+				width: 1vh;
+				height: 1vh;
+				top: calc(80% - 0.5vh);
+				border-radius: 0.5vh;
+				background-color: #000000;
+			}
+			.shade {
+				position: fixed;
+				width: 6vh;
+				height: 100vh;
+				top: 0vh;
+				background-color: #808080;
+				opacity: 0.2;
+			}
+			#combotext {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				width: 54vh;
+				height: 80vh;
+				line-height: 80vh;
+				font-size: 22vh;
+				text-align: center;
+				color: #AAAAAA;
+				z-index: 500;
+			}
+			.node.hidden {
+				display: none;
+			}
+		</style>
+		<style id="extrastyle">
+		</style>
+	</head>
+	<body>
+		<script>
+			function id(ids){
+				return document.getElementById(ids);
+			};
+		</script>
+		<div id="iOS_block" style="display:none" onclick="this.style.display = 'none'; playse(); plays()">iOS: Click here to play</div>
+		<div id="combotext"></div>
+		<div id="timeline"></div>
+		<div id="timebar"></div>
+		<span id="time"></span>
+		<span id="notecount"></span>
+		<span id="bpmcount"></span>
+		<audio id="audioplayer" preload="auto" controls="controls" style="position:absolute; z-index:10000" hidden oncanplay="play1()">
+			<source id="audiosrc" src="" type="audio/mpeg">
+		</audio>
+		<audio id="audiose" src="https://dl.dropboxusercontent.com/s/nm7dewdf6gys0hu/SE_306.mp3" preload="auto"></audio>
+		<div id="demoarea">
+		</div>
+		<div id="border">
+		</div>
+		<div id="songlistcontainer">
+			<div id="songlist">
+				<h1>Loading...</h1>
+				<h1>Please Wait...</h1>
+			</div>
+		</div>
+		<div class="dot" style="left:2.5vh"></div>
+		<div class="dot" style="left:14.5vh"></div>
+		<div class="dot" style="left:26.5vh"></div>
+		<div class="dot" style="left:38.5vh"></div>
+		<div class="dot" style="left:50.5vh"></div>
+		<div class="shade" style="left:6vh"></div>
+		<div class="shade" style="left:18vh"></div>
+		<div class="shade" style="left:30vh"></div>
+		<div class="shade" style="left:42vh"></div>
+		<script>	
+			function convert(str){
+				var temp = "";
+				var finds = "ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヴヷヸヹヺヾゞ";
+				var repls = "カキクケコサシスセソタチツテトハヒフヘホハヒフヘホウワヰヱヲヽゝ";
+				for (i = 0; i < str.length; i++){
+					var cc = str.charCodeAt(i); //charcode
+					if (cc >= 97 && cc <= 122){ //small letter
+						temp += String.fromCharCode(cc - 32); //to capital letter
+					} else if (cc >= 0x3041 && cc <= 0x3096) { //hiragana
+						temp += String.fromCharCode(cc + 96); // to katakana
+					} else {
+						temp += String.fromCharCode(cc); //no change
+					}
+					for (j = 0; j < finds.length; j++){
+						while (temp.includes(finds[j])){
+							temp = temp.replace(finds[j],repls[j]);
+						}
+					}
+				}
+				return temp;
+			}
+			var ver = 201812252044;
+			console.log("Version: " + ver);
+			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+			var nosource = false;
+			var jsonget = false;
+			var sound = false;
+			if (iOS){
+				alert("iOS devices cannot play the sound till the end using the original URL, so a manual update is required. The sound may not be playable right now. You may need to click the button multiple times to get it working.")
+				var s = "";
+				iOSAudio = 0;
+				for (var i = 0; i < 12; i++){
+					s += '<audio id="audiose' + i + '" src="https://dl.dropboxusercontent.com/s/nm7dewdf6gys0hu/SE_306.mp3" preload="auto"></audio>';
+				}
+				id("audiose").outerHTML = s;
+			}			
+			if (confirm("Enable Sound Effect? (OK to enable, Cancel to disable) (Cancel recommended for iOS devices and old devices to provent lag.)")) {
+				sound = true;
+			} else {
+				sound = false;
+			}
+			function timerefresh() {
+				if (isNaN(id("audioplayer").duration)) {
+					id("timebar").style.width = "0%";
+					id("time").innerHTML = "Time: 00:00/00:00";
+				} else {
+					var ct = id("audioplayer").currentTime+0.16;
+					var tt = id("audioplayer").duration;
+					if (iOS && nosource){
+						tt = ct;
+					}
+					id("timebar").style.width = 100 * ct / tt + "%";
+					id("time").innerHTML = "Time: " + Math.floor(ct/60).toString().padStart(2,"0") + ":" + Math.floor(ct%60).toString().padStart(2,"0") + "/" + Math.floor(tt/60).toString().padStart(2,"0") + ":" + Math.floor(tt%60).toString().padStart(2,"0");
+				}
+				if (beat == undefined) {
+					id("notecount").innerHTML = "Note: 0/0";
+					id("combotext").innerHTML = "";
+					id("bpmcount").innerHTML = "(Expermental) Bar: 0:0";
+				} else {
+					var ct = id("audioplayer").currentTime+0.16;
+					var beatc = Math.floor((ct-beat.notes[0].starttime)/(60/bpm));
+					id("notecount").innerHTML = "Note: " + finished + "/" + beat.notes.length;
+					id("combotext").innerHTML = finished;
+					id("bpmcount").innerHTML = "(Expermental) Bar: " + Math.floor(beatc / 4) + ":" + ((beatc % 4) + 1);
+				};
+			};
+			setInterval(timerefresh,100);
+			var HttpClient = function() {
+				this.get = function(url, callback) {
+					var HttpRequest = new XMLHttpRequest();
+					HttpRequest.onreadystatechange = function() {
+						if (HttpRequest.readyState == 4 & HttpRequest.status == 200) {
+							callback(HttpRequest.response);
+						}
+					}
+					//HttpRequest.open("GET",'http://student.tanghin.edu.hk/~S121429/getsource.php?url=' + url,true);
+					HttpRequest.open("GET",'https://wytangae.student.ust.hk/getsource.php?url=' + url,true);
+					HttpRequest.send(null);
+				}
+			}	
+			var client = new HttpClient();
+			function findintext(text, first, last, r1, r2){
+				try {
+					if (last == undefined) {
+						last = "";
+					};
+					if (r1 == undefined) {
+						r1 = false;
+					};
+					if (r2 == undefined) {
+						r2 = false;
+					};					
+					if (last == ""){
+						var place;
+						if (r1) {
+							place = text.lastIndexOf(first);
+						} else {
+							place = text.indexOf(first);
+						};
+						if (place == -1){
+							return ["Error","Error","Error"];
+						} else {
+							return [text.substring(0, place), text.substring(place + first.length),""];
+						};
+					} else {
+						var place1;
+						if (r1) {
+							place = text.lastIndexOf(first);
+						} else {
+							place = text.indexOf(first);
+						};
+						if (place == -1){
+							return ["Error","Error","Error"];
+						} else {
+							var place2;
+							if (r2) {
+								place2 = text.lastIndexOf(last);
+								if (place2 < place1 + first.length){
+									place2 = -1;
+								};
+							} else {
+								place2 = text.indexOf(last, place + first.length);
+							};
+							if (place2 == -1){
+								return ["Error","Error","Error"];
+							} else {
+								return [text.substring(0, place), text.substring(place + first.length, place2), text.substring(place2 + last.length)];
+							};
+						};
+					}
+				}
+				catch(err) {
+					return ["Error","Error","Error"];
+				}
+			}
+			function playsound() {
+				if (sound){
+					if (!iOS){
+						id("audiose").cloneNode().play(); //iOS device cannot play this audio
+					} else {
+						id("audiose" + iOSAudio).currentTime=0;
+						id("audiose" + iOSAudio).play();
+						iOSAudio = (iOSAudio + 1)%12;
+					}
+				}
+			};
+			function calculatebpm() {
+				//return beat.
+			}
+			function loadsong() {
+				client.get('https://lldetail.github.io/CGSS/CGSS.csv.json',function(content) {
+					var live = JSON.parse(content);
+					id("songlist").innerHTML = "<br>";
+					id("songlist").innerHTML = "Version: " + ver + "<br>";
+					id("songlist").innerHTML = "Data: " + live.data + "<br>";
+					id("songlist").innerHTML += "Source: Game Source<br>";
+					//Search Tool
+					id("songlist").innerHTML += "Search: <input placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
+					for (var i = 0; i < live.live.length; i++){
+						var song = live.live[i];
+						id("songlist").innerHTML += '<div class="node shown">' + song.name + '<br></div>';
+						var songroot = document.getElementsByClassName("node")[document.getElementsByClassName("node").length-1];
+						songroot.style.color = ["black", "pink", "blue", "orange", "gray"][song.type];
+						songroot.setAttribute('icon',song.jacket_id);
+						songroot.setAttribute('sound',song.sound_id);
+						songroot.setAttribute('attribute',song.type);
+						songroot.setAttribute('name1',convert(song.name));
+						songroot.setAttribute('name2',convert(song.name_kana));
+						songroot.setAttribute('fumen_id',song.fumen_id);
+						for (var j = 0; j < song.difficulties.length; j++){
+							var diff = song.difficulties[j];
+							var pdiff = diff.difficulty;
+							if (pdiff == 11){ //Light
+								pdiff == 6
+							} else if (pdiff == 12){ //Trick
+								pdiff == 7
+							} else if (pdiff == 101){ //Legacy Master
+								pdiff == 8
+							};
+							songroot.innerHTML += "<button class='btn' onclick='choose(this)'" + (diff.available?"":" disabled") + ">" + ["Unknown-0", "Debut", "Regular", "Pro", "Master", "Master+", "Light", "Trick"][pdiff] + " (Lv " + diff.stage_level + ", " + diff.notes_number + "x" + ")" + "</button>";
+							var diffroot = songroot.getElementsByClassName("btn")[songroot.getElementsByClassName("btn").length-1];
+							diffroot.setAttribute('fumen_id',diff.id);
+							diffroot.setAttribute('difficulty',diff.difficulty);
+							diffroot.setAttribute('stage_level',diff.stage_level);
+							diffroot.setAttribute('s_rank_combo',diff.notes_number);
+							diffroot.setAttribute('attribute',song.type);
+							//diffroot.setAttribute('asset',diff.asset);
+							diffroot.setAttribute('available',diff.available);
+						}
+					};
+				});
+			};
+			var timer;
+			var first = 0;
+			var last = 0;
+			var finished = 0;
+			var bpm = 100;
+			var beat;
+			function loadJSON(path, callback) {   
+				var xobj = new XMLHttpRequest();
+				xobj.overrideMimeType("application/json");
+				xobj.open('GET', path, true);
+				xobj.onreadystatechange = function () {
+					  if (xobj.readyState == 4 && xobj.status == "200") {
+						callback(xobj.responseText);
+					  }
+				};
+				xobj.send(null);  
+			 }
+			loadsong();
+			
+			function play1(){	
+				//console.log("play1")
+				audioready = true; 
+				if (fumenready){
+					if (!iOS){ //canplaythrough event
+						plays();
+					}
+				}
+			}
+			function play2(){	
+				//console.log("play2")
+				fumenready = true; 
+				if (audioready){
+					plays();
+				} else if (iOS){
+					timer3 = setInterval(checkplay1, 10); //iOS need to monitor canplaythrough
+				}
+			}
+			
+			function checkplay1(){
+				if (audioready) {
+					//iOS click to play
+					clearInterval(timer3);
+					id("iOS_block").style.display = "block";
+				}
+			}
+			
+			function playse(){
+				if (sound){
+					for (var i = 0; i < 12; i++){
+						id("audiose" + i).play();
+					}
+				}
+			}
+			
+			function plays(){
+				clearInterval(timer);
+				id("audioplayer").play();	
+				timer = setInterval(check,1);
+			}
+			
+			function search(val){
+				var allnode = document.getElementsByClassName("node");
+				for (var k = 0; k < allnode.length; k++){
+					var name1 = allnode[k].getAttribute("name1");
+					var name2 = allnode[k].getAttribute("name2");
+					var seark = convert(val);
+					if (name1.includes(seark) || name2.includes(seark)){
+						allnode[k].setAttribute("class", "node shown");
+					} else {
+						allnode[k].setAttribute("class", "node hidden");
+					}
+				}
+			}
+		</script>	
+	</body>
+</html>
