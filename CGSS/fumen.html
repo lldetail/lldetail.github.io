@@ -205,7 +205,7 @@
 		<audio id="audioplayer" preload="auto" controls="controls" style="position:absolute; z-index:10000" hidden oncanplay="play1()">
 			<source id="audiosrc" src="" type="audio/mpeg">
 		</audio>
-		<audio id="audiose" src="https://dl.dropboxusercontent.com/s/nm7dewdf6gys0hu/SE_306.mp3" preload="auto"></audio>
+		<audio id="audiose" src="se_live_tap_perfect.wav" preload="auto"></audio>
 		<div id="demoarea">
 		</div>
 		<div id="border">
@@ -258,7 +258,7 @@
 				var s = "";
 				iOSAudio = 0;
 				for (var i = 0; i < 12; i++){
-					s += '<audio id="audiose' + i + '" src="https://dl.dropboxusercontent.com/s/nm7dewdf6gys0hu/SE_306.mp3" preload="auto"></audio>';
+					s += '<audio id="audiose' + i + '" src="se_live_tap_perfect.wav" preload="auto"></audio>';
 				}
 				id("audiose").outerHTML = s;
 			}			
