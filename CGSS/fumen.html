@@ -247,7 +247,7 @@
 				}
 				return temp;
 			}
-			var ver = 201812252044;
+			var ver = 201812262148;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -376,11 +376,13 @@
 				//return beat.
 			}
 			function loadsong() {
+				//https://lldetail.github.io/CGSS/CGSS.csv.json
+				//CGSS.csv.json
 				client.get('https://lldetail.github.io/CGSS/CGSS.csv.json',function(content) {
 					var live = JSON.parse(content);
 					id("songlist").innerHTML = "<br>";
 					id("songlist").innerHTML = "Version: " + ver + "<br>";
-					id("songlist").innerHTML = "Data: " + live.data + "<br>";
+					id("songlist").innerHTML += "Data: " + live.data + "<br>";
 					id("songlist").innerHTML += "Source: Game Source<br>";
 					//Search Tool
 					id("songlist").innerHTML += "Search: <input placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
@@ -399,13 +401,13 @@
 							var diff = song.difficulties[j];
 							var pdiff = diff.difficulty;
 							if (pdiff == 11){ //Light
-								pdiff == 6
+								pdiff = 6
 							} else if (pdiff == 12){ //Trick
-								pdiff == 7
+								pdiff = 7
 							} else if (pdiff == 101){ //Legacy Master
-								pdiff == 8
+								pdiff = 8
 							};
-							songroot.innerHTML += "<button class='btn' onclick='choose(this)'" + (diff.available?"":" disabled") + ">" + ["Unknown-0", "Debut", "Regular", "Pro", "Master", "Master+", "Light", "Trick"][pdiff] + " (Lv " + diff.stage_level + ", " + diff.notes_number + "x" + ")" + "</button>";
+							songroot.innerHTML += "<button class='btn' onclick='choose(this)'" + (diff.available?"":" disabled") + ">" + ["Unknown-0", "Debut", "Regular", "Pro", "Master", "Master+", "Light", "Trick", "Legacy Master"][pdiff] + " (Lv " + diff.stage_level + ", " + diff.notes_number + "x" + ")" + "</button>";
 							var diffroot = songroot.getElementsByClassName("btn")[songroot.getElementsByClassName("btn").length-1];
 							diffroot.setAttribute('fumen_id',diff.id);
 							diffroot.setAttribute('difficulty',diff.difficulty);
