@@ -260,7 +260,7 @@
 				}
 				return temp;
 			}
-			var ver = 201812270532;
+			var ver = 201812280523;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -480,19 +480,29 @@
 									beat.notes[i].created = true;
 									var newnote = document.createElement("div");
 									if (beat.notes[i].status != "0"){ //swing
-										newnote.style.backgroundColor = "#8080FF";
-										if (beat.notes[i].status == "2") {
-											var b = document.createElement("b");
-											b.innerHTML = "→";
-											newnote.appendChild(b); 
-										} else if (beat.notes[i].status == "1") {
-											var b = document.createElement("b");
-											b.innerHTML = "←";
-											newnote.appendChild(b); 
+										if (beat.notes[i].status.length == 3){ //3-digit in kirarin april fool
+											if (beat.notes[i].status == "100") { //cute
+												newnote.style.backgroundColor = "pink";
+											} else if (beat.notes[i].status == "101") { //cool
+												newnote.style.backgroundColor = "blue";
+											} else if (beat.notes[i].status == "102") { //passion
+												newnote.style.backgroundColor = "orange";
+											};
 										} else {
-											var b = document.createElement("b");
-											b.innerHTML = "?";
-											newnote.appendChild(b); 
+											newnote.style.backgroundColor = "#8080FF";
+											if (beat.notes[i].status == "2") {
+												var b = document.createElement("b");
+												b.innerHTML = "→";
+												newnote.appendChild(b); 
+											} else if (beat.notes[i].status == "1") {
+												var b = document.createElement("b");
+												b.innerHTML = "←";
+												newnote.appendChild(b); 
+											} else {
+												var b = document.createElement("b");
+												b.innerHTML = "?";
+												newnote.appendChild(b); 
+											};
 										};
 									} else if (beat.notes[i].type == "3") {		
 										newnote.style.backgroundColor = "#FF80FF";
