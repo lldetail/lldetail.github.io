@@ -1,5 +1,5 @@
 {
-	"data": 1545836163251,
+	"data": 1545943673613,
 	"live": [{
 		"name": "お願い ! シンデレラ",
 		"name_kana": "おねがいしんでれら",
@@ -8953,7 +8953,8 @@
 			"difficulty": 1,
 			"stage_level": 6,
 			"notes_number": 81,
-			"available": false
+			"available": true,
+			"asset": "m903/903_1.csv"
 		}]
 	}, {
 		"name": "きらりんロボのテーマ",
