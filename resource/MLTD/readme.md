@@ -1,1 +1,1 @@
-Resource coprtight: ©2017 BANDAI NAMCO Entertainment Inc.
+Resource copyright: ©2017 BANDAI NAMCO Entertainment Inc.
