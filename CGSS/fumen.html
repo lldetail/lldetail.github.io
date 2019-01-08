@@ -260,13 +260,14 @@
 				}
 				return temp;
 			}
-			var ver = 201901090435;
+			var ver = 201901090515;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
 			var jsonget = false;
 			var sound = false;
 			var movn = false;
+			var trick = false;
 			if (iOS){
 				alert("iOS devices cannot play the sound till the end using the original URL, so a manual update is required. The sound may not be playable right now. You may need to click the button multiple times to get it working.")
 				var s = "";
@@ -401,7 +402,7 @@
 						var song = live.live[i];
 						id("songlist").innerHTML += '<div class="node shown">' + song.name + '<br></div>';
 						var songroot = document.getElementsByClassName("node")[document.getElementsByClassName("node").length-1];
-						songroot.style.color = ["black", "pink", "blue", "orange", "gray"][song.type];
+						songroot.style.color = ["black", "#FF006D", "#0066FF", "#FFAE00", "#666666"][song.type];
 						songroot.setAttribute('icon',song.jacket_id);
 						songroot.setAttribute('sound',song.sound_id);
 						songroot.setAttribute('attribute',song.type);
@@ -485,34 +486,36 @@
 									if (beat.notes[i].status != "0"){ //swing
 										if (beat.notes[i].status.length == 3){ //3-digit in kirarin april fool
 											if (beat.notes[i].status == "100") { //cute
-												newnote.style.backgroundColor = "pink";
+												newnote.style.backgroundColor = "#FF006D";
 											} else if (beat.notes[i].status == "101") { //cool
-												newnote.style.backgroundColor = "blue";
+												newnote.style.backgroundColor = "#0066FF";
 											} else if (beat.notes[i].status == "102") { //passion
-												newnote.style.backgroundColor = "orange";
+												newnote.style.backgroundColor = "#FFAE00";
 											};
 										} else {
-											newnote.style.backgroundColor = "#8080FF";
 											if (beat.notes[i].status == "2") { //right
+												newnote.style.backgroundColor = trick?"#38C8A1":"#4488E9"; //direction: blue
 												var b = document.createElement("b");
 												b.innerHTML = "→";
 												newnote.appendChild(b); 
 											} else if (beat.notes[i].status == "1") { //left
+												newnote.style.backgroundColor = trick?"#357EF4":"#4488E9"; //direction: blue
 												var b = document.createElement("b");
 												b.innerHTML = "←";
 												newnote.appendChild(b); 
 											} else {
+												newnote.style.backgroundColor = "#4488E9"; //direction: blue
 												var b = document.createElement("b");
 												b.innerHTML = "?";
 												newnote.appendChild(b); 
 											};
 										};
 									} else if (beat.notes[i].type == "3") {	// multi-track slider: purple
-										newnote.style.backgroundColor = "#FF80FF";
+										newnote.style.backgroundColor = "#CC4EFF";
 									} else if (beat.notes[i].type == "2") { //slider start/ normal end: yellow
-										newnote.style.backgroundColor = "#FFFF00"
+										newnote.style.backgroundColor = "#FFAA33";
 									} else if (beat.notes[i].type == "1") {	//normal: pink					
-										newnote.style.backgroundColor = "#FF8080";
+										newnote.style.backgroundColor = "#EE8090";
 									} else { //unknown
 										newnote.style.backgroundColor = "#808080";
 									};
@@ -620,6 +623,7 @@
 					lastlevel = [];
 					lastlane = [-1,-1,-1,-1,-1,-1];
 					beat = {column:5, attribute:obj.getAttribute("attribute"), diff:obj.getAttribute("difficulty-2"), notes:[]};
+					trick = ((beat.diff == "6") || (beat.diff == "7"));
 					var c = -1;
 					for (i = 0; i < map.notes_list.length; i++){
 						var thenote = map.notes_list[i];
@@ -630,13 +634,13 @@
 								attribute: beat.attribute,
 								type: thenote.type,
 								groupId: thenote.groupId,
-								startPos: thenote.startPos,
-								finishPos: thenote.finishPos,
+								startPos: trick?6-thenote.startPos:thenote.startPos,
+								finishPos: trick?6-thenote.finishPos:thenote.finishPos,
 								swing: (thenote.groupId != 0),
 								link: [],
 								slink: [],
 								plink: [],
-								status: thenote.status, //left:1, right:2, no:0
+								status: thenote.status==0?0:(trick?3-thenote.status:thenote.status), //left:1, right:2, no:0
 								sync: thenote.sync,
 								created: false
 							};
