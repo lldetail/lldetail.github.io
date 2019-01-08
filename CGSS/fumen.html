@@ -265,7 +265,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901090515;
+			var ver = 201901090534;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -403,6 +403,7 @@
 					//Search Tool
 					id("songlist").innerHTML += "Search: <input id='searchbar' placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
 					id("songlist").innerHTML += "Setting: <input id='movecb' type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
+					live.live.sort(function(a, b) {return (a.name > b.name)?1:-1;});
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
 						id("songlist").innerHTML += '<div class="node shown">' + song.name + '<br></div>';
