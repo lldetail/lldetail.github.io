@@ -260,7 +260,7 @@
 				}
 				return temp;
 			}
-			var ver = 201812280523;
+			var ver = 201901090210;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -490,11 +490,11 @@
 											};
 										} else {
 											newnote.style.backgroundColor = "#8080FF";
-											if (beat.notes[i].status == "2") {
+											if (beat.notes[i].status == "2") { //right
 												var b = document.createElement("b");
 												b.innerHTML = "→";
 												newnote.appendChild(b); 
-											} else if (beat.notes[i].status == "1") {
+											} else if (beat.notes[i].status == "1") { //left
 												var b = document.createElement("b");
 												b.innerHTML = "←";
 												newnote.appendChild(b); 
@@ -504,13 +504,13 @@
 												newnote.appendChild(b); 
 											};
 										};
-									} else if (beat.notes[i].type == "3") {		
+									} else if (beat.notes[i].type == "3") {	// multi-track slider: purple
 										newnote.style.backgroundColor = "#FF80FF";
-									} else if (beat.notes[i].type == "2") {		
+									} else if (beat.notes[i].type == "2") { //slider start/ normal end: yellow
 										newnote.style.backgroundColor = "#FFFF00"
-									} else if (beat.notes[i].type == "1") {									
+									} else if (beat.notes[i].type == "1") {	//normal: pink					
 										newnote.style.backgroundColor = "#FF8080";
-									} else {
+									} else { //unknown
 										newnote.style.backgroundColor = "#808080";
 									};
 									newnote.id = "note" + i;
@@ -634,7 +634,7 @@
 								created: false
 							};
 							if (lastlane[beat.notes[c].finishPos] != -1){
-								beat.notes[c].type = 2;
+								//beat.notes[c].type = 2;
 								beat.notes[lastlane[beat.notes[c].finishPos]].slink[beat.notes[lastlane[beat.notes[c].finishPos]].slink.length] = c;
 								lastlane[beat.notes[c].finishPos] = -1;
 							}else if (thenote.type == 2){ //slider
@@ -664,14 +664,14 @@
 				var required = "song_" + obj.parentElement.getAttribute("sound");
 				if (jsonget) {
 					var links = JSON.parse(jsoncontent);
-					id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".wav"
+					id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
 					id("audioplayer").load();
 				} else {
 					loadJSON("dropbox.json",function(response) {
 						jsonget = true;
 						jsoncontent = response;
 						var links = JSON.parse(response);
-						id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".wav"
+						id("audiosrc").src = "https://dl.dropboxusercontent.com/s/" + links[required] + "/" + required + ".mp3"
 						id("audioplayer").load();
 					});
 				}
