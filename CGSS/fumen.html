@@ -43,7 +43,7 @@
 				background-size: cover;
 			}
 			
-			input {
+			input#searchbar {
 				font-size: 3vh;
 				border-radius: 999px;
 				width: 500px;
@@ -395,7 +395,7 @@
 					id("songlist").innerHTML += "Data: " + live.data + "<br>";
 					id("songlist").innerHTML += "Source: Game Source<br>";
 					//Search Tool
-					id("songlist").innerHTML += "Search: <input placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
+					id("songlist").innerHTML += "Search: <input id='searchbar' placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
 					id("songlist").innerHTML += "Setting: <input type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
