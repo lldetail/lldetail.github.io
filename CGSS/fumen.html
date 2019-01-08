@@ -545,7 +545,7 @@
 								var ratio = (ct + approach - beat.notes[i].starttime) / approach;
 								ratio = ratio>1?1:ratio;
 								id("note" + i).style.top = ratio>=1?"77%":((ratio*80-3)+"%");
-								id("note" + i).style.left = 6 * ((beat.notes[i].startPos+(beat.notes[i].finishPos-beat.notes[i].startPos)*(movn?ratio:1)-1)*2) + "vh";
+								id("note" + i).style.left = 6 * ((+beat.notes[i].startPos+(beat.notes[i].finishPos-beat.notes[i].startPos)*(movn?ratio:1)-1)*2) + "vh";
 							};
 						};
 						var ratio1 = (ct + approach - beat.notes[i].starttime) / approach;
