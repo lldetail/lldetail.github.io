@@ -260,7 +260,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901090401;
+			var ver = 201901090435;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -423,6 +423,7 @@
 							var diffroot = songroot.getElementsByClassName("btn")[songroot.getElementsByClassName("btn").length-1];
 							diffroot.setAttribute('fumen_id',diff.id);
 							diffroot.setAttribute('difficulty',diff.difficulty);
+							diffroot.setAttribute('difficulty-2',pdiff);
 							diffroot.setAttribute('stage_level',diff.stage_level);
 							diffroot.setAttribute('s_rank_combo',diff.notes_number);
 							diffroot.setAttribute('attribute',song.type);
@@ -618,7 +619,7 @@
 					//parse
 					lastlevel = [];
 					lastlane = [-1,-1,-1,-1,-1,-1];
-					beat = {column:5, attribute:obj.getAttribute("attribute"), diff:obj.getAttribute("difficulty"), notes:[]};
+					beat = {column:5, attribute:obj.getAttribute("attribute"), diff:obj.getAttribute("difficulty-2"), notes:[]};
 					var c = -1;
 					for (i = 0; i < map.notes_list.length; i++){
 						var thenote = map.notes_list[i];
