@@ -1,0 +1,10 @@
+time,move_type,BPM,color_pattern,color1,color2,color3,color4,color5,width1,width2,width3,width4,width5,3D_move_type,3D_BPM,start_image
+0,Bye,10,Random3,Pink01,Blue01,Yellow01,,,,,,,,Uhoi,1,0
+2.051282,Uhoi,170,Random3,Pink01,Blue01,Yellow01,,,,,,,,Uhoi,58.5,0
+57.4359,Uhoi,170,Random3,Pink01,Blue01,Yellow01,,,,,,,,Uhoi,24,0
+63.589744,Uhoi,170,Random3,Pink01,Blue01,Yellow01,,,,,,,,Uhoi,58.5,0
+96.32212,Uhoi,170,Random3,Pink01,Blue01,Yellow01,,,,,,,,Uhoi,30,0
+100.512821,Uhoi,170,Random3,Pink01,Blue01,Yellow01,,,,,,,,Uhoi,58.5,0
+112.307692,Uhoi,170,Random3,Pink01,Blue01,Yellow01,,,,,,,,Uhoi,20,0
+115.6,Uhoi,170,Random3,Pink01,Blue01,Yellow01,,,,,,,,Pause,24,0
+123.07,Uhoi,170,Random3,Pink01,Blue01,Yellow01,,,,,,,,Bye,350,0

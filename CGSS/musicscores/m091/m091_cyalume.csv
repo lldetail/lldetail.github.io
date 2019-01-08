@@ -1,0 +1,16 @@
+time,move_type,BPM,color_pattern,color1,color2,color3,color4,color5,width1,width2,width3,width4,width5,3D_move_type,3D_BPM,start_image
+0,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,1,0
+2.051282,Uhoi,5,All1,Green03,,,,,,,,,,Oioi,138,0
+50.434783,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,46,0
+51.73913,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,138,8
+52.173913,Uhoi,5,All1,Green03,,,,,,,,,,Oioi,138,0
+88.695652,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,46,0
+90,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,138,8
+90.434783,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,46,0
+91.73913,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,138,8
+92.173913,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,46,0
+93.478261,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,138,8
+93.913043,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,46,0
+95.217391,Uhoi,5,All1,Green03,,,,,,,,,,Uhoi,138,8
+95.652174,Uhoi,5,All1,Green03,,,,,,,,,,Oioi,138,0
+126.956522,Uhoi,5,All1,Green03,,,,,,,,,,Bye,300,8
