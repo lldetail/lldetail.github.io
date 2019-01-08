@@ -260,7 +260,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901090343;
+			var ver = 201901090349;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -459,6 +459,7 @@
 								if (beat.notes[i].type != "3"){
 									id("demoarea").removeChild(id("note" + i));
 								};
+								id("note" + i).setAttribute("processed", true);
 								playsound();					
 								finished++;	
 							}
@@ -470,7 +471,7 @@
 								if (moving){
 									first++;
 								};
-								if(!(id("note" + i) == null) && id("note" + i).getAttribute("processed")=="false" && beat.notes[i].type == "3"){
+								if(!(id("note" + i) == null) && beat.notes[i].type == "3"){
 									id("demoarea").removeChild(id("note" + i));
 								}
 							} else {
@@ -547,12 +548,14 @@
 										id("demoarea").appendChild(newnote2);
 									};
 								};
-								var ratio = (ct + approach - beat.notes[i].starttime) / approach;
-								ratio = ratio>1?1:ratio;
-								id("note" + i).style.top = ratio>=1?"77%":((ratio*80-3)+"%");
-								id("note" + i).style.left = 6 * ((+beat.notes[i].startPos+(beat.notes[i].finishPos-beat.notes[i].startPos)*(movn?ratio:1)-1)*2) + "vh";
 							};
 						};
+						if (id("note" + i) != null){
+							var ratio = (ct + approach - beat.notes[i].starttime) / approach;
+							ratio = ratio>1?1:ratio;
+							id("note" + i).style.top = ratio>=1?"77%":((ratio*80-3)+"%");
+							id("note" + i).style.left = 6 * ((+beat.notes[i].startPos+(beat.notes[i].finishPos-beat.notes[i].startPos)*(movn?ratio:1)-1)*2) + "vh";
+						}
 						var ratio1 = (ct + approach - beat.notes[i].starttime) / approach;
 						for (var k = 0; k < beat.notes[i].link.length; k++) { //flick linkage
 							if (id("note" + i + "_link" + k) != undefined){
