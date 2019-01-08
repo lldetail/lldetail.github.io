@@ -1,1 +1,8 @@
-0
+{"notes_list": [
+	{"id": "1", "sec": "0", "type": "100", "startPos": "0", "finishPos": "0", "status": "4", "sync": "0", "groupId": "0"},
+	{"id": "2", "sec": "0", "type": "91", "startPos": "", "finishPos": "", "status": "", "sync": "0", "groupId": "0"},
+	{"id": "3", "sec": "4.8", "type": "1", "startPos": "3", "finishPos": "3", "status": "0", "sync": "0", "groupId": "0"},
+	{"id": "4", "sec": "7.2", "type": "1", "startPos": "3", "finishPos": "3", "status": "0", "sync": "0", "groupId": "0"},
+	{"id": "5", "sec": "9.6", "type": "1", "startPos": "3", "finishPos": "3", "status": "0", "sync": "0", "groupId": "0"},
+	{"id": "6", "sec": "12", "type": "1", "startPos": "3", "finishPos": "3", "status": "0", "sync": "0", "groupId": "0"},
+	{"id": "7", "sec": "14.4", "type": "92", "startPos": "", "finishPos": "", "status": "", "sync": "0", "groupId": "0"}	]}
