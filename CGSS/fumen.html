@@ -50,6 +50,11 @@
 				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
 			}
 			
+			input#movecb{
+				height: 3vh;
+				width: 3vh;
+			}
+			
 			button {
 				font-size: 2vh;
 				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
@@ -397,7 +402,7 @@
 					id("songlist").innerHTML += "Source: Game Source<br>";
 					//Search Tool
 					id("songlist").innerHTML += "Search: <input id='searchbar' placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
-					id("songlist").innerHTML += "Setting: <input type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
+					id("songlist").innerHTML += "Setting: <input id='movecb' type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
 						id("songlist").innerHTML += '<div class="node shown">' + song.name + '<br></div>';
