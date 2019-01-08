@@ -260,7 +260,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901090210;
+			var ver = 201901090259;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -395,6 +395,7 @@
 					id("songlist").innerHTML += "Source: Game Source<br>";
 					//Search Tool
 					id("songlist").innerHTML += "Search: <input placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
+					id("songlist").innerHTML += "Setting: <input type='checkbox' value='Show Moving Notes' oninput='movn = this.checked'><br>";
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
 						id("songlist").innerHTML += '<div class="node shown">' + song.name + '<br></div>';
@@ -518,7 +519,8 @@
 									var att = document.createAttribute("processed");
 									att.value = false; 
 									newnote.setAttributeNode(att);
-									newnote.style.left = 6 * ((beat.notes[i].finishPos-1)*2) + "vh";
+									var curpos = movn?beat.notes[i].startPos:beat.notes[i].finishPos;
+									newnote.style.left = 6 * ((curpos-1)*2) + "vh";
 									id("demoarea").appendChild(newnote);
 									for (var k = 0; k < beat.notes[i].link.length; k++) {
 										var newnote2 = document.createElement("div");
@@ -542,6 +544,7 @@
 								var ratio = (ct + approach - beat.notes[i].starttime) / approach;
 								ratio = ratio>1?1:ratio;
 								id("note" + i).style.top = ratio>=1?"77%":((ratio*80-3)+"%");
+								id("note" + i).style.left = 6 * ((beat.notes[i].startPos+(beat.notes[i].finishPos-beat.notes[i].startPos)*(mov?ratio:1)-1)*2) + "vh";
 							};
 						};
 						var ratio1 = (ct + approach - beat.notes[i].starttime) / approach;
