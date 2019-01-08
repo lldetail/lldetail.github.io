@@ -260,7 +260,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901090349;
+			var ver = 201901090351;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -458,8 +458,9 @@
 							if(!(id("note" + i) == null) && id("note" + i).getAttribute("processed")=="false"){
 								if (beat.notes[i].type != "3"){
 									id("demoarea").removeChild(id("note" + i));
+								} else {
+									id("note" + i).setAttribute("processed", true);
 								};
-								id("note" + i).setAttribute("processed", true);
 								playsound();					
 								finished++;	
 							}
