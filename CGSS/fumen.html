@@ -286,7 +286,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901100107;
+			var ver = 201901100259;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -609,6 +609,9 @@
 								var widths = (beat.notes[i].status == "0"?6:4);
 								var ratio2 = (ct + approach - beat.notes[beat.notes[i].link[k]].starttime) / approach;
 								var curpos1 = +beat.notes[i].startPos+(beat.notes[i].finishPos-beat.notes[i].startPos)*(movn?ratio1:1)
+								if (ratio1 > 1){
+									curpos1 = +beat.notes[i].finishPos+(beat.notes[beat.notes[i].slink[k]].finishPos-beat.notes[i].finishPos)*(ratio1-1)/(ratio1-ratio2);
+								};
 								var curpos2 = +beat.notes[beat.notes[i].link[k]].startPos+(beat.notes[beat.notes[i].link[k]].finishPos-beat.notes[beat.notes[i].link[k]].startPos)*(movn?ratio2:1)
 								var dx = (curpos2 - curpos1) * 12; //in vh
 								var dy = -(beat.notes[beat.notes[i].link[k]].starttime - beat.notes[i].starttime) * 80 / approach; 
@@ -623,7 +626,10 @@
 						for (var k = 0; k < beat.notes[i].slink.length; k++) { //slider linkage
 							if (id("note" + i + "_slink" + k) != undefined){
 								var ratio2 = (ct + approach - beat.notes[beat.notes[i].slink[k]].starttime) / approach;
-								var curpos1 = +beat.notes[i].startPos+(beat.notes[i].finishPos-beat.notes[i].startPos)*(movn?ratio1:1)
+								var curpos1 = +beat.notes[i].startPos+(beat.notes[i].finishPos-beat.notes[i].startPos)*(movn?ratio1:1);
+								if (ratio1 > 1){
+									curpos1 = beat.notes[i].finishPos;
+								};
 								var curpos2 = +beat.notes[beat.notes[i].slink[k]].startPos+(beat.notes[beat.notes[i].slink[k]].finishPos-beat.notes[beat.notes[i].slink[k]].startPos)*(movn?ratio2:1)
 								var dx = (curpos2 - curpos1) * 12; //in vh
 								var dy = -(beat.notes[beat.notes[i].slink[k]].starttime - beat.notes[i].starttime) * 80 / approach; 
