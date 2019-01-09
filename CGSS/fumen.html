@@ -286,7 +286,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901100048;
+			var ver = 201901100054;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -444,7 +444,7 @@
 					//Search Tool
 					id("songlist0").innerHTML += "Search: <input id='searchbar' placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
 					id("songlist0").innerHTML += "Setting:<br>";
-					id("songlist0").innerHTML += "input id='movecb' type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
+					id("songlist0").innerHTML += "<input id='movecb' type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
 					id("songlist0").innerHTML += "<input id='lyricscb' type='checkbox' oninput='lyri = this.checked'>Show Lyrics<br>";
 					
 					id("songlist").innerHTML = '';
