@@ -110,9 +110,14 @@
 				width: calc(100vw - 54vh);
 				border: 0.2vh solid black;
 			}
+			#songlist0 {
+				width: 100%;
+				height: 20%;
+				overflow-y: scroll;
+			}
 			#songlist {
 				width: 100%;
-				height: 100%;
+				height: 80%;
 				overflow-y: scroll;
 			}
 			#timeline {
@@ -198,6 +203,19 @@
 			.node.hidden {
 				display: none;
 			}
+			
+			#lyrics {
+				text-shadow: white 0 0 5vh;
+				color: #404040;
+				word-wrap: break-word;
+				position: fixed;
+				bottom: 0%;
+				left: 0px;
+				width: 100%;
+				text-align: center;
+				font-size: 5vh;
+				z-index: 500;
+			}
 		</style>
 		<style id="extrastyle">
 		</style>
@@ -224,8 +242,10 @@
 		<div id="border">
 		</div>
 		<div id="songlistcontainer">
-			<div id="songlist">
+			<div id="songlist0">
 				<h1>Loading...</h1>
+			</div>
+			<div id="songlist">
 				<h1>Please Wait...</h1>
 			</div>
 		</div>
@@ -243,6 +263,7 @@
 		<div class="shade2" style="left:24vh"></div>
 		<div class="shade2" style="left:36vh"></div>
 		<div class="shade2" style="left:48vh"></div>
+		<div id="lyrics"></div>
 		<script>	
 			function convert(str){
 				var temp = "";
@@ -265,13 +286,15 @@
 				}
 				return temp;
 			}
-			var ver = 201901090534;
+			var ver = 201901100044;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
 			var jsonget = false;
 			var sound = false;
 			var movn = false;
+			var lyri = false;
+			var lyrics = {"notes_list": [{"time": "0", "lyrics": "", "size": ""}]};
 			var trick = false;
 			if (iOS){
 				alert("iOS devices cannot play the sound till the end using the original URL, so a manual update is required. The sound may not be playable right now. You may need to click the button multiple times to get it working.")
@@ -311,6 +334,21 @@
 					id("combotext").innerHTML = finished;
 					id("bpmcount").innerHTML = "(Expermental) Bar: " + Math.floor(beatc / 4) + ":" + ((beatc % 4) + 1);
 				};
+				var ct = id("audioplayer").currentTime+0.16;
+				//binary search lyrics
+				var bt = 0;
+				var tp = lyrics.notes_list.length - 1;
+				var md;
+				while (bt <= tp){
+					md = ~~((bt + tp)/2);
+					if (+lyrics.notes_list[md].time > ct){
+						tp = md-1;
+					} else {
+						bt = md+1;
+					}
+				}
+				//bt is the upper bound, tp is the lower bound
+				id("lyrics").innerHTML = lyrics.notes_list[bt].lyrics;
 			};
 			setInterval(timerefresh,100);
 			var HttpClient = function() {
@@ -396,14 +434,17 @@
 				//CGSS.csv.json
 				client.get('https://lldetail.github.io/CGSS/CGSS.csv.json',function(content) {
 					var live = JSON.parse(content);
-					id("songlist").innerHTML = "<br>";
-					id("songlist").innerHTML = "Version: " + ver + "<br>";
-					id("songlist").innerHTML += "Data: " + live.data + "<br>";
-					id("songlist").innerHTML += "Source: Game Source<br>";
+					id("songlist0").innerHTML = "Version: " + ver + "<br>";
+					id("songlist0").innerHTML += "Data: " + live.data + "<br>";
+					id("songlist0").innerHTML += "Source: Game Source<br>";
 					//Search Tool
-					id("songlist").innerHTML += "Search: <input id='searchbar' placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
-					id("songlist").innerHTML += "Setting: <input id='movecb' type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
-					live.live.sort(function(a, b) {return (a.name > b.name)?1:-1;});
+					id("songlist0").innerHTML += "Search: <input id='searchbar' placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
+					id("songlist0").innerHTML += "Setting:<br>";
+					id("songlist0").innerHTML += "input id='movecb' type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
+					id("songlist0").innerHTML += "<input id='lyricscb' type='checkbox' oninput='lyri = this.checked'>Show Lyrics<br>";
+					
+					id("songlist").innerHTML = '';
+					//live.live.sort(function(a, b) {return (a.name > b.name)?1:-1;});
 					for (var i = 0; i < live.live.length; i++){
 						var song = live.live[i];
 						id("songlist").innerHTML += '<div class="node shown">' + song.name + '<br></div>';
@@ -617,7 +658,12 @@
 				xobj.send(null);  
 			 }
 			 
-			function choose(obj){				
+			function choose(obj){	
+				lyrics = {"notes_list": [{"time": "0", "lyrics": "", "size": ""}]};
+				var mword = obj.getAttribute("asset").split("/")[0];
+				loadJSON("musicscores/" + mword + "/" + mword + "_lyrics.csv.json",function(response) {
+					lyrics = JSON.parse(response);
+				});
 				var path = "musicscores/" + obj.getAttribute("asset") + ".json";
 				fumenready = false;
 				audioready = false;
