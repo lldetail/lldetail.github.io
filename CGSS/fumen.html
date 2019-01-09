@@ -286,7 +286,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901100318;
+			var ver = 201901100323;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -618,7 +618,7 @@
 								if (ratio1 > 1){
 									dy = (beat.notes[beat.notes[i].link[k]].starttime - ct) * 80 / approach;
 								};
-								id("note" + i + "_link" + k).style.top = ratio1*80-widths/2+"%";
+								id("note" + i + "_link" + k).style.top = (ratio1>1?1:ratio1)*80-widths/2+"%";
 								id("note" + i + "_link" + k).style.left = (12 * (curpos1-1) + 3) + "vh";
 								id("note" + i + "_link" + k).style.width = Math.sqrt(dx*dx+dy*dy) + "vh";
 								id("note" + i + "_link" + k).style.transform = "rotate(" + (Math.atan2(dy,dx) * 180 / Math.PI) + "deg)";
@@ -639,7 +639,7 @@
 								if (ratio1 > 1){
 									dy = -(beat.notes[beat.notes[i].slink[k]].starttime - ct) * 80 / approach;
 								};
-								id("note" + i + "_slink" + k).style.top = ratio1*80-3+"%";
+								id("note" + i + "_slink" + k).style.top = (ratio1>1?1:ratio1)*80-3+"%";
 								id("note" + i + "_slink" + k).style.left = (12 * (curpos1-1) + 3) + "vh";
 								id("note" + i + "_slink" + k).style.width = Math.sqrt(dx*dx+dy*dy) + "vh";
 								id("note" + i + "_slink" + k).style.transform = "rotate(" + (Math.atan2(dy,dx) * 180 / Math.PI) + "deg)";
