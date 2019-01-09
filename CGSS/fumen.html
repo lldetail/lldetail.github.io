@@ -286,7 +286,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901100259;
+			var ver = 201901100303;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -615,6 +615,9 @@
 								var curpos2 = +beat.notes[beat.notes[i].link[k]].startPos+(beat.notes[beat.notes[i].link[k]].finishPos-beat.notes[beat.notes[i].link[k]].startPos)*(movn?ratio2:1)
 								var dx = (curpos2 - curpos1) * 12; //in vh
 								var dy = -(beat.notes[beat.notes[i].link[k]].starttime - beat.notes[i].starttime) * 80 / approach; 
+								if (ratio1 > 1){
+									dy = (beat.notes[beat.notes[i].slink[k]].starttime - ct) * 80 / approach;
+								};
 								id("note" + i + "_link" + k).style.top = ratio1*80-widths/2+"%";
 								id("note" + i + "_link" + k).style.left = (12 * (curpos1-1) + 3) + "vh";
 								id("note" + i + "_link" + k).style.width = Math.sqrt(dx*dx+dy*dy) + "vh";
@@ -633,6 +636,9 @@
 								var curpos2 = +beat.notes[beat.notes[i].slink[k]].startPos+(beat.notes[beat.notes[i].slink[k]].finishPos-beat.notes[beat.notes[i].slink[k]].startPos)*(movn?ratio2:1)
 								var dx = (curpos2 - curpos1) * 12; //in vh
 								var dy = -(beat.notes[beat.notes[i].slink[k]].starttime - beat.notes[i].starttime) * 80 / approach; 
+								if (ratio1 > 1){
+									dy = (beat.notes[beat.notes[i].slink[k]].starttime - ct) * 80 / approach;
+								};
 								id("note" + i + "_slink" + k).style.top = ratio1*80-3+"%";
 								id("note" + i + "_slink" + k).style.left = (12 * (curpos1-1) + 3) + "vh";
 								id("note" + i + "_slink" + k).style.width = Math.sqrt(dx*dx+dy*dy) + "vh";
