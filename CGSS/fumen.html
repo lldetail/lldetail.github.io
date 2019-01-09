@@ -286,7 +286,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901100044;
+			var ver = 201901100048;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -336,19 +336,23 @@
 				};
 				var ct = id("audioplayer").currentTime+0.16;
 				//binary search lyrics
-				var bt = 0;
-				var tp = lyrics.notes_list.length - 1;
-				var md;
-				while (bt <= tp){
-					md = ~~((bt + tp)/2);
-					if (+lyrics.notes_list[md].time > ct){
-						tp = md-1;
-					} else {
-						bt = md+1;
+				if (lyri){
+					var bt = 0;
+					var tp = lyrics.notes_list.length - 1;
+					var md;
+					while (bt <= tp){
+						md = ~~((bt + tp)/2);
+						if (+lyrics.notes_list[md].time > ct){
+							tp = md-1;
+						} else {
+							bt = md+1;
+						}
 					}
-				}
-				//bt is the upper bound, tp is the lower bound
-				id("lyrics").innerHTML = lyrics.notes_list[bt].lyrics;
+					//bt is the upper bound, tp is the lower bound
+					id("lyrics").innerHTML = lyrics.notes_list[tp].lyrics;
+				} else {
+					id("lyrics").innerHTML = "";
+				};
 			};
 			setInterval(timerefresh,100);
 			var HttpClient = function() {
