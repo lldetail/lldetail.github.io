@@ -286,7 +286,7 @@
 				}
 				return temp;
 			}
-			var ver = 201901100054;
+			var ver = 201901100107;
 			console.log("Version: " + ver);
 			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			var nosource = false;
@@ -349,7 +349,7 @@
 						}
 					}
 					//bt is the upper bound, tp is the lower bound
-					id("lyrics").innerHTML = lyrics.notes_list[tp].lyrics.replace(/\n/g, "<br>");
+					id("lyrics").innerHTML = lyrics.notes_list[tp].lyrics.replace(/\\n/g, "<br>");
 				} else {
 					id("lyrics").innerHTML = "";
 				};
