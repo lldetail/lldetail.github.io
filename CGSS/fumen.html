@@ -610,7 +610,7 @@
 								var ratio2 = (ct + approach - beat.notes[beat.notes[i].link[k]].starttime) / approach;
 								var curpos1 = +beat.notes[i].startPos+(beat.notes[i].finishPos-beat.notes[i].startPos)*(movn?ratio1:1)
 								if (ratio1 > 1){
-									curpos1 = +beat.notes[i].finishPos+(beat.notes[beat.notes[i].slink[k]].finishPos-beat.notes[i].finishPos)*(ratio1-1)/(ratio1-ratio2);
+									curpos1 = +beat.notes[i].finishPos+(beat.notes[beat.notes[i].link[k]].finishPos-beat.notes[i].finishPos)*(ratio1-1)/(ratio1-ratio2);
 								};
 								var curpos2 = +beat.notes[beat.notes[i].link[k]].startPos+(beat.notes[beat.notes[i].link[k]].finishPos-beat.notes[beat.notes[i].link[k]].startPos)*(movn?ratio2:1)
 								var dx = (curpos2 - curpos1) * 12; //in vh
