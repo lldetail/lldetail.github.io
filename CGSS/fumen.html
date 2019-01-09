@@ -50,7 +50,7 @@
 				font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
 			}
 			
-			input#movecb{
+			input.checkbox{
 				height: 3vh;
 				width: 3vh;
 			}
@@ -444,8 +444,8 @@
 					//Search Tool
 					id("songlist0").innerHTML += "Search: <input id='searchbar' placeholder='Enter Song Name in Japanese' oninput='search(this.value)'><br>";
 					id("songlist0").innerHTML += "Setting:<br>";
-					id("songlist0").innerHTML += "<input id='movecb' type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
-					id("songlist0").innerHTML += "<input id='lyricscb' type='checkbox' oninput='lyri = this.checked'>Show Lyrics<br>";
+					id("songlist0").innerHTML += "<input class='checkbox' type='checkbox' oninput='movn = this.checked'>Show Moving Notes<br>";
+					id("songlist0").innerHTML += "<input class='checkbox' type='checkbox' oninput='lyri = this.checked'>Show Lyrics<br>";
 					
 					id("songlist").innerHTML = '';
 					//live.live.sort(function(a, b) {return (a.name > b.name)?1:-1;});
