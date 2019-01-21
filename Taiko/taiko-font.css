@@ -1,0 +1,7 @@
+@font-face {
+  font-family: taiko;
+  src: url(font/tnt.ttf);
+}
+html {
+	font-family: taiko;
+}
