@@ -7,10 +7,13 @@
 		<link rel="stylesheet" type="text/css" href="cgss-font.css">
 		<title>Trend Song</title>
 		<style>
+			table {
+				width: 100%;
+				height: 100vh;
+			}
 			#song_list {
 				overflow-y: scroll;
 				width: 1045px;
-				height: calc(100% - 680px);
 				min-height: 250px;
 				border: 1px solid black;
 			}
@@ -34,10 +37,12 @@
 				top: 0px;
 			}
 		</style>
+		<style id="extrastyle">
+		</style>
 	</head>
-	<body style="margin: 0px; padding: 1vw">
-		<canvas id="trendcan" width="1045" height="665" style="border:1px solid #000000;">
-		</canvas>
+	<body style="margin: 0px; padding: 1vw">	
+		<canvas id="trendcan" width="1045" height="665" style="border:1px solid #000000;"></canvas>
+		<div id="song_list"></div>
 		<script>
 			canv = document.getElementById("trendcan");
 			canvas = canv.getContext('2d');
@@ -47,7 +52,6 @@
 			obj = null;
 			function loaded(a){
 				obj = a;
-				canvas.drawImage(a,0,0);
 				baseloaded = true;
 				fillall();
 			}
@@ -58,10 +62,17 @@
 			}
 			function changeurl(){
 				var imgt = "";
-				for (var i = 0; i < 10; i++){
-					imgt += image10[i] + (i == 9?"":"_");
+				for (var i = 0; i < width * height; i++){
+					imgt += image10[i] + ((i == width * height - 1)?"":"_");
 				}
-				window.history.replaceState("", "Trend Song", "trendimg.html?date=" + date[0] + "_" + date[1] + "&img=" + imgt);
+				var extra = "";
+				if (width != 5){
+					extra += "&width=" + width
+				}
+				if (height != 2){
+					extra += "&height=" + height
+				}
+				window.history.replaceState("", "Trend Song", "trendimg.html?date=" + date[0] + "_" + date[1] + "&img=" + imgt + extra);
 				document.getElementById("url").value = location.href;
 			}
 			function adddate(s,i){
@@ -79,8 +90,35 @@
 				}
 				return [dates[1], temp];
 			}
+			function nextimage(){
+				imgid++;
+				if (imgid < width * height){
+					img.src = "jacket/jacket_" + image10[imgid] + "_m.png";
+				}
+			}
 			function fillall() {
 				if (baseloaded && itemloaded && fontloaded){
+					canv.setAttribute("width", 65 + 196*width);
+					canv.setAttribute("height", 273 + 196*height);
+					document.getElementById("extrastyle").innerHTML = "#song_list { height: calc(100% - 1vw - " + (273 + 196*height) + "px); }";
+					//canvas.drawImage(obj,0,0);
+					//top
+					canvas.drawImage(obj,0,0,353,80,0,0,353,80); //left corner
+					for (var i = 353; i < 20 + 196*width; i+=647){
+						canvas.drawImage(obj,353,0,662,80,i,0,662,80); //center
+					}
+					canvas.drawImage(obj,1015,0,30,80,35 + 196*width,0,30,80); //right corner
+					//extendable center
+					canvas.drawImage(obj,0,80,270,460,0,80,270,193 + 196*height); //left
+					canvas.drawImage(obj,740,80,305,460,196*width - 240,80,305,193 + 196*height); //right
+					canvas.drawImage(obj,270,80,470,400,270,80,196*width - 510,193 + 196*height); //center
+					//red text
+					canvas.drawImage(obj,275,280,465,250,98*width-215,196*height-112,465,250); //center
+					//bottom
+					canvas.drawImage(obj,220,530,200,135,0,138 + 196*height,65 + 196*width,135); //center
+					canvas.drawImage(obj,0,540,100,125,0,148 + 196*height,100,125); //left corner
+					canvas.drawImage(obj,960,540,85,125,196*width-20,148 + 196*height,85,125); //right corner
+					canvas.drawImage(obj,430,540,190,125,98*width-60,148 + 196*height,190,125); //button
 					fontc++;
 					canvas.font = '28.2px cgss';
 					canvas.fillStyle = "white";
@@ -89,27 +127,21 @@
 					img = new Image;
 					imgid = 0;
 					img.onload = function(){
-						canvas.drawImage(img,40+196*(imgid%5),90+196*(~~(imgid/5)),180,180);
-						imgid++;
-						if (imgid < 10){
-							img.src = "jacket/jacket_" + image10[imgid] + "_m.png";
-						}
+						canvas.drawImage(img,40+196*(imgid%width),90+196*(~~(imgid/width)),180,180);
+						nextimage();
 					};
 					img.onerror = function(){
 						canvas.fillStyle = "gray";
-						canvas.fillRect(40+196*(imgid%5),90+196*(~~(imgid/5)),180,180);
-						imgid++;
-						if (imgid < 10){
-							img.src = "jacket/jacket_" + image10[imgid] + "_m.png";
-						}
+						canvas.fillRect(40+196*(imgid%width),90+196*(~~(imgid/width)),180,180);
+						nextimage();
 					};
 					img.src = "jacket/jacket_" + image10[imgid] + "_m.png";
 				}
 			};
-			function refillall() {
-				canvas.drawImage(obj,0,0);
-				fillall();
-			};
+			function myprompt(text, defaultres){
+				var temp = prompt(text, defaultres);
+				return temp?temp:defaultres;
+			}
 			canv.addEventListener('click', function(event) {
 				if (baseloaded && itemloaded && fontloaded){
 					var elemLeft = canv.offsetLeft;
@@ -117,22 +149,22 @@
 					var x = event.pageX - elemLeft - 40;
 					var y = event.pageY - elemTop - 90;
 					if (x > 190 && x < 280 && y > -65 && y < -26) { // edit date
-						date[0] = prompt("Enter Month: ", date[0]);
-						date[1] = prompt("Enter Day: ", date[1]);
+						date[0] = myprompt("Enter Month: ", date[0]);
+						date[1] = myprompt("Enter Day: ", date[1]);
 						for (var i = 0; i < 2; i++){
 							while (date[i].length < 2){
 								date[i] = "0" + date[i];
 							}
 						};
-						refillall();
+						fillall();
 						changeurl();
 					} else if (x%196 < 180 && y%196<180){ //edit image
 						var px = ~~(x/196 + 1) -1;
 						var py = ~~(y/196 + 1) -1;
 						//console.log(px + "_" + py)
-						if (px >= 0 && px <= 4 && py >= 0 && py <= 1){
-							image10[py*5 + px] = prompt("Enter Jacket ID: ", image10[py*5 + px]);
-							refillall();
+						if (px >= 0 && px <= width - 1 && py >= 0 && py <= height - 1){
+							image10[py*width + px] = myprompt("Enter Jacket ID: ", image10[py*width + px]);
+							fillall();
 							changeurl();
 						}
 					}			
@@ -140,17 +172,25 @@
 			}, false);
 		</script>
 		<img src="song.png" onload="loaded(this)"  width="1045" height="665" hidden>
-		<div id="song_list"></div>
 		<div id="links">Copyable URL: <input id="url" type="text" value=""><button onclick="document.getElementById('url').select();document.execCommand('copy');alert('Copied to clipboard');">Copy</button></div>
 		<script>
 			imgid = 0;
+			width = 5;
+			height = 2;
 			queryString = window.location.search.slice(1).split('&');
 			items = [];
 			for (var i = 0; i < queryString.length; i++) {
 				parts = queryString[i].split('=');
 				items[parts[0]] = parts[1];
 			}
-			if (items["day"] == undefined){
+			if (items["day"] == undefined){ //customize
+				if (items["width"] != undefined){
+					width = +items["width"];
+					width = width<2?2:width;
+				}
+				if (items["height"] != undefined){
+					height = +items["height"];
+				}
 				if (items["date"] != undefined){
 					date = items["date"].split('_');
 					for (var i = 0; i < 2; i++){
@@ -158,10 +198,16 @@
 							date[i] = "0" + date[i];
 						}
 					};
-					image10 = items["img"].split('_');
 				} else {
 					date = [0,0];
-					image10 = [1001,1001,1001,1001,1001,1001,1001,1001,1001,1001];
+				}
+				if (items["img"] != undefined){
+					image10 = items["img"].split('_');
+				} else {
+					image10 = [];
+					for (var i = 0; i < width * height; i++){
+						image10[i] = 1001;
+					}
 				}
 			} else {
 				parts = items["day"].split('_');

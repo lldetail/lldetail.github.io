@@ -3,5 +3,5 @@
   src: url(font/tnt.ttf);
 }
 html {
-	font-family: taiko;
+	font-family: taiko !important;
 }
