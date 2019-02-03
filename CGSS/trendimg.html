@@ -43,12 +43,13 @@
 	<body style="margin: 0px; padding: 1vw">	
 		<canvas id="trendcan" width="1045" height="665" style="border:1px solid #000000;"></canvas>
 		<div id="song_list"></div>
-		<script>
+		<script>			
+			var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 			canv = document.getElementById("trendcan");
 			canvas = canv.getContext('2d');
 			baseloaded = false;
 			itemloaded = false;
-			fontloaded = false;
+			fontloaded = false || iOS;
 			obj = null;
 			function loaded(a){
 				obj = a;
