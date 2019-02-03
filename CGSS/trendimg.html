@@ -26,6 +26,13 @@
 			.e4 {
 				color: #666666;
 			}
+			#links {
+				background-color: #EEEEEE;
+				opacity: 0.8;
+				position: fixed;
+				right: 0px;
+				top: 0px;
+			}
 		</style>
 	</head>
 	<body style="margin: 0px; padding: 1vw">
@@ -55,6 +62,7 @@
 					imgt += image10[i] + (i == 9?"":"_");
 				}
 				window.history.replaceState("", "Trend Song", "trendimg.html?date=" + date[0] + "_" + date[1] + "&img=" + imgt);
+				document.getElementById("url").value = location.href;
 			}
 			function adddate(s,i){
 				dates = s.split("-");
@@ -133,6 +141,7 @@
 		</script>
 		<img src="song.png" onload="loaded(this)"  width="1045" height="665" hidden>
 		<div id="song_list"></div>
+		<div id="links">Copyable URL: <input id="url" type="text" value=""><button onclick="document.getElementById('url').select();document.execCommand('copy');alert('Copied to clipboard');">Copy</button></div>
 		<script>
 			imgid = 0;
 			queryString = window.location.search.slice(1).split('&');
@@ -150,6 +159,9 @@
 						}
 					};
 					image10 = items["img"].split('_');
+				} else {
+					date = [0,0];
+					image10 = [1001,1001,1001,1001,1001,1001,1001,1001,1001,1001];
 				}
 			} else {
 				parts = items["day"].split('_');
@@ -164,6 +176,7 @@
 				temp += jitem + ": " + "<span class='e" + jacket[jitem]["type"] + "'>" + jacket[jitem]["name"].replace(/\n/,"") + "</span><br>"
 			}
 			document.getElementById("song_list").innerHTML = temp;
+			document.getElementById("url").value = location.href;
 		</script>
 	</body>
 </html>
