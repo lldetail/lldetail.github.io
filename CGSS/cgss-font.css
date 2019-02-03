@@ -8,5 +8,5 @@
   font-weight: bold;
 }
 html {
-	font-family: cgss;
+	font-family: cgss !important;
 }
