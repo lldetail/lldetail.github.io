@@ -1,0 +1,12 @@
+@font-face {
+  font-family: cgss;
+  src: url(font/FOT-RodinNTLGPro-DB.otf);
+}
+@font-face {
+  font-family: cgss;
+  src: url(font/FOT-RodinNTLGPro-EB.otf);
+  font-weight: bold;
+}
+html {
+	font-family: cgss;
+}

@@ -1,0 +1,168 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<script src='trend_song.js'></script>
+		<link rel="stylesheet" type="text/css" href="cgss-font.css">
+		<title>Trend Song</title>
+		<style>
+			#song_list {
+				overflow-y: scroll;
+				width: 1045px;
+				height: calc(100% - 680px);
+				min-height: 250px;
+				border: 1px solid black;
+			}
+			.e1 {
+				color: #FF006D;
+			}
+			.e2 {
+				color: #0066FF;
+			}
+			.e3 {
+				color: #FFAE00;
+			}
+			.e4 {
+				color: #666666;
+			}
+		</style>
+	</head>
+	<body style="margin: 0px; padding: 1vw">
+		<canvas id="trendcan" width="1045" height="665" style="border:1px solid #000000;">
+		</canvas>
+		<script>
+			canv = document.getElementById("trendcan");
+			canvas = canv.getContext('2d');
+			baseloaded = false;
+			itemloaded = false;
+			fontloaded = false;
+			obj = null;
+			function loaded(a){
+				obj = a;
+				canvas.drawImage(a,0,0);
+				baseloaded = true;
+				fillall();
+			}
+			fontc = 0;
+			document.fonts.onloadingdone = function(){
+				fontloaded = true;
+				fillall();
+			}
+			function changeurl(){
+				var imgt = "";
+				for (var i = 0; i < 10; i++){
+					imgt += image10[i] + (i == 9?"":"_");
+				}
+				window.history.replaceState("", "Trend Song", "trendimg.html?date=" + date[0] + "_" + date[1] + "&img=" + imgt);
+			}
+			function adddate(s,i){
+				dates = s.split("-");
+				temp = +dates[2] + (+i);
+				if (temp > (dates[1]<8?31:30)){
+					temp -= (dates[1]<8?31:30);
+					dates[1] = +dates[1] + 1;
+					if (dates[1] < 10){
+						dates[1] = "0" + dates[1];
+					}
+				}
+				if (temp < 10){
+					temp = "0" + temp;
+				}
+				return [dates[1], temp];
+			}
+			function fillall() {
+				if (baseloaded && itemloaded && fontloaded){
+					fontc++;
+					canvas.font = '28.2px cgss';
+					canvas.fillStyle = "white";
+					canvas.fillText(date[0], 231, 64);
+					canvas.fillText(date[1], 283, 64);
+					img = new Image;
+					imgid = 0;
+					img.onload = function(){
+						canvas.drawImage(img,40+196*(imgid%5),90+196*(~~(imgid/5)),180,180);
+						imgid++;
+						if (imgid < 10){
+							img.src = "jacket/jacket_" + image10[imgid] + "_m.png";
+						}
+					};
+					img.onerror = function(){
+						canvas.fillStyle = "gray";
+						canvas.fillRect(40+196*(imgid%5),90+196*(~~(imgid/5)),180,180);
+						imgid++;
+						if (imgid < 10){
+							img.src = "jacket/jacket_" + image10[imgid] + "_m.png";
+						}
+					};
+					img.src = "jacket/jacket_" + image10[imgid] + "_m.png";
+				}
+			};
+			function refillall() {
+				canvas.drawImage(obj,0,0);
+				fillall();
+			};
+			canv.addEventListener('click', function(event) {
+				if (baseloaded && itemloaded && fontloaded){
+					var elemLeft = canv.offsetLeft;
+					var elemTop = canv.offsetTop;
+					var x = event.pageX - elemLeft - 40;
+					var y = event.pageY - elemTop - 90;
+					if (x > 190 && x < 280 && y > -65 && y < -26) { // edit date
+						date[0] = prompt("Enter Month: ", date[0]);
+						date[1] = prompt("Enter Day: ", date[1]);
+						for (var i = 0; i < 2; i++){
+							while (date[i].length < 2){
+								date[i] = "0" + date[i];
+							}
+						};
+						refillall();
+						changeurl();
+					} else if (x%196 < 180 && y%196<180){ //edit image
+						var px = ~~(x/196 + 1) -1;
+						var py = ~~(y/196 + 1) -1;
+						//console.log(px + "_" + py)
+						if (px >= 0 && px <= 4 && py >= 0 && py <= 1){
+							image10[py*5 + px] = prompt("Enter Jacket ID: ", image10[py*5 + px]);
+							refillall();
+							changeurl();
+						}
+					}			
+				}
+			}, false);
+		</script>
+		<img src="song.png" onload="loaded(this)"  width="1045" height="665" hidden>
+		<div id="song_list"></div>
+		<script>
+			imgid = 0;
+			queryString = window.location.search.slice(1).split('&');
+			items = [];
+			for (var i = 0; i < queryString.length; i++) {
+				parts = queryString[i].split('=');
+				items[parts[0]] = parts[1];
+			}
+			if (items["day"] == undefined){
+				if (items["date"] != undefined){
+					date = items["date"].split('_');
+					for (var i = 0; i < 2; i++){
+						while (date[i].length < 2){
+							date[i] = "0" + date[i];
+						}
+					};
+					image10 = items["img"].split('_');
+				}
+			} else {
+				parts = items["day"].split('_');
+				date = adddate(pop_song[parts[0]].startdate, parts[1]);
+				image10 = pop_song[parts[0]].days[parts[1]].songs;
+			}
+			itemloaded = true;
+			fillall();
+			var temp = "Jacket ID reference: <br>";
+			for (jitem in jacket){
+				temp += jitem + ": " + "<span class='e" + jacket[jitem]["type"] + "'>" + jacket[jitem]["name"].replace(/\n/,"") + "</span><br>"
+			}
+			document.getElementById("song_list").innerHTML = temp;
+		</script>
+	</body>
+</html>
