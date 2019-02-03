@@ -171,6 +171,18 @@
 					}			
 				}
 			}, false);
+			function copy() {
+				if (!iOS){
+					document.getElementById('url').select();
+					document.execCommand('copy');
+				} else {
+					document.getElementById('url').focus();
+					document.getElementById('url').setSelectionRange(0, document.getElementById('url').value.length);
+					document.execCommand('copy');
+					document.getElementById('url').setSelectionRange(0, 0);
+				};
+				alert('Copied to clipboard');
+			}
 			function download() {
 				document.getElementById("download").setAttribute("href", canv.toDataURL("image/png").replace("image/png", "image/octet-stream"));
 			}
@@ -179,8 +191,8 @@
 		<div id="links">
 			Copyable URL:
 			<input id="url" type="text" value="">
-			<button id="copybtn" onclick="document.getElementById('url').select();document.execCommand('copy');alert('Copied to clipboard');">Copy</button>
-			<a id="download">
+			<button id="copybtn" onclick="copy()">Copy</button>
+			<a id="download" download="trend_song.png">
 				<button type="button" onClick="download()">Download</button>
 			</a>
 		</div>
