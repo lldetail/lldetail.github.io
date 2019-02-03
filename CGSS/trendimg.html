@@ -171,9 +171,19 @@
 					}			
 				}
 			}, false);
+			function download() {
+				document.getElementById("download").setAttribute("href", canv.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+			}
 		</script>
 		<img src="song.png" onload="loaded(this)"  width="1045" height="665" hidden>
-		<div id="links">Copyable URL: <input id="url" type="text" value=""><button onclick="document.getElementById('url').select();document.execCommand('copy');alert('Copied to clipboard');">Copy</button></div>
+		<div id="links">
+			Copyable URL:
+			<input id="url" type="text" value="">
+			<button id="copybtn" onclick="document.getElementById('url').select();document.execCommand('copy');alert('Copied to clipboard');">Copy</button>
+			<a id="download">
+				<button type="button" onClick="download()">Download</button>
+			</a>
+		</div>
 		<script>
 			imgid = 0;
 			width = 5;
@@ -224,6 +234,9 @@
 			}
 			document.getElementById("song_list").innerHTML = temp;
 			document.getElementById("url").value = location.href;
+			if (iOS){
+				document.getElementById("copybtn").hidden = true;
+			}
 		</script>
 	</body>
 </html>
