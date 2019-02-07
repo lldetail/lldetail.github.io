@@ -47,6 +47,20 @@
 		</style>
 	</head>
 	<body style="margin: 0px; padding: 1vw">
+		<div id="fb-root"></div>
+		<script>
+			//facebook comment Javascript SDK
+			(function(d, s, id) {
+			  var js, fjs = d.getElementsByTagName(s)[0];
+			  if (d.getElementById(id)) {
+				return;
+			  }
+			  js = d.createElement(s);
+			  js.id = id;
+			  js.src = 'https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v3.2&appId=481191775554271&autoLogAppEvents=1';
+			  fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
 		<script>
 			function id(d){
 				return document.getElementById(d);
@@ -59,13 +73,17 @@
 		Trend Songs: (Notice that there may be some hidden messages especially if the sequence is not ordered by elements (All→Cute→Cool→Passion))<br>
 		<table id="pop_list">			
 		</table>
+		
+		If there are any errors or extra information about the trend songs, please comment here (including the date (with year or event id) and explanation)<br>
+		トレンドソングについてエラーや追加情報があれば、ここにコメントしてください（日付と説明を含む）<br>
+		<div class="fb-comments" data-href="https://lldetail.github.io/CGSS/pop.html" data-numposts="5"></div>
 		<script>
 			eventlist = id("events");
 			while (eventlist.options.length > 1) {
 				eventlist.remove(1);
 			}
 			for (i = 0; i < pop_song.length; i++) {
-			  var ev = new Option("LIVE PARADE " + (i+1) + " (" + pop_song[i].startdate + " ~ " + pop_song[i].enddate + ")", i);
+			  var ev = new Option("LIVE PARADE " + pop_song[i].label + " (" + pop_song[i].startdate + " ~ " + pop_song[i].enddate + ")", i);
 			  eventlist.options.add(ev);
 			}
 			function adddate(s,i){
