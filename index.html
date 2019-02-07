@@ -1,6 +1,17 @@
 <html>
 	<head>      
 		<title>Main Page</title>    
+		<style>
+			#others {
+				position: fixed;
+				right: 0px;
+				bottom: 0px;
+				z-index: -1;
+			}
+			#others a{
+				color: #DDDDDD;
+			}
+		</style>
 	</head>      
 	<body>        
 		Select Game: <br>
@@ -9,7 +20,9 @@
 		GF (ガルフレ): <a href="Girlfriend/">Here</a><br><hr>
 		Taiko (太鼓の達人): <a href="Taiko/">Here</a><br><hr>
 		
-		
-		<a href="privacy.html">Privacy Policy</a><br>
+		<span id="others">
+			<a href="privacy.html">Privacy Policy</a>
+			<a href="terms.html">Terms and Conditions</a><br>
+		<span>
 	</body>    
 </html>
