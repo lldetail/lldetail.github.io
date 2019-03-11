@@ -1,0 +1,281 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link rel="stylesheet" type="text/css" href="../CGSS/cgss-font.css">
+		<style>
+			* {
+			  -webkit-box-sizing: border-box;
+				 -moz-box-sizing: border-box;
+					  box-sizing: border-box;
+			}
+			table {
+				border-spacing: 0px;
+				border: 2px solid black;
+			}
+			td, th {
+				border: 1px solid black;
+				width: 150px;
+				text-align: center;
+			}
+			button {
+				position: absolute;
+				right: 15px;
+			}
+			
+			.hidden {
+				display: none;
+			}
+			
+			.shown {
+				display: default;
+			}
+			
+			h3 {
+				margin-block-end: 0px;
+			}
+			
+			h3:nth-of-type(2n), div:nth-of-type(2n){
+				background-color: lavender;
+			}
+			
+			h3:nth-of-type(2n+1), div:nth-of-type(2n+1){
+				background-color: lightpink;
+			}
+		</style>
+	</head>
+	<body style="margin: 0px; padding: 15px">
+		<script>
+			function toggle(ele, id){
+				target = document.getElementById("table" + id);
+				target.setAttribute("class",(target.getAttribute("class") == "hidden"?"shown":"hidden"));
+				ele.innerHTML = target.getAttribute("class") == "hidden"?"Expand":"Collapse";
+			}
+		</script>
+		<h3>LLSIF: (According to <a href="https://card.niconi.co.ni/live">Card Explorer</a>):<button onclick="toggle(this, 1)">Expand</button></h3>		
+		<div id="table1" class="hidden">
+			<h4>Base Values: (Relative Width)</h4>
+			<ul>
+				<li>Perfect = 16</li>
+				<li>Great = 40</li>
+				<li>Good = 64</li>
+				<li>Bad = 112</li>
+				<li>Miss = 128</li>
+			</ul>
+			<h4>Speed Table (Approaching Time):</h4>
+			<ul>
+				<li>1 = 1.8</li>
+				<li>2 = 1.6</li>
+				<li>3 = 1.45</li>
+				<li>4 = 1.3</li>
+				<li>5 = 1.15</li>
+				<li>6 = 1</li>
+				<li>7 = 0.9</li>
+				<li>8 = 0.8</li>
+				<li>9 = 0.7</li>
+				<li>10 = 0.6</li>
+			</ul>
+			Formula: 1.9 - 0.15 * Speed + Max(0, 0.05 * (2 - Speed)) + Max(0, 0.05 * (Speed - 6))<br>
+			<h4>Default Speed:</h4>
+			<ul>
+				<li>Easy = 2 = 1.6</li>
+				<li>Normal = 4 = 1.3</li>
+				<li>Hard = 6 = 1</li>
+				<li>Expert = 8 = 0.8</li>
+				<li>Swing Expert = 8 = 0.8</li>
+				<li>Master = 9 = 0.7</li>
+				<li>Challenge = 9 = 0.7</li>
+			</ul>
+			<h4>Judgement Range (in second) = Base Values * Max(0.8, Speed) / 400</h4>
+			<h4>Judgement Table (in ms):</h4>
+			<table>
+				<tr>
+					<th>Speed</th>
+					<th>Perfect</th>
+					<th>Great</th>
+					<th>Good</th>
+					<th>Bad</th>
+					<th>Miss</th>
+				</tr>
+					<th>1</th>
+					<td>72</td>
+					<td>180</td>
+					<td>288</td>
+					<td>504</td>
+					<td>576</td>
+				<tr>
+					<th>2</th>
+					<td>64</td>
+					<td>160</td>
+					<td>256</td>
+					<td>448</td>
+					<td>512</td>
+				</tr>
+				<tr>
+					<th>3</th>
+					<td>58</td>
+					<td>145</td>
+					<td>232</td>
+					<td>406</td>
+					<td>464</td>
+				</tr>
+				<tr>
+					<th>4</th>
+					<td>52</td>
+					<td>130</td>
+					<td>208</td>
+					<td>364</td>
+					<td>416</td>
+				</tr>
+				<tr>
+					<th>5</th>
+					<td>46</td>
+					<td>115</td>
+					<td>184</td>
+					<td>322</td>
+					<td>368</td>
+				</tr>
+				<tr>
+					<th>6</th>
+					<td>40</td>
+					<td>100</td>
+					<td>160</td>
+					<td>280</td>
+					<td>320</td>
+				</tr>
+				<tr>
+					<th>7</th>
+					<td>36</td>
+					<td>90</td>
+					<td>144</td>
+					<td>252</td>
+					<td>288</td>
+				</tr>
+				<tr>
+					<th>8</th>
+					<td>32</td>
+					<td>80</td>
+					<td>128</td>
+					<td>224</td>
+					<td>256</td>
+				</tr>
+				<tr>
+					<th>9</th>
+					<td>32</td>
+					<td>80</td>
+					<td>128</td>
+					<td>224</td>
+					<td>256</td>
+				</tr>
+				<tr>
+					<th>10</th>
+					<td>32</td>
+					<td>80</td>
+					<td>128</td>
+					<td>224</td>
+					<td>256</td>
+				</tr>
+			</table>
+		</div>
+		<h3>Taiko Web (non-official): (According to <a href="https://github.com/bui/taiko-web/blob/master/public/src/js/gamerules.js">Source Code</a>):<button onclick="toggle(this, 2)">Expand</button></h3>		
+		<div id="table2" class="hidden">
+			FPS = 60<br>
+			<h4>Base Values: (Relative Width)</h4>
+			<ul>
+				<li>
+					Easy (かんたん), Normal (ふつう):
+					<ul>
+						<li>Good (良) = 2.5</li>
+						<li>OK (可) = 6.5</li>
+						<li>Bad (不可) = 7.5</li>
+					</ul>
+				</li>
+				<li>
+					Hard (むずかしい), Oni (おに), Ura ((裏)おに):
+					<ul>
+						<li>Good (良) = 1.5</li>
+						<li>OK (可) = 4.5</li>
+						<li>Bad (不可) = 6.5</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h4>Judgement Range (in second) = Base Values / FPS</h4>
+			<h4>Judgement Table (in ms):</h4>
+			<table>
+				<tr>
+					<th>Difficulty</th>
+					<th>Good (良)</th>
+					<th>OK (可)</th>
+					<th>Bad (不可)</th>
+				</tr>
+					<th>Easy (かんたん)</th>
+					<td>41.67</td>
+					<td>108.33</td>
+					<td>125</td>
+				<tr>
+					<th>Normal (ふつう)</th>
+					<td>41.67</td>
+					<td>108.33</td>
+					<td>125</td>
+				</tr>
+				<tr>
+					<th>Hard (むずかしい)</th>
+					<td>25</td>
+					<td>75</td>
+					<td>108.33</td>
+				</tr>
+				<tr>
+					<th>Oni (おに)</th>
+					<td>25</td>
+					<td>75</td>
+					<td>108.33</td>
+				</tr>
+				<tr>
+					<th>Ura ((裏)おに)</th>
+					<td>25</td>
+					<td>75</td>
+					<td>108.33</td>
+				</tr>
+			</table>
+			<h4>Judgement Table (in frames, 60 FPS):</h4>
+			<table>
+				<tr>
+					<th>Difficulty</th>
+					<th>Good (良)</th>
+					<th>OK (可)</th>
+					<th>Bad (不可)</th>
+				</tr>
+					<th>Easy (かんたん)</th>
+					<td>2.5</td>
+					<td>6.5</td>
+					<td>7.5</td>
+				<tr>
+					<th>Normal (ふつう)</th>
+					<td>2.5</td>
+					<td>6.5</td>
+					<td>7.5</td>
+				</tr>
+				<tr>
+					<th>Hard (むずかしい)</th>
+					<td>1.5</td>
+					<td>4.5</td>
+					<td>6.5</td>
+				</tr>
+				<tr>
+					<th>Oni (おに)</th>
+					<td>1.5</td>
+					<td>4.5</td>
+					<td>6.5</td>
+				</tr>
+				<tr>
+					<th>Ura ((裏)おに)</th>
+					<td>1.5</td>
+					<td>4.5</td>
+					<td>6.5</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

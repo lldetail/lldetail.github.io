@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>Taiko Detail</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/mainpage.css">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link id="favicon" rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<script src='/color.js'></script>
+		<script src='/mainpage.js'></script>
+	</head>
+	<body>
+		<div id="top_bar">
+			<button id="btn" onclick="toggle();">
+				<span class="stretch">≡</span>
+			</button>
+			&nbsp;&nbsp;<a href="main.html" target="main">General</a>
+		</div>
+		<div id="left_bar">
+			<a href="../judge.html" target="main" onclick="toggle(true);">Judgement</a>
+			<hr>
+			<a href="../index.html" onclick="toggle(true);">Back to main page</a>
+			<hr>
+		</div>
+		<div id="main_area">
+			<iframe id="main" name="main" src="main.html" frameBorder="0"></iframe>
+		</div>
+	</body>
+</html>
