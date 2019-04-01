@@ -17,6 +17,9 @@
 				color: red;
 				font-weight: bold;
 			}
+			.new_question {
+				color: purple;
+			}
 		</style>
 	</head>
 	<body style="margin: 0px; padding: 15px">
@@ -24,7 +27,8 @@
 		<h2>ラブライブ！サンシャイン!! 2019年度 浦の星女学院入学模擬試験</h2>
 		<a href="https://urajyo-mogishiken2019.jp/">（こっちです）</a>
 		<h3>おすすめの使い方：</h3>
-		問題を見るとコピーしてこのタブにCtrl+F+A+V(+ENTER)する。
+		問題を見るとコピーしてこのタブにCtrl+F+A+V(+ENTER)する。<br>
+		<span class='new_question'>紫のテキスト</span>：新しい問題（<s>サイトはバグがあるから（？）</s>前にはない）<br>
 		<div id="bank">
 		</div>
 		<script>
@@ -32,8 +36,8 @@
 			num_q = [0,45,41,27,7];
 			for (i = 1; i <= 4; i++){
 				bank.innerHTML += "<h3>難易度：" + i + "</h3><br>";
-				for (j = (i==3?16:1); j <= num_q[i]; j++){
-					qtext = "<div id='" + i + "_" + j + "'><img src='Fool/img/lv" + i + "_" + (j<10?"00"+j:"0"+j) + ".jpg'><br><br>";
+				for (j = 1; j <= num_q[i]; j++){
+					qtext = "<div id='" + i + "_" + j + "'" + ((i==3&&j<16)?" class='new_question'":"") + "><img src='Fool/img/lv" + i + "_" + (j<10?"00"+j:"0"+j) + ".jpg'><br><br>";
 					qtext += "(Lv. " + i + ", Q. " + j + ")<br>";
 					qtext += "<b>" + qbank["content"][i][j]["question"] + "</b><br><br>";
 					for (k = 0; k < qbank["content"][i][j]["option"].length; k++){
