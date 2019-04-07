@@ -326,7 +326,7 @@ pop_song = [
 		"event":2023,
 		"days":[
 			{"songs":[2023, 5032, 5033, 5034, 5003, 1008, 3007, 3028, 3006, 2006], "comment":"シンデレラガールズ劇場　(4/2 CLIMAX SEASON放送)：キラッ ! 満開スマイル、エチュードは1曲だけ 、SUN♡FLOWER、ススメ☆オトメ ～jewel parade～ – しんげきRemix –、モーレツ★世直しギルティ !"},
-			{"songs":[1030, 1023, 3048, 9019, 5025, 5001, 1046, 1044, 1052, 3052], "comment":"天海春香（ミリオンライブ）の誕生日、Treasure☆（THE IDOLM@STER SideM WORLD TRE@SURE・歌詞：遥か（はるか＝春香）風に乗り）、SideM (咲（「サ」）いてJewel、祈（「イ」の）りの花、「ド」レミファクトリー !、「M」@GIC☆)、Idolm@ster(祈（「i」no）りの花、ドレ「dol」eミファクトリー !、「ma」GIC☆、「ster」Star!!)、天海春香（Star!!＝星＝天海（？）、「HARU」RUNRUN、「Spring」 Screaming：春；「未」完成の歴史、「谷」の底で咲く花は：香（？））"},
+			{"songs":[1030, 1023, 3048, 9019, 5025, 5001, 1046, 1044, 1052, 3052], "comment":"天海春香（ミリオンライブ）の誕生日、Treasure☆（THE IDOLM@STER SideM WORLD TRE@SURE・歌詞：遥か（はるか＝春香）風に乗り）、SideM (咲（「サ」）いてJewel、祈（「イ」の）りの花、「ド」レミファクトリー !、「M」@GIC☆)、Idolm@ster(祈（「i」no）りの花、ドレ「dol」eミファクトリー !、「ma」GIC☆、「ster」Star!!)、天海春香（Star!!＝星＝天海（？）、「HARU」RUNRUN、「Spring」 Screaming、未完成の歴史：春（THE IDOLM@STER CINDERELLA GIRLS MASTER SEASONS SPRING!）；、谷の底で咲く花は：香（？））"},
 			{"songs":[2022, 9006, 5028, 5024, 3013, 2007, 5020, 3034, 3041, 3032], "comment":""},
 			{"songs":[2005, 5011, 9903, 2014, 3049, 5021, 3036, 5031, 3020, 2021], "comment":"大変更（先はWORLDについて）"},
 			{"songs":[2023, 1035, 1050, 2004, 1029, 3046, 3004, 3015, 3023, 3008], "comment":"喜多日菜子の誕生日（曲（Trust me）、SS3A LiveSoundBooth♪（EVERMORE）、6thLIVE（秋風に手を振って、情熱ファンファンファーレ））、と結成したユニットのソロ（【TIP! TAP!／TRIP! FLAP!】乙倉悠貴：追い風Running、【ボタニカル・フェアリー】緒方智絵里：風色メロディ・城ヶ崎美嘉：TOKIMEKIエスカレート、【ドリームアウェイ】佐久間まゆ：エヴリデイドリーム）、未明：アナスタシア：You're stars shine on me（モバマスガチャ（フローティングファンタジー：SR喜多日菜子 + Rアナスタシア））"},
