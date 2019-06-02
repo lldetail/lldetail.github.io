@@ -1,0 +1,7 @@
+@font-face {
+  font-family: shiny;
+  src: url(font/SBTP_Humming-E.ttf);
+}
+html {
+	font-family: shiny !important;
+}
