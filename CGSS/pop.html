@@ -45,6 +45,7 @@
 				color: #666666;
 			}
 		</style>
+		<title>デレステ流行曲</title>
 	</head>
 	<body style="margin: 0px; padding: 1vw">
 		<div id="fb-root"></div>
@@ -101,14 +102,15 @@
 				}
 				return dates[0] + "-" + dates[1] + "-" + temp;
 			}
-			function load(i){
+			function load(i,s){
+				window.history.replaceState("", "デレステ流行曲", "pop.html?" + (s == undefined?("id=" + i):("src=" + pop_song[i].source)));
 				if (i == -1){
 					i = pop_song.length - 1;
 				}
 				id("sel").innerHTML = id("events").options[id("events").selectedIndex].text;
 				var tr = "<tr>";
-					tr += "<td>";
-					tr += "</td>";
+				tr += "<td>";
+				tr += "</td>";
 				for (j = 1; j <= 10; j++){
 					tr += "<td>";
 					tr += j;
@@ -116,36 +118,71 @@
 				}
 				tr += "</tr>";
 				for (k = 0; k < pop_song[i].days.length; k++){
-				tr += "<tr>";
-					tr += "<th rowspan='" + (pop_song[i].days[k].comment==''?2:3) + "'>";
+					tr += "<tr>";
+					tr += "<th rowspan='" + (pop_song[i].days[k].comment==''?2:(({}.toString.call(pop_song[i].days[k].comment))=="[object String]"?3:2+pop_song[i].days[k].comment.length)) + "'>";
 					tr += "<a href='trendimg.html?day=" + i + "_" + k + "'>" + adddate(pop_song[i].startdate, k) + "</a>";
 					tr += "</th>";
-				for (j = 0; j < 10; j++){
-					tr += "<td>";
-					tr += "<img src='jacket/jacket_" + pop_song[i].days[k].songs[j] + "_m.png'>";
-					tr += "</td>";
-				}
-				tr += "</tr>";
-				tr += "<tr>";
-				for (j = 0; j < 10; j++){
-					tr += "<td" + (pop_song[i].days[k].songs[j] == pop_song[i].event ?' class="event"':'') + ">";
-					var jitem = jacket[pop_song[i].days[k].songs[j]];
-					tr += "<span class='e" + jitem["type"] + "'>" + jitem["name"].replace(/\n/,"<br>") + "</span>";
-					tr += "</td>";
-				}
-				if (pop_song[i].days[k].comment != ""){
-				tr += "</tr>";
-				tr += "<tr>";
-					tr += "<td colspan='10' class='des'>";
-					var c = pop_song[i].days[k].comment;
-					tr += c;
-					tr += "</td>";
-				tr += "</tr>";
-				}
+					for (j = 0; j < 10; j++){
+						tr += "<td>";
+						tr += "<img src='jacket/jacket_" + pop_song[i].days[k].songs[j] + "_m.png'>";
+						tr += "</td>";
+					}
+					tr += "</tr>";
+					tr += "<tr>";
+					for (j = 0; j < 10; j++){
+						tr += "<td" + (pop_song[i].days[k].songs[j] == pop_song[i].event ?' class="event"':'') + ">";
+						var jitem = jacket[pop_song[i].days[k].songs[j]];
+						tr += "<span class='e" + jitem["type"] + "'>" + jitem["name"].replace(/\n/,"<br>") + "</span>";
+						tr += "</td>";
+					}
+					if (pop_song[i].days[k].comment != ""){
+						if (({}.toString.call(pop_song[i].days[k].comment))=="[object String]"){
+							tr += "</tr>";
+							tr += "<tr>";
+							tr += "<td colspan='10' class='des'>";
+							var c = pop_song[i].days[k].comment;
+							tr += c;
+							tr += "</td>";
+						} else {
+							for (var m = 0; m < pop_song[i].days[k].comment.length; m++){
+								tr += "</tr>";
+								tr += "<tr>";
+								tr += "<td colspan='10' class='des'>";
+								var c = pop_song[i].days[k].comment[m];
+								tr += c;
+								tr += "</td>";
+							}
+						}
+					}
+					tr += "</tr>";
 				}
 				id("pop_list").innerHTML = tr;
 			}
-			load(-1);
+			function loadsrc(ids){
+				for (var i = 0; i < pop_song.length; i++) {
+				  if (pop_song[i].source == ids){
+					id("events").value = i;
+					load(i,true);
+					return;
+				  }
+				}
+			}
+			
+			//split url query
+			queryString = window.location.search.slice(1).split('&');
+			items = [];
+			for (var i = 0; i < queryString.length; i++) {
+				parts = queryString[i].split('=');
+				items[parts[0]] = parts[1];
+			}
+			if (!!items["id"]){
+				id("events").value = items["id"];
+				load(items["id"]);
+			} else if (!!items["src"]){
+				loadsrc(items["src"]);
+			} else {
+				load(-1);
+			}
 		</script>
 	</body>
 </html>
