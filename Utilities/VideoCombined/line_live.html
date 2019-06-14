@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<title>Line Live</title>
+		<style>
+			body {
+				margin: 0;
+				background-color: #000000;
+			}
+			iframe {
+				transform-origin: 0 0;
+				position: fixed;
+				width: 500px;
+				height: 500px;
+				visibility: visible;
+			}
+		</style>
+	</head>
+	<body>
+		<iframe id="video" src="" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" referrerpolicy="no-referrer"></iframe>
+		<script>
+			var v = document.getElementById("video");
+			
+			
+			var queryString = window.location.search.slice(1).split('&');
+			items = [];
+			for (var i = 0; i < queryString.length; i++) {
+				parts = queryString[i].split('=');
+				items[parts[0]] = parts[1];
+			}
+			
+			v.setAttribute("src", "https://live.line.me/channels/" + items["url"] + "/embed");
+			
+			function resize() {
+				var h = document.body.offsetHeight;
+				var w = 16 * h / 9;
+				v.style.transform = "scale(" + (h/500) + ")"
+				v.style.left = (w - h) / 2;
+			};
+			setInterval(resize, 1);
+		</script>
+	</body>
+</html>

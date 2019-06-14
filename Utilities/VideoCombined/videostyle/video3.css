@@ -1,0 +1,99 @@
+/* 3 video */
+@media only screen and (min-aspect-ratio: 48/9) { /* too fat */
+	.video3 iframe {
+		width: calc(100vh * 16 / 9);
+		height: 100vh;
+	}
+	.video3 #video1 {
+		left: calc((100vw - 100vh * 48 / 9) / 4);
+	}
+	.video3 #video2 {
+		left: calc((100vw - 100vh * 16 / 9) / 2);
+	}
+	.video3 #video3 {
+		right: calc((100vw - 100vh * 48 / 9) / 4);
+	}
+}
+@media only screen and (max-aspect-ratio: 48/9) and (min-aspect-ratio: 8/3) { /* quite fat */
+	.video3 iframe {
+		width: calc(100vw / 3);
+		height: calc((100vw / 3) * 9 / 16);
+		top: calc(50vh - 50vw * 9 / 48);
+	}
+	.video3 #video1 {
+		left: 0%;
+	}
+	.video3 #video2 {
+		left: calc(100vw / 3);
+	}	
+	.video3 #video3 {
+		right: 0%;
+	}				
+}
+@media only screen and (max-aspect-ratio: 8/3) and (min-aspect-ratio: 32/18) { /* medium fat */
+	.video3 iframe {
+		height: 50vh;
+		width: calc(50vh * 16 / 9);
+	}
+	.video3 #video1 {
+		left: calc((100vw - 50vh * 32 / 9) / 3);
+		top: 0%;
+	}
+	.video3 #video2 {
+		right: calc((100vw - 50vh * 32 / 9) / 3);
+		top: 0%;
+	}	
+	.video3 #video3 {
+		left: calc((100vw - 50vh * 16 / 9) / 2);
+		bottom: 0%;
+	}						
+}
+@media only screen and (max-aspect-ratio: 32/18) and (min-aspect-ratio: 32/27) { /* medium tall */
+	.video3 iframe {
+		width: 50vw;
+		height: calc(50vw * 9 / 16);
+	}
+	.video3 #video1 {
+		left: 0%;
+		top: calc((100vh - 100vw * 18 / 32) / 3);
+	}
+	.video3 #video2 {
+		right: 0%;
+		top: calc((100vh - 100vw * 18 / 32) / 3);
+	}	
+	.video3 #video3 {
+		left: 25%;
+		bottom: calc((100vh - 100vw * 18 / 32) / 3);
+	}						
+}
+@media only screen and (max-aspect-ratio: 32/27) and (min-aspect-ratio: 16/27) { /* quite tall */
+	.video3 iframe {
+		height: calc(100vh / 3);
+		width: calc((100vh / 3) * 16 / 9);
+		left: calc(50vw - 50vh * 16 / 27);
+	}
+	.video3 #video1 {
+		top: 0%;
+	}
+	.video3 #video2 {
+		top: calc(100vh / 3);
+	}	
+	.video3 #video3 {
+		bottom: 0%;
+	}						
+}
+@media only screen and (max-aspect-ratio: 16/27) { /* too tall */
+	.video3 iframe {
+		width: 100vw;
+		height: calc(100vw * 9 / 16);
+	}
+	.video3 #video1 {
+		top: calc((100vh - 100vw * 27 / 16) / 4);
+	}
+	.video3 #video2 {
+		top: calc((100vh - 100vw * 9 / 16) / 2);
+	}
+	.video3 #video3 {
+		bottom: calc((100vh - 100vw * 27 / 16) / 4);
+	}
+}

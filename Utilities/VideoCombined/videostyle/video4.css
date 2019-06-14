@@ -1,0 +1,119 @@
+/* 4 video */
+@media only screen and (min-aspect-ratio: 64/9) { /* too fat */
+	.video4 iframe {
+		width: calc(100vh * 16 / 9);
+		height: 100vh;
+	}
+	.video4 #video1 {
+		left: calc((100vw - 100vh * 64 / 9) / 5);
+	}
+	.video4 #video2 {
+		left: calc((100vw * 2 - 100vh * 48 / 9) / 5);
+	}
+	.video4 #video3 {
+		right: calc((100vw * 2 - 100vh * 48 / 9) / 5);
+	}
+	.video4 #video4 {
+		right: calc((100vw - 100vh * 64 / 9) / 5);
+	}
+}
+@media only screen and (max-aspect-ratio: 64/9) and (min-aspect-ratio: 32/9) { /* quite fat */
+	.video4 iframe {
+		width: 25vw;
+		height: calc(25vw * 9 / 16);
+		top: calc(50vh - 50vw * 9 / 64);
+	}
+	.video4 #video1 {
+		left: 0%;
+	}
+	.video4 #video2 {
+		left: 25%;
+	}	
+	.video4 #video3 {
+		right: 25%;
+	}		
+	.video4 #video4 {
+		right: 0%;
+	}					
+}
+@media only screen and (max-aspect-ratio: 32/9) and (min-aspect-ratio: 16/9) { /* medium fat */
+	.video4 iframe {
+		height: 50vh;
+		width: calc(50vh * 16 / 9);
+	}
+	.video4 #video1 {
+		left: calc((100vw - 50vh * 32 / 9) / 3);
+		top: 0%;
+	}
+	.video4 #video2 {
+		right: calc((100vw - 50vh * 32 / 9) / 3);
+		top: 0%;
+	}	
+	.video4 #video3 {
+		left: calc((100vw - 50vh * 32 / 9) / 3);
+		bottom: 0%;
+	}	
+	.video4 #video4 {
+		right: calc((100vw - 50vh * 32 / 9) / 3);
+		bottom: 0%;
+	}									
+}
+@media only screen and (max-aspect-ratio: 16/9) and (min-aspect-ratio: 8/9) { /* medium tall */
+	.video4 iframe {
+		width: 50vw;
+		height: calc(50vw * 9 / 16);
+	}
+	.video4 #video1 {
+		left: 0%;
+		top: calc((100vh - 100vw * 18 / 32) / 3);
+	}
+	.video4 #video2 {
+		right: 0%;
+		top: calc((100vh - 100vw * 18 / 32) / 3);
+	}	
+	.video4 #video3 {
+		left: 0%;
+		bottom: calc((100vh - 100vw * 18 / 32) / 3);
+	}		
+	.video4 #video4 {
+		right: 0%;
+		bottom: calc((100vh - 100vw * 18 / 32) / 3);
+	}									
+}
+@media only screen and (max-aspect-ratio: 8/9) and (min-aspect-ratio: 4/9) { /* quite tall */
+	.video4 iframe {
+		height: 25vh;
+		width: calc(25vh * 16 / 9);
+		left: calc(50vw - 50vh * 4 / 9);
+	}
+	.video4 #video1 {
+		top: 0%;
+	}
+	.video4 #video2 {
+		top: 25%;
+	}	
+	.video4 #video3 {
+		bottom: 25%;
+	}		
+	.video4 #video4 {
+		bottom: 0%;
+	}							
+}
+@media only screen and (max-aspect-ratio: 4/9) { /* too tall */
+	.video4 iframe {
+		width: 100vw;
+		height: calc(100vw * 9 / 16);
+	}
+	.video4 #video1 {
+		top: calc((100vh - 100vw * 9 / 4) / 5);
+	}
+	.video4 #video2 {
+		top: calc((100vh * 2 - 100vw * 27 / 16) / 5);
+	}
+	.video4 #video3 {
+		bottom: calc((100vh * 2 - 100vw * 27 / 16) / 5);
+	}
+	.video4 #video4 {
+		bottom: calc((100vh - 100vw * 9 / 4) / 5);
+	}
+}
