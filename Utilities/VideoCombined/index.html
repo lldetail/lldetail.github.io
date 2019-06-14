@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<title>Video Combined</title>
+		<link rel="stylesheet" type="text/css" href="videostyle/video1.css">
+		<link rel="stylesheet" type="text/css" href="videostyle/video2.css">
+		<link rel="stylesheet" type="text/css" href="videostyle/video3.css">
+		<link rel="stylesheet" type="text/css" href="videostyle/video4.css">
+		<style>
+			body {
+				margin: 0;
+			}
+			iframe {
+				position: fixed;
+			}
+		</style>
+	</head>
+	<body bgcolor="#000000">
+		<div id="videocontainer" class="">
+		</div>
+		<script>
+			var videocount = 0;
+			var properlink = window.location.href.split('?')[0].split('#')[0];
+			function id(i) {
+				return document.getElementById(i);
+			}
+			
+			videosrc = [];
+			videolist = [];
+			
+			function refreshnum() {				
+				id("videocontainer").setAttribute("class","video" + videocount);
+			}
+			
+			function addvideo(src, url) {
+				videosrc.push(src);
+				videolist.push(url);
+				var video = document.createElement('iframe');		
+				videocount++;
+				video.setAttribute("id", "video" + videocount);				
+				switch (src){
+					case "fb": //facebook
+						video.setAttribute("src", "https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/notimportant/videos/" + url + "/");
+						break;
+					case "yt": //youtube
+						video.setAttribute("src", "http://www.youtube.com/embed/" + url);
+						break;
+					case "nn": //niconico
+						video.setAttribute("src", "https://embed.nicovideo.jp/watch/sm" + url);
+						break;
+					case "bb": //bilibili
+						var parts = url.split('&');
+						video.setAttribute("src", "https://player.bilibili.com/player.html?aid=" + parts[0] + "&page=" + parts[1] + "&enable_ssl=1&as_wide=1");
+						break;
+					case "tc": //twitch
+						var parts = url.split('&');
+						video.setAttribute("src", "https://player.twitch.tv/?" + (parts[1] == "c"?"channel=":parts[1] == "v"?"video=":"error=") + parts[0]);
+						break;
+					case "tw": //twitter
+						video.setAttribute("src", "https://twitter.com/i/videos/tweet/" + url);
+						break;
+					case "tv": //tencent video
+						video.setAttribute("src", "https://v.qq.com/txp/iframe/player.html?vid=" + url);
+						break;
+					case "ll": //line live
+						var parts = url.split('&');
+						video.setAttribute("src", "line_live.html?url=" + parts[0] + (parts[1] == "b"?"/broadcast/":"/upcoming/") + parts[2]);
+						break;
+					case "yk": //youku
+						video.setAttribute("src", "http://player.youku.com/embed/" + url);
+						break;
+					case "tt": //tiktok
+						video.setAttribute("src", "https://www.tiktok.com/embed/" + url);
+						break;
+					case "if": //iframe
+						video.setAttribute("src", url);
+						break;
+					case "vd": //video link
+						video.setAttribute("src", "video_link.html?url=" + url);
+						break;
+				}
+				video.setAttribute("style", "border:none;overflow:hidden");
+				video.setAttribute("scrolling", "no");
+				video.setAttribute("frameborder", "0");
+				video.setAttribute("allowTransparency", "true");
+				video.setAttribute("allowFullScreen", "true");
+				video.setAttribute("referrerpolicy", "no-referrer");
+				id("videocontainer").appendChild(video);
+				refreshnum();
+			}
+			
+			function processlink(){
+				var queryString = window.location.search.slice(1).split('&');
+				items = [];
+				for (var i = 0; i < queryString.length; i++) {
+					parts = queryString[i].split('=');
+					items[parts[0]] = parts[1];
+				}
+				if (items["data"] != undefined){
+					var originaldata = atob(items["data"]).split('|');
+					for (var i = 0; i < originaldata.length; i++) {
+						parts = originaldata[i].split('>');
+						addvideo(parts[0], parts[1]);
+					}
+				}
+			}
+			
+			processlink();
+		</script>
+	</body>
+</html>
