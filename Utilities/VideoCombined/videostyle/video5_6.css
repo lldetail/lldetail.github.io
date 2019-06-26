@@ -1,0 +1,144 @@
+/* 5/6 video */
+@media only screen and (min-aspect-ratio: 16/9) { /* 3x2 */
+	.video5 iframe, .video6 iframe {
+		width: calc(100% / 3);
+		height: 50%;
+	}
+	.video5 #video1, .video6 #video1 {
+		left: 0%;
+		top: 0%;
+	}
+	.video5 #video2, .video6 #video2 {
+		left: calc(100% / 3);
+		top: 0%;
+	}	
+	.video5 #video3, .video6 #video3 {
+		left: calc(200% / 3);
+		top: 0%;
+	}		
+	.video5 #video4 {
+		left: calc(100% / 6);
+		top: 50%;
+	}				
+	.video5 #video5 {
+		left: 50%;
+		top: 50%;
+	}			
+	.video6 #video4 {
+		left: 0%;
+		top: 50%;
+	}				
+	.video6 #video5 {
+		left: calc(100% / 3);
+		top: 50%;
+	}			
+	.video6 #video6 {
+		left: calc(200% / 3);
+		top: 50%;
+	}				
+}
+@media only screen and (min-aspect-ratio: 32/45) and (max-aspect-ratio: 16/9) { /* 2x3 */
+	.video5 iframe {
+		width: 50%;
+		height: calc(100% / 3);
+	}
+	.video5 #video1 {
+		top: 0%;
+		left: 0%;
+	}
+	.video5 #video2 {
+		top: 0%;
+		left: 50%;
+	}	
+	.video5 #video3 {
+		top: calc(100% / 3);
+		left: 0%;
+	}		
+	.video5 #video4 {
+		top: calc(100% / 3);
+		left: 50%;
+	}			
+	.video5 #video5 {
+		top: calc(200% / 3);
+		left: 25%;
+	}						
+}
+@media only screen and (min-aspect-ratio: 16/27) and (max-aspect-ratio: 16/9) { /* 2x3 */
+	.video6 iframe {
+		width: 50%;
+		height: calc(100% / 3);
+	}
+	.video6 #video1 {
+		top: 0%;
+		left: 0%;
+	}
+	.video6 #video2 {
+		top: 0%;
+		left: 50%;
+	}	
+	.video6 #video3 {
+		top: calc(100% / 3);
+		left: 0%;
+	}		
+	.video6 #video4 {
+		top: calc(100% / 3);
+		left: 50%;
+	}			
+	.video6 #video5 {
+		top: calc(200% / 3);
+		left: 0%;
+	}		
+	.video6 #video6 {
+		top: calc(200% / 3);
+		left: 50%;
+	}							
+}
+
+@media only screen and (max-aspect-ratio: 32/45) { /* 1x5 */
+	.video5 iframe {
+		width: 100%;
+		height: 20%;
+		left: 0%;
+	}
+	.video5 #video1 {
+		top: 0%;
+	}
+	.video5 #video2 {
+		top: 20%;
+	}	
+	.video5 #video3 {
+		top: 40%;
+	}		
+	.video5 #video4 {
+		top: 60%;
+	}			
+	.video5 #video5 {
+		top: 80%;
+	}						
+}
+
+@media only screen and (max-aspect-ratio: 16/27) { /* 1x6 */
+	.video6 iframe {
+		width: 100%;
+		height: calc(100% / 6);
+		left: 0%;
+	}
+	.video6 #video1 {
+		top: 0%;
+	}
+	.video6 #video2 {
+		top: calc(100% / 6);
+	}	
+	.video6 #video3 {
+		top: calc(100% / 3);
+	}		
+	.video6 #video4 {
+		top: 50%;
+	}			
+	.video6 #video5 {
+		top: calc(200% / 3);
+	}				
+	.video6 #video6 {
+		top: calc(500% / 6);
+	}						
+}

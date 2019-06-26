@@ -5,6 +5,9 @@
 		<link rel="stylesheet" type="text/css" href="videostyle/video2.css">
 		<link rel="stylesheet" type="text/css" href="videostyle/video3.css">
 		<link rel="stylesheet" type="text/css" href="videostyle/video4.css">
+		<link rel="stylesheet" type="text/css" href="videostyle/video5_6.css">
+		<link rel="stylesheet" type="text/css" href="videostyle/video7_8.css">
+		<link rel="stylesheet" type="text/css" href="videostyle/video9.css">
 		<style>
 			body {
 				margin: 0;
@@ -41,6 +44,10 @@
 			}
 			iframe {
 				position: fixed;
+				left: 0px;
+				top: 0px;
+				width: 100%;
+				height: 100%;
 			}
 		</style>
 	</head>
@@ -59,6 +66,7 @@
 		  <option value="ll">Line Live</option>
 		  <option value="yk">Youku</option>
 		  <option value="tt">Tiktok</option>
+		  <option value="ph">Pornhub</option>
 		  <option value="if">iframe (by URL)</option>
 		  <option value="vd">Other Video (by URL)</option>
 		</select>
@@ -91,20 +99,20 @@
 				video.setAttribute("id", "video" + videocount);				
 				switch (src){
 					case "fb": //facebook
-						video.setAttribute("src", "https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/notimportant/videos/" + url + "/"); //"https://www.facebook.com/plugins/video.php?href=" + url
+						video.setAttribute("src", "normal_link.html?url=www.facebook.com/plugins/video.php&href=https://www.facebook.com/notimportant/videos/" + url + "/"); //"https://www.facebook.com/plugins/video.php?href=" + url
 						break;
 					case "yt": //youtube
-						video.setAttribute("src", "https://www.youtube.com/embed/" + url); // + "?autoplay=1"
+						video.setAttribute("src", "normal_link.html?url=www.youtube.com/embed/" + url); // + "?autoplay=1"
 						break;
 					case "nn": //niconico
-						video.setAttribute("src", "https://embed.nicovideo.jp/watch/sm" + url);
+						video.setAttribute("src", "normal_link.html?url=embed.nicovideo.jp/watch/sm" + url);
 						break;
 					case "bb": //bilibili
 						//http://player.bilibili.com/player.html?aid=00000000
 						//https://www.bilibili.com/blackboard/player.html?aid=00000000&page=1&as_wide=1
 						//no-referrer is important due to the whitelist
 						var parts = url.split('&');
-						video.setAttribute("src", "https://player.bilibili.com/player.html?aid=" + parts[0] + "&page=" + parts[1] + "&enable_ssl=1&as_wide=1");
+						video.setAttribute("src", "normal_link.html?url=player.bilibili.com/player.html&aid=" + parts[0] + "&page=" + parts[1] + "&enable_ssl=1&as_wide=1");
 						break;
 					case "tc": //twitch
 						/*
@@ -112,40 +120,43 @@
 							https://player.twitch.tv/?video=000000000
 						*/
 						var parts = url.split('&');
-						video.setAttribute("src", "https://player.twitch.tv/?" + (parts[1] == "c"?"channel=":parts[1] == "v"?"video=":"error=") + parts[0]);
+						video.setAttribute("src", "normal_link.html?url=player.twitch.tv/&" + (parts[1] == "c"?"channel=":parts[1] == "v"?"video=":"error=") + parts[0]);
 						break;
 					case "tw": //twitter
 						/*
 							https://twitter.com/i/videos/tweet/000000000000000000
 						*/
-						video.setAttribute("src", "https://twitter.com/i/videos/tweet/" + url);
+						video.setAttribute("src", "normal_link.html?url=twitter.com/i/videos/tweet/" + url);
 						break;
 					case "tv": //tencent video
-						video.setAttribute("src", "https://v.qq.com/txp/iframe/player.html?vid=" + url);
+						video.setAttribute("src", "normal_link.html?url=v.qq.com/txp/iframe/player.html&vid=" + url);
 						break;
 					case "ll": //line live
 						var parts = url.split('&');
 						video.setAttribute("src", "line_live.html?url=" + parts[0] + (parts[1] == "b"?"/broadcast/":"/upcoming/") + parts[2]);
 						break;
 					case "yk": //youku
-						video.setAttribute("src", "https://player.youku.com/embed/" + url);
+						video.setAttribute("src", "normal_link.html?url=player.youku.com/embed/" + url);
 						break;
 					case "tt": //tiktok
-						video.setAttribute("src", "https://www.tiktok.com/embed/" + url);
+						video.setAttribute("src", "normal_link.html?url=www.tiktok.com/embed/" + url);
+						break;
+					case "ph": //pornhub
+						video.setAttribute("src", "normal_link.html?url=jp.pornhub.com/embed/" + url);
 						break;
 					case "if": //iframe
-						video.setAttribute("src", url);
+						video.setAttribute("src", "normal_link.html?url=" + url.replace("?","&"));
 						break;
 					case "vd": //video link
 						video.setAttribute("src", "video_link.html?url=" + url);
 						break;
 				}
 				video.setAttribute("style", "border:none;overflow:hidden");
-				video.setAttribute("scrolling", "no");
+				/*video.setAttribute("scrolling", "no");
 				video.setAttribute("frameborder", "0");
 				video.setAttribute("allowTransparency", "true");
 				video.setAttribute("allowFullScreen", "true");
-				video.setAttribute("referrerpolicy", "no-referrer");
+				video.setAttribute("referrerpolicy", "no-referrer");*/
 				id("videocontainer").appendChild(video);
 				refreshnum();
 			}
@@ -180,6 +191,7 @@
 					case "tv": //tencent video
 					case "yk": //youku
 					case "tt": //tiktok
+					case "ph": //pornhub
 					case "vd": //video link
 					default:
 						var url = prompt("Video Link?");
@@ -299,6 +311,14 @@
 						*/
 						url = url.match(/(?:embed|v|video)\/(\d+)/)[1];
 						addvideo("tt", url);
+						break;
+					case "ph": //pornhub
+						/*
+							https://jp.pornhub.com/view_video.php?viewkey=aa0a00a00aa0a00
+							https://jp.pornhub.com/embed/aa0a00a00aa0a00
+						*/
+						url = url.match(/(?:embed\/|viewkey=)([a-z|0-9]+)/)[1];
+						addvideo("ph", url);
 						break;
 					case "if": //iframe with url
 						addvideo("if", url);

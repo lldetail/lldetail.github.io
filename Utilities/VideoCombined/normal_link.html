@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<title>Normal IFrame</title>
+		<style>
+			body {
+				margin: 0;
+				background-color: #000000;
+			}
+			iframe {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: 100%;
+				background-color: black;
+			}
+		</style>
+	</head>
+	<body>
+		<iframe id="video" src="" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" referrerpolicy="no-referrer"></iframe>
+		<script>
+			//suitable for 16:9 links
+			var v = document.getElementById("video");		
+			
+			var queryString = window.location.search.slice(1).split('&');
+			items = [];
+			for (var i = 0; i < queryString.length; i++) {
+				parts = queryString[i].split('=');
+				items[parts[0]] = parts[1];
+			}
+			var sumurl = "https://" + items["url"];
+			var first = true;
+			for (var i in items){
+				if (i != "url"){
+					if (first){ sumurl += "?"; first = false; } else { sumurl += "&" };
+					sumurl += i + "=" + items[i];
+				}
+			}
+			v.setAttribute("src", sumurl);
+			
+			var aspectratio = 16/9; // width/height	
+			if (items["ratio"] != undefined){
+				var parts = items["ratio"].split("_");
+				aspectratio = parts[0] / parts[1];
+			}
+			
+			v = document.getElementById("video");
+			function resizev() {
+				w = document.body.scrollWidth;
+				h = document.body.scrollHeight;
+				if (w/h > aspectratio) { //too wide, leave top bottom margin
+					scrwidth = h*aspectratio;
+					scrheight = h;
+					offsetx = (w - scrwidth) / 2;
+					offsety = 0;
+				} else { //too high, leave left right margin
+					scrwidth = w;
+					scrheight = w / aspectratio;
+					offsetx = 0;
+					offsety = (h - scrheight) / 2;
+				};
+				v.style.top = offsety;
+				v.style.left = offsetx;
+				v.style.width = scrwidth;
+				v.style.height = scrheight;
+			};
+			resizev();
+			document.body.onresize = resizev;
+		</script>
+	</body>
+</html>
