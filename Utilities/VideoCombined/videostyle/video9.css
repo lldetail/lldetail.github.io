@@ -1,0 +1,129 @@
+/* 9 video */
+
+@media only screen and (min-aspect-ratio: 80/27) { /* 5x2 */
+	.video9 iframe {
+		width: 20%;
+		height: 50%;
+	}
+	.video9 #video1, .video9 #video2, .video9 #video3, .video9 #video4, .video9 #video5 {
+		top: 0%;
+	}
+	.video9 #video6, .video9 #video7, .video9 #video8, .video9 #video9 {
+		top: 50%;
+	}
+	.video9 #video1 {
+		left: 0%;
+	}
+	.video9 #video2 {
+		left: 20%;
+	}		
+	.video9 #video3 {
+		left: 40%;
+	}		
+	.video9 #video4 {
+		left: 60%;
+	}		
+	.video9 #video5 {
+		left: 80%;
+	}		
+	.video9 #video6 {
+		left: 10%;
+	}	
+	.video9 #video7 {
+		left: 30%;
+	}				
+	.video9 #video8 {
+		left: 50%;
+	}			
+	.video9 #video9 {
+		left: 70%;
+	}			
+}
+@media only screen and (max-aspect-ratio: 80/27) and (min-aspect-ratio: 16/15) { /* 3x3 */
+	.video9 iframe {
+		width: calc(100% / 3);
+		height: calc(100% / 3);
+	}
+	.video9 #video1, .video9 #video2, .video9 #video3 {
+		top: 0%;
+	}
+	.video9 #video4, .video9 #video5, .video9 #video6 {
+		top: calc(100% / 3);
+	}			
+	.video9 #video7, .video9 #video8, .video9 #video9 {
+		top: calc(200% / 3);
+	}		
+	.video9 #video1, .video9 #video4, .video9 #video7 {
+		left: 0%;
+	}
+	.video9 #video2, .video9 #video5, .video9 #video8 {
+		left: calc(100% / 3);
+	}			
+	.video9 #video3, .video9 #video6, .video9 #video9 {
+		left: calc(200% / 3);
+	}		
+}
+@media only screen and (max-aspect-ratio: 16/15) and (min-aspect-ratio: 32/81) { /* 2x5 */
+	.video9 iframe {
+		width: 50%;
+		height: 20%;
+	}
+	.video9 #video1, .video9 #video2 {
+		top: 0%;
+	}
+	.video9 #video3, .video9 #video4 {
+		top: 20%;
+	}			
+	.video9 #video5, .video9 #video6 {
+		top: 40%;
+	}			
+	.video9 #video7, .video9 #video8 {
+		top: 60%;
+	}			
+	.video9 #video9 {
+		top: 80%;
+	}		
+	.video9 #video1, .video9 #video3, .video9 #video5, .video9 #video7 {
+		left: 0%;
+	}
+	.video9 #video9 {
+		left: 25%;
+	}		
+	.video9 #video2, .video9 #video4, .video9 #video6, .video9 #video8 {
+		left: 50%;
+	}			
+}
+@media only screen and (max-aspect-ratio: 32/81) { /* 1x9 */
+	.video9 iframe {
+		width: 100%;
+		height: calc(100% / 9);
+		left: 0%;
+	}
+	.video9 #video1 {
+		top: 0%;
+	}
+	.video9 #video2 {
+		top: calc(100% / 9);
+	}	
+	.video9 #video3 {
+		top: calc(200% / 9);
+	}		
+	.video9 #video4 {
+		top: calc(100% / 3);
+	}			
+	.video9 #video5 {
+		top: calc(400% / 9);
+	}				
+	.video9 #video6 {
+		top: calc(500% / 9);
+	}			
+	.video9 #video7 {
+		top: calc(200% / 3);
+	}		
+	.video9 #video8 {
+		top: calc(700% / 9);
+	}		
+	.video9 #video9 {
+		top: calc(800% / 9);
+	}		
+}

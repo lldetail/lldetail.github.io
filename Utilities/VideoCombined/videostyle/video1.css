@@ -1,15 +1,5 @@
 /* 1 video */
-@media only screen and (min-aspect-ratio: 16/9) { /* fat */
-	.video1 iframe {
-		width: calc(100vh * 16 / 9);
-		left: calc(50vw - 50vh * 16 / 9);
-		height: 100vh;
-	}
-}
-@media only screen and (max-aspect-ratio: 16/9) { /* tall */
-	.video1 iframe {
-		width: 100vw;
-		height: calc(100vw * 9 / 16);
-		top: calc(50vh - 50vw * 9 / 16);
-	}
+.video1 iframe {
+	width: 100%;
+	height: 100%;
 }

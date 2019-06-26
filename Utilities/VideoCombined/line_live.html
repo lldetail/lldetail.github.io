@@ -30,13 +30,24 @@
 			
 			v.setAttribute("src", "https://live.line.me/channels/" + items["url"] + "/embed");
 			
-			function resize() {
-				var h = document.body.offsetHeight;
-				var w = 16 * h / 9;
-				v.style.transform = "scale(" + (h/500) + ")"
-				v.style.left = (w - h) / 2;
+			function resizev() {
+				w = document.body.scrollWidth;
+				h = document.body.scrollHeight;
+				if (w > h) { //too wide, leave top bottom margin
+					size = h;
+					offsetx = (w - h) / 2;
+					offsety = 0;
+				} else { //too high, leave left right margin
+					size = w;
+					offsetx = 0;
+					offsety = (h - w) / 2;
+				};
+				v.style.top = offsety;
+				v.style.left = offsetx;
+				v.style.transform = "scale(" + (size/500) + ")";
 			};
-			setInterval(resize, 1);
+			resizev();
+			document.body.onresize = resizev;
 		</script>
 	</body>
 </html>
