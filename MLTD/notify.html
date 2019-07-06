@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<title>お知らせ</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<style>
+			* {
+				box-sizing: border-box;
+				font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+			}
+			body {
+				margin: 0px;
+			}
+			#topbanner {
+				background-image: linear-gradient(#FEE68C, #C9B870);
+				height: 3vw;
+			}
+			#notify {
+				width: 30vw;
+				height: 3vw;
+				font-size: 1.8vw;
+				display: inline-block;
+			}
+			button {
+				width: calc(70vw / 3);
+				height: 100%;
+				font-size: 1.6vw;
+				border-color: black;
+				border-width: 0px 1px;
+			}
+			button.unselected {
+				background-color: transparent;
+			}
+			button.selected {
+				background-color: white;
+			}
+			iframe {
+				width: 100vw;
+				height: calc(100% - 3vw);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="topbanner">
+		<div id="notify">⣿　お知らせ</div><button class="selected" id="update" onclick="update(this)">更新情報</button><button class="unselected" id="event" onclick="update(this)">開催情報</button><button class="unselected" id="bug" onclick="update(this)">不具合情報</button></div>
+		<iframe id="iframe" src="">This browser does not support iframe, to view its content, please click <a id="iframelink" href="" target="_blank">here</a>.</iframe>
+		<script>
+			function update(id) {
+				var URL = "https://webview-dot-theaterdays.appspot.com/info/apple#/" + id.id;
+				document.getElementById("iframe").src = URL;
+				if (document.getElementById("iframelink")) document.getElementById("iframelink").href = URL;
+				var buttons = document.getElementsByTagName("button");
+				for (var i = 0; i < 2; i++){
+					buttons[i].class = "unselected";
+				}
+				id.class = "selected";
+			}
+			update("update");
+		</script>
+	</body>
+</html>
