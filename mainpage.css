@@ -42,6 +42,7 @@ hr {
 	height:calc(100% - 50px); 
 	z-index:876;
 	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 #main_area {
 	position:fixed;
