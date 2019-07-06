@@ -159,6 +159,7 @@
 			}
 			function reload() {
 				if (document.body.offsetWidth != lastwidth){
+					alert(document.body.offsetWidth + " " + lastwidth);
 					document.getElementById("iframe").src = document.getElementById("iframe").src;
 					lastwidth = document.body.offsetWidth;
 				}
