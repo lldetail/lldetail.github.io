@@ -52,11 +52,11 @@
 				if (document.getElementById("iframelink")) document.getElementById("iframelink").href = URL;
 				var buttons = document.getElementsByTagName("button");
 				for (var i = 0; i < 2; i++){
-					buttons[i].class = "unselected";
+					buttons[i].setAttribute("class","unselected");
 				}
-				id.class = "selected";
+				id.setAttribute("class","selected");
 			}
-			update("update");
+			update(document.getElementById("update"));
 		</script>
 	</body>
 </html>
