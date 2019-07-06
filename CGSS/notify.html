@@ -24,22 +24,16 @@
 				line-height: 0.4;
 				font-size: 15px;
 				font-weight: bold;
-				height: 3vw;
 				display: inline-block;
 			}
 			#notify {
-				width: calc(100vw - 310px);
+				width: calc(100vw - 370px);
 				height: 50px;
 				font-size: 20px;
 				display: inline-block;
 			}
-			#heightfiller {
-				width: 0vw;
-				height: 0vw;
-				display: inline-block;
-			}
 			button {
-				width: 100px;
+				width: 120px;
 				height: 30px;
 				font-size: 16px;
 				line-height: 16px;
@@ -67,11 +61,90 @@
 				width: 100vw;
 				height: calc(100% - 50px);
 			}
+			@media only screen and (min-width: 375px) and (max-width: 500px) {
+				#topbanner {
+					height: 37.5px;
+				}
+				#dots {
+					top: 7.5px;
+					font-size: 11.25px;
+				}
+				#notify {
+					width: calc(100vw - 277.5px);
+					height: 37.5px;
+					font-size: 15px;
+				}
+				button {
+					width: 90px;
+					height: 22.5px;
+					font-size: 12px;
+					line-height: 12px;
+					border-width: 1.5px 1.5px;
+				}
+				#update {
+					border-radius: 11.25px 0 0 11.25px;
+				}
+				#event {
+					border-width: 1.5px 0;
+				}
+				#bug {
+					border-radius: 0 11.25px 11.25px 0;
+				}
+				iframe {
+					height: calc(100% - 37.5px);
+				}
+				button.selected {
+					-webkit-text-stroke:0.75px black;
+				}
+			}
+			@media only screen and (max-width: 375px) {
+				#topbanner {
+					height: 51px;
+				}
+				#dots {
+					top: 7.5px;
+					font-size: 11.25px;
+				}
+				#notify {
+					position: relative;
+					top: 7px;
+					width: calc(100vw - 95px);
+					height: 51px;
+					font-size: 15px;
+				}
+				button {
+					width: 90px;
+					height: 17px;
+					font-size: 9px;
+					line-height: 9px;
+				}
+				#update, #event, #bug {
+					position: fixed;
+					right: 0px;
+					border-radius: 0;
+					border-width: 1.2px 1.2px;
+				}
+				#update{
+					top: 0px;
+				}
+				#event{
+					top: 17px;
+				}
+				#bug{
+					top: 34px;
+				}
+				iframe {
+					height: calc(100% - 51px);
+				}
+				button.selected {
+					-webkit-text-stroke:0.5px black;
+				}
+			}
 		</style>
 	</head>
-	<body>
+	<body onresize="reload()">
 		<div id="topbanner">
-		<div id="notify">&nbsp;<div id="dots">…<br>…<br>…<br>…<br>…</div><div id="heightfiller"></div>&thinsp;お知らせ</div><button class="selected" id="update" onclick="update(1)">更新情報</button><button class="unselected" id="event" onclick="update(2)">開催情報</button><button class="unselected" id="bug" onclick="update(3)">不具合情報</button></div>
+		<div id="notify">&nbsp;<div id="dots">…<br>…<br>…<br>…<br>…</div>&thinsp;お知らせ</div><button class="selected" id="update" onclick="update(1)">更新情報</button><button class="unselected" id="event" onclick="update(2)">開催情報</button><button class="unselected" id="bug" onclick="update(3)">不具合情報</button></div>
 		<iframe id="iframe" src="">This browser does not support iframe, to view its content, please click <a id="iframelink" href="" target="_blank">here</a>.</iframe>
 		<script>
 			function update(id) {
@@ -83,6 +156,10 @@
 					buttons[i].setAttribute("class",(i+1==id)?"selected":"unselected");
 				}
 			}
+			function reload() {
+				document.getElementById("iframe").src = document.getElementById("iframe").src;
+			}
+			
 			update(1);
 		</script>
 	</body>
