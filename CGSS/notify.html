@@ -1,0 +1,93 @@
+<html>
+	<head>
+		<title>お知らせ</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link rel="stylesheet" type="text/css" href="cgss-font.css">
+		<style>
+			* {
+				box-sizing: border-box;
+				font-family: cgss;
+				font-weight: bold;
+			}
+			body {
+				margin: 0px;
+			}
+			#topbanner {
+				background-image: linear-gradient(#FDFDFD, #E9E9E9);
+				height: 3vw;
+			}
+			#dots {
+				position: relative;
+				top: 0.5vw;
+				line-height: 0.4;
+				font-size: 0.8vw;
+				font-weight: bold;
+				height: 3vw;
+				display: inline-block;
+			}
+			#notify {
+				position: relative;
+				top: -0.2vw;
+				width: 78.5vw;
+				height: 3vw;
+				font-size: 1.2vw;
+				display: inline-block;
+			}
+			#heightfiller {
+				width: 0vw;
+				height: 2.3vw;
+				display: inline-block;
+			}
+			button {
+				position: relative;
+				top: -0.1vw;
+				width: 7vw;
+				height: 60%;
+				font-size: 1vw;
+				line-height: 1vw;
+				border-color: black;
+				border-width: 2px 2px;
+			}
+			#update {
+				border-radius: 0.9vw 0 0 0.9vw;
+			}
+			#event {
+				border-width: 2px 0;
+			}
+			#bug {
+				border-radius: 0 0.9vw 0.9vw 0;
+			}
+			button.unselected {
+				background-image: linear-gradient(#FDFDFD, #CCCCCC);
+			}
+			button.selected {
+				background-image: linear-gradient(#7F1560, #FD86EC);
+				color: white;
+				-webkit-text-stroke:0.06vw black;
+			}
+			iframe {
+				width: 100vw;
+				height: calc(100% - 3vw);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="topbanner">
+		<div id="notify">&nbsp;<div id="dots">…<br>…<br>…<br>…<br>…</div><div id="heightfiller"></div>&thinsp;お知らせ</div><button class="selected" id="update" onclick="update(1)">更新情報</button><button class="unselected" id="event" onclick="update(2)">開催情報</button><button class="unselected" id="bug" onclick="update(3)">不具合情報</button></div>
+		<iframe id="iframe" src="">This browser does not support iframe, to view its content, please click <a id="iframelink" href="" target="_blank">here</a>.</iframe>
+		<script>
+			function update(id) {
+				var URL = "https://apis.game.starlight-stage.jp/information?type=" + id;
+				document.getElementById("iframe").src = URL;
+				if (document.getElementById("iframelink")) document.getElementById("iframelink").href = URL;
+				var buttons = document.getElementsByTagName("button");
+				for (var i = 0; i < 3; i++){
+					buttons[i].setAttribute("class",(i+1==id)?"selected":"unselected");
+				}
+			}
+			update(1);
+		</script>
+	</body>
+</html>
