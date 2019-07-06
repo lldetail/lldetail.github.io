@@ -147,7 +147,7 @@
 		<div id="notify">&nbsp;<div id="dots">…<br>…<br>…<br>…<br>…</div>&thinsp;お知らせ</div><button class="selected" id="update" onclick="update(1)">更新情報</button><button class="unselected" id="event" onclick="update(2)">開催情報</button><button class="unselected" id="bug" onclick="update(3)">不具合情報</button></div>
 		<iframe id="iframe" src="">This browser does not support iframe, to view its content, please click <a id="iframelink" href="" target="_blank">here</a>.</iframe>
 		<script>
-			var lastwidth = document.body.clientWidth;
+			var lastwidth = window.outerWidth;
 			function update(id) {
 				var URL = "https://apis.game.starlight-stage.jp/information?type=" + id;
 				document.getElementById("iframe").src = URL;
@@ -158,10 +158,10 @@
 				}
 			}
 			function reload() {
-				if (document.body.clientWidth != lastwidth){
-					alert(document.body.clientWidth + " " + lastwidth);
+				if (window.outerWidth != lastwidth){
+					alert(window.outerWidth + " " + lastwidth);
 					document.getElementById("iframe").src = document.getElementById("iframe").src;
-					lastwidth = document.body.clientWidth;
+					lastwidth = window.outerWidth;
 				}
 			}
 			
