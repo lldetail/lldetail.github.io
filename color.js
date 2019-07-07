@@ -56,23 +56,24 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-window.setTimeout(function(){
-lang = getCookie('lang');
-var url = window.location.href;
-var oh = getCookie("h");
-var oh = getCookie("h");
+load = function(){
+	lang = getCookie('lang');
+	var url = window.location.href;
+	var oh = getCookie("h");
+	var oh = getCookie("h");
 
-if (url == 'https://lldetail.github.io/' || url == 'https://lldetail.github.io/index.html' || oh == ""){
-	var h = (210+Math.floor((Math.random() * 170)))%360;
-	document.body.style.backgroundColor = 'hsl(' + h + ', 100%, 97%)';
-	setCookie("h",h,365);
-} else {
-	h = oh;
-	document.body.style.backgroundColor = 'hsl(' + h + ', 100%, 97%)';
-	setCookie("h",h,365);
+	if (oh == ""){
+		var h = (210+Math.floor((Math.random() * 170)))%360;
+		document.body.style.backgroundColor = 'hsl(' + h + ', 100%, 97%)';
+		setCookie("h",h,365);
+	} else {
+		h = oh;
+		document.body.style.backgroundColor = 'hsl(' + h + ', 100%, 97%)';
+		setCookie("h",h,365);
+	};
+	document.getElementById("top_bar").style.backgroundColor = 'hsl(' + h + ', 100%, 70%)';
+	document.getElementById("left_bar").style.backgroundColor = 'hsl(' + h + ', 100%, 85%)';
+	document.getElementById("btn").style.backgroundColor = 'hsl(' + h + ', 100%, 50%)';
+	document.head.innerHTML = "<meta name='theme-color' content='" + hslToHex(h, 100, 70) + "'>" + document.head.innerHTML;
 };
-document.getElementById("top_bar").style.backgroundColor = 'hsl(' + h + ', 100%, 70%)';
-document.getElementById("left_bar").style.backgroundColor = 'hsl(' + h + ', 100%, 85%)';
-document.getElementById("btn").style.backgroundColor = 'hsl(' + h + ', 100%, 50%)';
-document.head.innerHTML = "<meta name='theme-color' content='" + hslToHex(h, 100, 70) + "'>" + document.head.innerHTML;
-},0);
+window.onload=load;

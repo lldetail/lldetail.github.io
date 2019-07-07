@@ -437,7 +437,7 @@
 			function loadsong() {
 				//https://lldetail.github.io/CGSS/CGSS.csv.json
 				//CGSS.csv.json
-				client.get('https://lldetail.github.io/CGSS/CGSS.csv.json',function(content) {
+				client.get('/CGSS/CGSS.csv.json',function(content) {
 					var live = JSON.parse(content);
 					id("songlist0").innerHTML = "Version: " + ver + "<br>";
 					id("songlist0").innerHTML += "Data: " + live.data + "<br>";
