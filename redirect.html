@@ -10,7 +10,13 @@
 				var items = queries[i].split("=");
 				querylist[items[0]] = items[1];
 			}
-			if (querylist["url"] && querylist["protocol"]) window.location.href = querylist["protocol"] + "://" + querylist["url"].replace(/_/g,"/");
+			if (querylist["url"]) {
+				if (querylist["protocol"]) {
+					window.location.href = querylist["protocol"] + "://" + querylist["url"].replace(/_/g,"/");
+				} else {
+					window.location.href = querylist["url"].replace(/_/g,"/");
+				}
+			}
 		</script>
 	</body>
 </html>
