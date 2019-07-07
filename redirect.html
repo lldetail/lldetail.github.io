@@ -17,6 +17,12 @@
 					window.location.href = querylist["url"].replace(/_/g,"/");
 				}
 			}
+			if (querylist["ddns"]) {
+				window.location.href = "https://lldetail.ddns.net/" + querylist["ddns"].replace(/_/g,"/");
+			}
+			if (querylist["github"]) {
+				window.location.href = "https://lldetail.github.io/" + querylist["github"].replace(/_/g,"/");
+			}
 		</script>
 	</body>
 </html>
