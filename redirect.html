@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>Redirect...</title>
+	</head>
+	<body>
+		<script>
+			var queries = location.search.slice(1).split("&");
+			var querylist = [];
+			for (var i = 0; i < queries.length; i++){
+				var items = queries[i].split("=");
+				querylist[items[0]] = items[1];
+			}
+			if (querylist["url"]) window.location.href = querylist["url"];
+		</script>
+	</body>
+</html>
