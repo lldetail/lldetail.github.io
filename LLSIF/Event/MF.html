@@ -3,7 +3,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 		<meta charset="UTF-8">
 		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
-		<script src='song.js'></script>
+		<script src='https://lldetail.ddns.net/api/llsif/get_song_list.php?output=js'></script>
 		<style>
 			* {
 			  -webkit-box-sizing: border-box;
@@ -37,66 +37,56 @@
 			for (i = 0; i < song_list.length; i++){
 				song[parseInt(song_list[i].sound.substring(27, 30))] = song_list[i];
 			};
+			
 			function calc(){
-				v = document.getElementById("event").value;
-				res = '';
+				function addtosortlist(songcombin, sumcombo, element){
+					sort_list[count] = [];
+					sort_list[count][0] = songcombin;
+					sort_list[count][1] = sumcombo;
+					sort_list[count][2] = element;
+					sort_list[count][4] = count;
+					count++;
+				}
+				
+				function addsomecombin(diff,tempcombin,tempsum,eleme,from,to,level,flag=false){
+					if (level == 0){
+						addtosortlist(tempcombin, tempsum, eleme);
+					} else {
+						for (var i = from; i <= to; i++){
+							for (var tf = 4; tf >= 0; tf--){
+								if (diff & (1 << tf)){
+									var tempcombin2 = tempcombin + song[element[eleme][i]].name + (flag?" (" + ["Easy","Normal","Hard","Expert","Master"][tf] + ")":"") + (level==1?"":" + ");
+									var tempsum2 = tempsum + song[element[eleme][i]].difficulties[tf].s_rank_combo;
+									addsomecombin(diff,tempcombin2,tempsum2,eleme,i+1,to,level-1,flag);
+								}
+							}
+						}
+					}
+				}
+				
+				var v = document.getElementById("event").value;
+				var res = '';
 				if (v == ',,,,,,,,,,,,,,,,,,,,,,,') {
 					res = 'No data available!';
 				} else {
 					res = "<table style='width:100%'><tr><th style='width:10%'>Rank</th><th style='width:80%'>Combination</th><th style='width:10%'>Combo</th></tr>";
-					selected = v.split(",");
-					diff = document.getElementById("diff").value;
-					element = [];
-					element[0] = selected.slice(0, 8); //smile
-					element[1] = selected.slice(8, 16); //pure
-					element[2] = selected.slice(16, 24); //cool	
-					sort_list = [];
-					count = 0;
-					if (["1","2"].indexOf(document.getElementById("num").value) > -1){
-						//3 song combination
-						for (n = 0; n <= 2; n++){
-							for (i = 0; i < 6; i++){
-								for (j = i+1; j < 7; j++){
-									for (k = j+1; k < 8; k++){
-										sort_list[count] = [];
-										sort_list[count][0] = song[element[n][i]].name + " + " + song[element[n][j]].name + " + " + song[element[n][k]].name;
-										sort_list[count][1] = song[element[n][i]].difficulties[diff].s_rank_combo + song[element[n][j]].difficulties[diff].s_rank_combo + song[element[n][k]].difficulties[diff].s_rank_combo;
-										sort_list[count][2] = n;
-										sort_list[count][4] = count;
-										count ++;
-									};
-								};
-							};
-						};
+					var selected = v.split(";");
+					var diff = +document.getElementById("diff").value;
+					var element = [];
+					for (var i = 0; i < 3; i++){
+						element[i] = selected[i].split(",");
+					}
+					
+					sort_list = []; //public
+					var count = 0;
+					var specialdiff = [1,2,4,8,16].indexOf(diff)==-1;
+					var processlist = [[],[1,2,3],[3],[2],[1],[1,2,3,4],[4]][document.getElementById("num").value];
+					for (var i = 0; i < processlist.length; i++){
+						addsomecombin(diff,"",0,0,0,7,processlist[i],specialdiff);
+						addsomecombin(diff,"",0,1,0,7,processlist[i],specialdiff);
+						addsomecombin(diff,"",0,2,0,7,processlist[i],specialdiff);
 					};
-					if (["1","3"].indexOf(document.getElementById("num").value) > -1){
-					//2 song combination
-						for (n = 0; n <= 2; n++){
-							for (i = 0; i < 7; i++){
-								for (j = i+1; j < 8; j++){
-									sort_list[count] = [];
-									sort_list[count][0] = song[element[n][i]].name + " + " + song[element[n][j]].name;
-									sort_list[count][1] = song[element[n][i]].difficulties[diff].s_rank_combo + song[element[n][j]].difficulties[diff].s_rank_combo;
-									sort_list[count][2] = n;
-									sort_list[count][4] = count;
-									count ++;
-								};
-							};
-						};
-					};
-					if (["1","4"].indexOf(document.getElementById("num").value) > -1){
-						//1 song combination
-						for (n = 0; n <= 2; n++){
-							for (i = 0; i < 8; i++){
-								sort_list[count] = [];
-								sort_list[count][0] = song[element[n][i]].name;
-								sort_list[count][1] = song[element[n][i]].difficulties[diff].s_rank_combo;
-								sort_list[count][2] = n;
-								sort_list[count][4] = count;
-								count ++;
-							};
-						};
-					};
+					
 					sort_list.sort(function(a, b) {
 						return b[1]==a[1]?(a[2]==b[2]?a[4]-b[4]:a[2]-b[2]):b[1]-a[1];
 					});
@@ -110,7 +100,7 @@
 			};
 		</script>
 		Event: <select id="event">
-		  <option id="MF1" value=",,,,,,,,,,,,,,,,,,,,,,,">All 1 / TC 12</option>
+		  <option id="MF1" value="5,10,22,24,27,39,,,,,,,,,,,,,,,,,,">All 1 / TC 12</option>
 		  <option id="MF2" value=",,,,,,,,,,,,,,,,,,,,,,,">All 2</option>
 		  <option id="MF3" value=",,,,,,,,,,,,,,,,,,,,,,,">All 3</option>
 		  <option id="MF4" value=",,,,,,,,,,,,,,,,,,,,,,,">All 4</option>
@@ -121,25 +111,33 @@
 		  <option id="MF9" value=",,,,,,,,,,,,,,,,,,,,,,,">JP 9</option>
 		  <option id="MF10" value=",,,,,,,,,,,,,,,,,,,,,,,">JP 10 / WW/TC 8 / CN 9</option>
 		  <option id="MF11" value=",,,,,,,,,,,,,,,,,,,,,,,">JP 11 / WW 9 / CN 8</option>
-		  <option id="MF12" value="5,33,39,27,38,65,72,73,7,26,34,36,53,62,69,93,6,9,28,30,32,41,43,61">JP 12 / WW/CN 10 / TC 9</option>
-		  <option id="MF13" value="5,10,11,74,80,84,94,103,7,12,20,31,35,78,95,104,9,43,61,64,88,97,98,99">JP/WW 13 / TC 10 / CN 11</option>
-		  <option id="MF14" value="5,25,52,66,73,76,86,100,2,36,53,55,62,102,110,111,3,37,40,42,71,77,101,126">JP/WW 14 / CN 12</option>
-		  <option id="MF15" value="96,109,112,117,118,119,125,128,87,113,114,121,122,124,129,132,91,107,115,116,120,127,133,134">JP 15 / WW 11 / CN 13</option>
-		  <option id="MF16" value="96,109,112,117,118,119,125,128,87,108,113,114,121,129,132,144,91,107,115,116,120,127,133,143">JP 16 / WW 12 / CN 14</option>
-		  <option id="MF17" value="96,112,117,119,125,128,146,147,87,108,113,121,122,129,132,144,107,115,116,120,134,143,145,148">JP 17 / CN 15</option>
-		  <option id="MF18" value="5,13,22,52,72,74,84,103,4,35,53,55,75,85,110,130,21,30,58,64,88,89,98,137">JP 18 / WW 15</option>
+		  <option id="MF12" value="5,33,39,27,38,65,72,73;7,26,34,36,53,62,69,93;6,9,28,30,32,41,43,61">JP 12 / WW/CN 10 / TC 9</option>
+		  <option id="MF13" value="5,10,11,74,80,84,94,103;7,12,20,31,35,78,95,104;9,43,61,64,88,97,98,99">JP/WW 13 / TC 10 / CN 11</option>
+		  <option id="MF14" value="5,25,52,66,73,76,86,100;2,36,53,55,62,102,110,111;3,37,40,42,71,77,101,126">JP/WW 14 / CN 12</option>
+		  <option id="MF15" value="96,109,112,117,118,119,125,128;87,113,114,121,122,124,129,132;91,107,115,116,120,127,133,134">JP 15 / WW 11 / CN 13</option>
+		  <option id="MF16" value="96,109,112,117,118,119,125,128;87,108,113,114,121,129,132,144;91,107,115,116,120,127,133,143">JP 16 / WW 12 / CN 14</option>
+		  <option id="MF17" value="96,112,117,119,125,128,146,147;87,108,113,121,122,129,132,144;107,115,116,120,134,143,145,148">JP 17 / CN 15</option>
+		  <option id="MF18" value="5,13,22,52,72,74,84,103;4,35,53,55,75,85,110,130;21,30,58,64,88,89,98,137">JP 18 / WW 15 / CN 16</option>
+		  <option id="MF19" value="109,112,117,125,162,178,200,205;114,132,144,153,165,179,183,188;91,133,134,145,148,175,180,202">JP 19 / WW 16</option>
+		  <option id="MF20" value="1,29,33,39,66,76,84,105;12,62,68,69,82,83,93,111;3,6,28,42,70,101,106,138">JP 20</option>
 		</select><br>
 		Diff: <select id="diff">
-		  <option value="0">Easy</option>
-		  <option value="1">Normal</option>
-		  <option value="2">Hard</option>
-		  <option value="3" selected>Expert</option>
+		  <option value="1">Easy</option>
+		  <option value="2">Normal</option>
+		  <option value="4">Hard</option>
+		  <option value="8" selected>Expert</option>
+		  <option value="16">Master</option>
+		  <option value="12">Hard ~ Expert</option>
+		  <option value="15">Easy ~ Expert (Slow)</option>
+		  <option value="31">Easy ~ Master (Slow)</option>
 		</select>
-		&nbsp;&nbsp;Show: <select id="num">
-		  <option value="1" selected>All Combinations</option>
-		  <option value="2">3 Song Combinations</option>
-		  <option value="3">2 Song Combinations</option>
-		  <option value="4">1 Song Combinations</option>
+		&nbsp;&nbsp;Number of songs: <select id="num">
+		  <option value="1" selected>1 ~ 3</option>
+		  <option value="5">1 ~ 4</option>
+		  <option value="6">4</option>
+		  <option value="2">3</option>
+		  <option value="3">2</option>
+		  <option value="4">1</option>
 		</select>
 		<button onclick="calc()">Calculate</button>
 		<div id="result">
