@@ -17,10 +17,10 @@
 					window.location.href = querylist["url"].replace(/_/g,"/");
 				}
 			}
-			if (querylist["d"]) {
+			if (!(querylist["d"] == undefined)) {
 				window.location.href = "https://lldetail.ddns.net/" + querylist["d"].replace(/_/g,"/");
 			}
-			if (querylist["g"]) {
+			if (!(querylist["g"] == undefined)) {
 				window.location.href = "https://lldetail.github.io/" + querylist["g"].replace(/_/g,"/");
 			}
 		</script>
