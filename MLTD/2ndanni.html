@@ -203,6 +203,7 @@
 						lines[k+1].push(sp.score);
 					}
 				};
+				largesttime = Math.ceil(largesttime/1800000)*1800000;
 				var fl = true;
 				while (lines[0].length > 0){
 					temp += "<tr class='emp'>";
@@ -432,7 +433,7 @@
 						ln.setAttribute("x2", x);
 						ln.setAttribute("y1", "5%");
 						ln.setAttribute("y2", "95%");
-						ln.setAttribute("style", "stroke:rgb(0,0,0);stroke-width:" + (i?1:2));
+						ln.setAttribute("style", "stroke:rgb(" + (i==6?255:0) + ",0,0);stroke-width:" + (i?1:2));
 						svg.appendChild(ln);
 					}
 					svg.appendChild(group);
