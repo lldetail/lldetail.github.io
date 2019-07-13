@@ -74,9 +74,9 @@
 		</style>
 	</head>
 	<body>
-		<h2>ミリシタ(MLTD) THE IDOLM@STER MILLION 6thLIVE TOUR UNI-ON@IR!!!!</h2>
+		<h2>ミリシタ(MLTD) BRAND★NEW★PERFORM@NCE!!!</h2>
 		<h3>アイドル別ランキング Idol Ranking</h3>
-		ソース Source: <a href="https://mltd.matsurihi.me/events/92" target="_blank">matsurihi.me</a><br><br>
+		ソース Source: <a href="https://mltd.matsurihi.me/events/44" target="_blank">matsurihi.me</a><br><br>
 		(不合理なデータが表示されることがあります。<br>
 		慎重に使用してください。<br>
 		Some unreasonable data may appear, please use it carefully.)<br>
@@ -105,7 +105,7 @@
 		<button class="display" onclick="display(2)">毎日 Per day</button>
 		<button class="display" onclick="display(3)">過去 24 時間 Past 24 Hours</button>
 		<button class="display" onclick="display(4)">最終日 Last day</button>
-		<button class="display" onclick="display(5)">最後の 6 時間 Last 6 Hours</button>
+		<button class="display" onclick="display(5)" style="display:none">最後の 6 時間 Last 6 Hours</button>
 		<button class="display" onclick="display(6)">グラフ Graph</button>
 		<table id="table0" class="detail">
 		</table>
@@ -512,8 +512,8 @@
 			function fetch(){
 				document.getElementById("loading").innerHTML = "読込中 Loading ... " + ready + "/52";
 				var p2 = princess2();
-				var p1 = princesshash("/mltd/v1/events/92/rankings/logs/idolPoint/" + ready + "/" + query + ":prettyPrint,false:" + navigator.userAgent.replace(/ +\(.*?\)/g, '') + ":" + p2 + keyword);
-				client.get("https://api.matsurihi.me/mltd/v1/events/92/rankings/logs/idolPoint/" + ready + "/" + query + "?prettyPrint=false&princessValue1=" + p1 + "&princessValue2=" + p2,function(content) {
+				var p1 = princesshash("/mltd/v1/events/44/rankings/logs/idolPoint/" + ready + "/" + query + ":prettyPrint,false:" + navigator.userAgent.replace(/ +\(.*?\)/g, '') + ":" + p2 + keyword);
+				client.get("https://api.matsurihi.me/mltd/v1/events/44/rankings/logs/idolPoint/" + ready + "/" + query + "?prettyPrint=false&princessValue1=" + p1 + "&princessValue2=" + p2,function(content) {
 					data[ready] = JSON.parse(content);
 					ready++;
 					if (ready == 53) {
