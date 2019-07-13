@@ -29,7 +29,7 @@
 			#table2 table tr:nth-child(even), #table3 table tr:nth-child(even), #table4 table tr:nth-child(even) {
 				background-color: #CCCCCC;
 			}
-			
+						
 			th, td {
 				width: 100px;
 			}
@@ -66,6 +66,11 @@
 				background-color: #808080;
 				color: #FFFFFF;
 			}
+			@media only screen and (max-width: 800px){
+				svg .x-label text.odd{
+					display: none;
+				}
+			}
 		</style>
 	</head>
 	<body>
@@ -100,6 +105,8 @@
 		<button class="display" onclick="display(2)">毎日 Per day</button>
 		<button class="display" onclick="display(3)">過去 24 時間 Past 24 Hours</button>
 		<button class="display" onclick="display(4)">最終日 Last day</button>
+		<button class="display" onclick="display(5)">最後の 6 時間 Last 6 Hours</button>
+		<button class="display" onclick="display(6)">グラフ Graph</button>
 		<table id="table0" class="detail">
 		</table>
 		<table id="table1" class="detail">
@@ -109,6 +116,10 @@
 		<div id="table3" class="detail">
 		</div>
 		<div id="table4" class="detail">
+		</div>
+		<div id="table5" class="detail">
+		</div>
+		<div id="table6" class="detail">
 		</div>
 		
 		<script>
@@ -138,6 +149,7 @@
 			var _0x1eb4=['Zmxvb3I=','Z2V0VGltZQ==','ZWRIOEEzNjhPQm9PMXN5VkNic0lqSmZmblMrUXNsazI0Tml0dWVlMWFhQkN2OXpMUmRJWTBqVzQ3RjB5MVNoRXJMRzk1NnZjZWY3YnRvMXgzTnRKYUhjS2RERndaN0FvQUExRXB3ZGdnTDZaQkJVZG5tblJCTzRESll2cGJ1R1NUR1JVK1VzSmtPQTdZMlJ2UEE2Z2RxSnFOZFdsQi9ITTFXMEZROUlBd1ZxVWFYOGprd1M3T3VOdVQ3WGtBNHVzZW1jZUQzMEsyaFlOWUM2WkNnM3FnSzhIWCt1b2FwdnkyQUJ2ZmQ5dHEyUkJDVDdIUm1UNjNqWU9EbEV4WThwSW1yTDNFWjNmTXdqdHRjZUg2dGdEbm5TOGxqMXowVklrQTd1bXF3VFdZcktoM05mWnByRVR3TmJiNTAvUnRpTldUOUsyOVVpL2N1dzQxWVpqUDdoQ2VnOE52Wk1JWUhtS2VBcU5CWDluU1J6aEE5eS81bTRZcHBZRTdDbVJhU2d3TkdPZFd6TU9XVUpEWkszTlJBbHAxTnB0L0hmZEFEaHVyV3JNNGFvSENQZ0IxaldoQnJ2eHVIYlJCVGR4dk1FdTc5aFVqZWkxa0pTWTMyUWJuN0tnQWpxNEZXazkxZEZ3VGI4bC8wclM0ZWJVdG5SRjA5dXdYS094Uk5PazNJREs0clUrcytYWStxcVZzZzRsa3QvS1BBeTdYNThMMXB1R2U3eHZDWHpScXhEWjJ4NTczcmJhWXE3Y0x1MnBzZXIwTjlWL1Z6QzR1MDVBMGsvQlI3K0wyT3h1dG9IckEzS1ltMm1HRjV3RVFnNENZTmV0QlEwVHRIVm41enR5Q2lNaTF3Q1dTZEJ0VWxDZ0I2YmZwMnBpeGprTzkyVStZek44VGduSDgwbGtBK3BrWnV4bll3c29maE5oM1BFVURCam9pbWlOUzQwRlNWTDliNzNkK2dKNXhGOEl6SzlZWlFpMktBLzhPUzlpT0NDeEJxMkR0bXRwbXNZQm5SWEJiRmtNYXIxa1ZXM1FvRXdkdWxUREd0ZVEyb1N6QlhtRDNzRmc4N1ExNy9UWjhmWlIwMFNkVnI2QWhDYlVkQXNodWJBU3Y5MGxzYml3NGFqSTJoVW56N2ZSUG9uZWIwZU9zNnRlL3RsZjBmbTBtOGhuMEE1cllMM0tjaERYUHYwWHV2cmtzckJQajdYZGk1YkZ0Mzhad3RxN0FGeStMcU5iMCtxNks3a2VOU3pVMml5SEJlZDFnR2dqYlBBQzErUDNieFA2YVF1R1dXNW1Ra0FlRExiUEdXRnkxcnhyeDcyN0JnT2t5MnozSzh3Qk16SlNaYWFSVlFoaWlDVmlsZ2NpRDFJZUVycXQ5eFhYYWU1bHZaMWhZdEJaZVB5MHpOdjcyUWpDaTdQOFRZemVPRlFwMUkwL0xybEpKbDdUdmFsWnZubXd4OXJzRThDM0tBcXczZHlGdDdBWW5CeGhKY1ViRE9IY2EyWVZVMndMMFVyeWIwVHA5UUtBOElWb2RIK0NCYkJtSnc4RkRTQml3UlJRQ0RXYlYyWHhnc2tCWkNIT2JLQTR2Z1pVdDdscmtLNy9BaTdYK0cvcXpvZ0ZIa0dQYU5wWUVReFAreFpoaStKbUMzOXRZV2E3ZE1Sc0RoL0RBY29HczJzK2liUUcrcEFxWW04ekxRK3JLbDFsWDZWYUNKdTg4ZG1tNWZhMFl2eUczcFp6Z2JOU2FoL1h4OGtZdWdQUWFORDNYMis5TTBiS3Q0WXR6ZHBDTkwyd3RydTYzWEtpSkxubkFTUFVJeGhUdnRlWFZOTVRqZz09','bGVuZ3Ro','Y2hhckNvZGVBdA=='];(function(_0x28944b,_0x479b91){var _0x49754e=function(_0x262892){while(--_0x262892){_0x28944b['push'](_0x28944b['shift']());}};_0x49754e(++_0x479b91);}(_0x1eb4,0x151));var _0x874c=function(_0x3c22ff,_0x38b53b){_0x3c22ff=_0x3c22ff-0x0;var _0x5850cf=_0x1eb4[_0x3c22ff];if(_0x874c['YCsmcR']===undefined){(function(){var _0x21d259=function(){var _0x14cc9d;try{_0x14cc9d=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');')();}catch(_0x2ae3f4){_0x14cc9d=window;}return _0x14cc9d;};var _0x1fcdd3=_0x21d259();var _0x8dec7f='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x1fcdd3['atob']||(_0x1fcdd3['atob']=function(_0x2ef566){var _0xe26698=String(_0x2ef566)['replace'](/=+$/,'');for(var _0x3228ed=0x0,_0x4be87e,_0x3e4e7b,_0x3e8b6a=0x0,_0x325f5f='';_0x3e4e7b=_0xe26698['charAt'](_0x3e8b6a++);~_0x3e4e7b&&(_0x4be87e=_0x3228ed%0x4?_0x4be87e*0x40+_0x3e4e7b:_0x3e4e7b,_0x3228ed++%0x4)?_0x325f5f+=String['fromCharCode'](0xff&_0x4be87e>>(-0x2*_0x3228ed&0x6)):0x0){_0x3e4e7b=_0x8dec7f['indexOf'](_0x3e4e7b);}return _0x325f5f;});}());_0x874c['OctwYg']=function(_0xe06f14){var _0x5ee5b8=atob(_0xe06f14);var _0x186d29=[];for(var _0x332eab=0x0,_0x2a7210=_0x5ee5b8['length'];_0x332eab<_0x2a7210;_0x332eab++){_0x186d29+='%'+('00'+_0x5ee5b8['charCodeAt'](_0x332eab)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x186d29);};_0x874c['EZyrIH']={};_0x874c['YCsmcR']=!![];}var _0x3901fa=_0x874c['EZyrIH'][_0x3c22ff];if(_0x3901fa===undefined){_0x5850cf=_0x874c['OctwYg'](_0x5850cf);_0x874c['EZyrIH'][_0x3c22ff]=_0x5850cf;}else{_0x5850cf=_0x3901fa;}return _0x5850cf;};var princesshash=function(_0x292225){var _0x341d01=atob(_0x874c('0x0'));var _0x538c56=-0x1;for(var _0x997179=0x0;_0x997179<_0x292225[_0x874c('0x1')];_0x997179++){var _0x1f1ff6=_0x538c56&0xff^_0x292225[_0x874c('0x2')](_0x997179);_0x1f1ff6=_0x1f1ff6>>0x2&0x29|_0x1f1ff6&0x40|_0x1f1ff6<<0x3&0x80|_0x1f1ff6<<0x1&0x16;_0x538c56=_0x538c56>>>0x8^0x79d1fc03;for(var _0x2f2857=0x0;_0x2f2857<0x4;_0x2f2857++){_0x538c56^=_0x341d01[_0x874c('0x2')](0x4*_0x1f1ff6+_0x2f2857)<<(0x3-_0x2f2857)*0x8;}}return(_0x538c56^0x79d1fc03)>>>0x0;};var princess2=function(){return Math[_0x874c('0x3')](new Date()[_0x874c('0x4')]()/0x3e8)%0x5f5e100*0xd+Math[_0x874c('0x3')](Math['random']()*0xd);};
 			var names = ["天海 春香", "如月 千早", "星井 美希", "萩原 雪歩", "高槻 やよい", "菊地 真", "水瀬 伊織", "四条 貴音", "秋月 律子", "三浦 あずさ", "双海 亜美", "双海 真美", "我那覇 響", "春日 未来", "最上 静香", "伊吹 翼", "田中 琴葉", "島原 エレナ", "佐竹 美奈子", "所 恵美", "徳川 まつり", "箱崎 星梨花", "野々原 茜", "望月 杏奈", "ロコ", "七尾 百合子", "高山 紗代子", "松田 亜利沙", "高坂 海美", "中谷 育", "天空橋 朋花", "エミリー", "北沢 志保", "舞浜 歩", "木下 ひなた", "矢吹 可奈", "横山 奈緒", "二階堂 千鶴", "馬場 このみ", "大神 環", "豊川 風花", "宮尾 美也", "福田 のり子", "真壁 瑞希", "篠宮 可憐", "百瀬 莉緒", "永吉 昴", "北上 麗花", "周防 桃子", "ジュリア", "白石 紬", "桜守 歌織"];
 			var element = [1,2,3,1,3,1,2,2,2,3,3,3,1,1,2,3,1,3,1,2,1,3,3,3,2,1,1,1,1,1,2,1,2,2,3,1,1,2,3,3,3,3,1,2,3,2,2,3,2,2,2,3];
+			var imgclr = ["#e22b30","#2743d2","#b4e04b","#d3dde9","#f39939","#515558","#fd99e1","#a6126a","#01a860","#9238be","#ffe43f","#ffe43f","#01adb9","#ea5b76","#6495cf","#fed552","#92cfbb","#9bce92","#58a6dc","#454341","#5abfb7","#ed90ba","#eb613f","#7e6ca8","#fff03c","#c7b83c","#7f6575","#b54461","#e9739b","#f7e78e","#bee3e3","#554171","#afa690","#e25a9b","#d1342c","#f5ad3b","#788bc5","#f19557","#f1becb","#ee762e","#7278a8","#d7a96b","#eceb70","#99b7dc","#b63b40","#f19591","#aeb49c","#6bb6b0","#efb864","#d7385f","#b6b3e2","#152169"];
 			var keyword = ([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+(![]+[+![]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]]+[+[]]+(![]+[+![]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]])()[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()+[])[!+[]+!+[]+!+[]]+(+(+!+[]+(!+[]+[])[!+[]+!+[]+!+[]]+[+!+[]]+[+[]]+[+[]]+[+[]])+[])[+[]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(+(!+[]+!+[]+!+[]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(+![]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(+![]+[![]]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]]](!+[]+!+[]+!+[]+[!+[]+!+[]])+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+(+[![]]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+!+[]]]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+(+[![]]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[+!+[]]+(+(!+[]+!+[]+[+!+[]]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(+![]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(+![]+[![]]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]]](!+[]+!+[]+!+[]+[+!+[]])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]])()(([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[+!+[]]])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]])()())[!+[]+!+[]+!+[]+[+[]]]+(![]+[])[+!+[]]+(!![]+[])[+[]]+(![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]];		
 			
 			if (!Array.prototype.last){
@@ -154,9 +166,13 @@
 					return new Date(mt[1],mt[2]-1,mt[3],mt[4],mt[5],mt[6]).getTime();
 				}
 			}		
-			function timestring(d,b){
+			function timestring(d,b,y=true,ti=true){
 				var t = new Date(d);
-				return ("0"+t.getDate()).slice(-2) + "/" + ("0"+(t.getMonth()+1)).slice(-2) + "/" + t.getFullYear() + (b?"<br>":" ") + ("0" + t.getHours()).slice(-2) + ":" + ("0" + t.getMinutes()).slice(-2);
+				if (y){
+					return ("0"+t.getDate()).slice(-2) + "/" + ("0"+(t.getMonth()+1)).slice(-2) + "/" + t.getFullYear() + (ti?((b?"<br>":" ") + ("0" + t.getHours()).slice(-2) + ":" + ("0" + t.getMinutes()).slice(-2)):"");
+				} else {
+					return ("0"+(t.getMonth()+1)).slice(-2) + "/" + ("0"+t.getDate()).slice(-2) + (ti?((b?"<br>":" ") + ("0" + t.getHours()).slice(-2) + ":" + ("0" + t.getMinutes()).slice(-2)):"");
+				}
 			}		
 			
 			function disable(b){
@@ -168,7 +184,8 @@
 			}
 			
 			function finished(){
-				document.getElementById("loading").innerHTML = "Creating Table ... 1/5";
+				var tablecount = document.getElementsByClassName("detail").length;
+				document.getElementById("loading").innerHTML = "Creating Table ... 1/" + tablecount;
 				var temp = "";
 				lines = [[]];//first row: header
 				for (var k = 0; k < selector.length; k++){
@@ -213,7 +230,7 @@
 				}
 				document.getElementById("table0").innerHTML = temp;
 				
-				document.getElementById("loading").innerHTML = "Creating Table ... 2/5";
+				document.getElementById("loading").innerHTML = "Creating Table ... 2/" + tablecount;
 				var ranking = [];
 				for (var k = 0; k < selector.length; k++){
 					ranking.push([]);
@@ -241,8 +258,8 @@
 				}				
 				document.getElementById("table1").innerHTML = temp;
 				
-				for (var tableid = 2; tableid <= 4; tableid++){
-					document.getElementById("loading").innerHTML = "Creating Table ... " + (tableid+1) + "/5";
+				for (var tableid = 2; tableid <= 5; tableid++){
+					document.getElementById("loading").innerHTML = "Creating Table ... " + (tableid+1) + "/" + tablecount;
 					//create buttons
 					temp = "";
 					for (var k = 0; k < selector.length; k++){
@@ -267,6 +284,11 @@
 							case 4:
 								for (var ad = 48; ad >= 0; ad--){
 									times.push(firstday + 13 * 86400000 - ad * 1800000);
+								}
+								break;
+							case 5:
+								for (var ad = 72; ad >= 0; ad--){
+									times.push(firstday + 13 * 86400000 - ad * 300000);
 								}
 								break;
 						}
@@ -328,11 +350,161 @@
 					document.getElementById("table" + tableid).innerHTML = temp;	
 					display(tableid,0);
 				}
+								
+				document.getElementById("table6").innerHTML = "";	
+				document.getElementById("loading").innerHTML = "Creating Table ... 6/" + tablecount;
+				//create buttons
+				for (var k = 0; k < selector.length; k++){
+					var btn = document.createElement("button");
+					btn.setAttribute("class", "display6");
+					btn.setAttribute("onclick", "display(6," + k + ")");
+					btn.innerHTML = selector[k] + "位";
+					document.getElementById("table6").appendChild(btn);
+				}
+				var ow = document.body.offsetWidth;
+				for (var k = 0; k < selector.length; k++){
+					//calculate for y-axis
+					var maxscore = 0;
+					for (var i = 1; i <= 52; i++){
+						var tempscore = data[i][k].data.last().score;
+						if (tempscore > maxscore) maxscore = tempscore;
+					}
+					if ((maxscore+[])[0] >= "9"){
+						maxscore = +("1" + "00000000000000000000".slice(-((maxscore+[]).length)));
+					} else {
+						maxscore = +(((+(maxscore+[])[0]) + 1) + "00000000000000000000".slice(1-((maxscore+[]).length)));
+					}
+					//create svg
+					var svg = document.createElement("svg");
+					var xoffset = ((maxscore+[]).length + 1) * 10 + 20;
+					svg.setAttribute("xoffset", xoffset);
+					svg.setAttribute("class", "detail6");
+					svg.setAttribute("width", "100%");
+					svg.setAttribute("height", "500");
+					//background
+					var rect = document.createElement("rect");
+					rect.setAttribute("width", "100%");
+					rect.setAttribute("height", "100%");
+					rect.style.fill = "white";
+					svg.appendChild(rect);
+										
+					var textc = document.createElement("text");
+					textc.setAttribute("x", "16");
+					textc.setAttribute("y", "50%");
+					textc.setAttribute("text-anchor", "middle");
+					textc.setAttribute("alignment-baseline", "middle");
+					textc.setAttribute("style", "writing-mode: tb");
+					textc.innerHTML = "イベントポイント";
+					svg.appendChild(textc);
+					
+					for (var i = 0; i <= 10; i++){
+						var text = document.createElement("text");
+						text.setAttribute("x", xoffset);
+						text.setAttribute("y", (95 - 9*i) + "%");
+						text.setAttribute("text-anchor", "end");
+						text.setAttribute("alignment-baseline", "middle");
+						text.innerHTML = Math.floor(maxscore*i/5);
+						svg.appendChild(text);
+						var ln = document.createElement("line");
+						ln.setAttribute("class", "hline");
+						ln.setAttribute("x1", xoffset);
+						ln.setAttribute("x2", "95%");
+						ln.setAttribute("y1", (95 - 9*i) + "%");
+						ln.setAttribute("y2", (95 - 9*i) + "%");
+						ln.setAttribute("style", "stroke:rgb(0,0,0);stroke-width:" + (i?1:2));
+						svg.appendChild(ln);
+					}
+					var group = document.createElement("g");
+					group.setAttribute("class", "x-label");
+					for (var i = 0; i <= 13; i++){
+						var x = xoffset + (ow*0.95 - xoffset)*i/13;
+						var text = document.createElement("text");
+						text.setAttribute("x", x);
+						text.setAttribute("y", "95%");
+						text.setAttribute("class", (i%2)?"odd":"even");
+						text.setAttribute("text-anchor", "middle");
+						text.setAttribute("alignment-baseline", "text-before-edge");
+						text.innerHTML = timestring(firstday + i * 86400000,true,false,false);
+						group.appendChild(text);
+						var ln = document.createElement("line");
+						ln.setAttribute("class", "vline");
+						ln.setAttribute("x1", x);
+						ln.setAttribute("x2", x);
+						ln.setAttribute("y1", "5%");
+						ln.setAttribute("y2", "95%");
+						ln.setAttribute("style", "stroke:rgb(0,0,0);stroke-width:" + (i?1:2));
+						svg.appendChild(ln);
+					}
+					svg.appendChild(group);
+					
+					var group2 = document.createElement("g");
+					for (var i = 1; i <= 52; i++){
+						var path = document.createElement("path");
+						var temppath = "M " + xoffset + " " + 500 * 0.95 + " ";
+						var temppath2 = "M 0 0.95 ";
+						var d = data[i][k].data;
+						for (var a = 0; a < d.length; a++){
+							var add = "L ";
+							add += xoffset + (parsetime(d[a].summaryTime) - firstday) * (ow * 0.95 - xoffset) / (86400000 * 13) + " "; //x
+							add += 500 * (0.05 + 0.9 * (1 - d[a].score / maxscore)) + " "; //y
+							temppath += add;
+							temppath2 += "L " + ((parsetime(d[a].summaryTime) - firstday) / (86400000 * 13)) + " " + (0.05 + 0.9 * (1 - d[a].score / maxscore)) + " ";
+						}
+						path.setAttribute("d", temppath);
+						data[i][k].path = temppath2;
+						path.setAttribute("stroke", imgclr[i-1]);
+						path.setAttribute("fill", "none");
+						group2.appendChild(path);
+					}
+					group2.setAttribute("class", "alllines");
+					svg.appendChild(group2);
+					
+					document.getElementById("table6").appendChild(svg);
+					display(6,0);
+				}
+				//legend
+				var lg = "<div style='width:100%'>";
+				for (var i = 1; i <= 52; i++){
+					lg += "<span style='width:20px;height:20px;background-color:" + imgclr[i-1] + ";border: 1px solid black;display: inline-block;'></span>" + names[i-1] + "&nbsp;";
+				}
+				lg += "</div>";
+				document.getElementById("table6").innerHTML += lg; //load svg also					
 				
 				document.getElementById("loading").innerHTML = "";
 				display(0);
 				disable(false);
 			}
+			
+			window.addEventListener('resize', function(){
+				var ow = document.body.offsetWidth;
+				var sv = document.getElementsByTagName("svg");
+				for (var s = 0; s < sv.length; s++){
+					var xoffset = +sv[s].getAttribute("xoffset");
+					var fk = sv[s].getElementsByClassName("x-label")[0];
+					var vl = sv[s].getElementsByClassName("vline");
+					var ts = fk.getElementsByTagName("text");
+					for (var i = 0; i <= 13; i++){
+						var x = xoffset + (ow*0.95 - xoffset)*i/13;
+						ts[i].setAttribute("x", x);
+						vl[i].setAttribute("x1", x);
+						vl[i].setAttribute("x2", x);
+					}
+				}
+				var sv2 = document.getElementById("table6").getElementsByTagName("svg");
+				for (var s = 0; s < sv2.length; s++){
+					var xoffset = +sv2[s].getAttribute("xoffset");
+					var al = sv2[s].getElementsByClassName("alllines")[0].getElementsByTagName("path");
+					for (var i = 1; i <= 52; i++){
+						var temppath2 = data[i][s].path.split(" ");
+						for (var m = 1; m < temppath2.length; m+=3){
+							temppath2[m] *= (ow * 0.95 - xoffset);
+							temppath2[m] += xoffset;
+							temppath2[m+1] *= 500;
+						}
+						al[i-1].setAttribute("d", temppath2.join(" "));
+					}
+				}
+			})
 			
 			function fetch(){
 				document.getElementById("loading").innerHTML = "読込中 Loading ... " + ready + "/52";
