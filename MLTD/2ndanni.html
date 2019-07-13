@@ -369,7 +369,7 @@
 						var tempscore = data[i][k].data.last().score;
 						if (tempscore > maxscore) maxscore = tempscore;
 					}
-					if ((maxscore+[])[0] >= "9"){
+					if ((maxscore+[])[0] == "9"){
 						maxscore = +("1" + "00000000000000000000".slice(-((maxscore+[]).length)));
 					} else {
 						maxscore = +(((+(maxscore+[])[0]) + 1) + "00000000000000000000".slice(1-((maxscore+[]).length)));
@@ -403,7 +403,7 @@
 						text.setAttribute("y", (95 - 9*i) + "%");
 						text.setAttribute("text-anchor", "end");
 						text.setAttribute("alignment-baseline", "middle");
-						text.innerHTML = Math.floor(maxscore*i/5);
+						text.innerHTML = Math.floor(maxscore*i/10);
 						svg.appendChild(text);
 						var ln = document.createElement("line");
 						ln.setAttribute("class", "hline");
