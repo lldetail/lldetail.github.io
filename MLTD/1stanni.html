@@ -81,21 +81,26 @@
 		慎重に使用してください。<br>
 		Some unreasonable data may appear, please use it carefully.)<br>
 		<br>
-		表示 Display:
-		<input type="checkbox" name="show">1 位
-		<input type="checkbox" name="show">2 位
-		<input type="checkbox" name="show">3 位
-		<input type="checkbox" name="show">4 位
-		<input type="checkbox" name="show">5 位
-		<input type="checkbox" name="show">6 位
-		<input type="checkbox" name="show">7 位
-		<input type="checkbox" name="show">8 位
-		<input type="checkbox" name="show">9 位
-		<input type="checkbox" name="show">10 位
-		<input type="checkbox" name="show">50 位
-		<input type="checkbox" name="show" checked>100 位
-		<input type="checkbox" name="show">500 位
-		<input type="checkbox" name="show" checked>1000 位
+		表示 Display:<br>
+		<input type="radio" name="showoption" onclick="smode(1)" selected>デフォルト Default
+		<span id="default">
+			<input type="checkbox" name="show">1 位
+			<input type="checkbox" name="show">2 位
+			<input type="checkbox" name="show">3 位
+			<input type="checkbox" name="show">4 位
+			<input type="checkbox" name="show">5 位
+			<input type="checkbox" name="show">6 位
+			<input type="checkbox" name="show">7 位
+			<input type="checkbox" name="show">8 位
+			<input type="checkbox" name="show">9 位
+			<input type="checkbox" name="show">10 位
+			<input type="checkbox" name="show">50 位
+			<input type="checkbox" name="show" checked>100 位
+			<input type="checkbox" name="show">500 位
+			<input type="checkbox" name="show" checked>1000 位
+		</span><br>
+		<input type="radio" name="showoption" onclick="smode(2)">カスタム Custom<br>
+		<textarea id="custom" type="text" rows="10" disabled>100&#013;&#010;1000</textarea><br>
 		<br><br>
 		結果 Result: <button id="rfbtn" onclick="refresh()">更新する Refresh</button>
 		<span id="loading">←ここをクリック Click Here</span>
@@ -123,6 +128,24 @@
 		</div>
 		
 		<script>
+			var mode = 1;
+			function smode(m) {
+				mode = m;
+				if (m == 1){
+					var checkboxes = document.getElementsByName("show");
+					for (var i = 0; i < checkboxes.length; i++){
+						checkboxes[i].disabled = false;
+					}
+					document.getElementById("custom").disabled = true;
+				} else if (m == 2){
+					var checkboxes = document.getElementsByName("show");
+					for (var i = 0; i < checkboxes.length; i++){
+						checkboxes[i].disabled = true;
+					}
+					document.getElementById("custom").disabled = false;
+				}
+			}
+			
 			var ready = 1;
 			var data = [];
 			var selector = [];
@@ -181,6 +204,11 @@
 				for (var i = 0; i < checkboxes.length; i++){
 					checkboxes[i].disabled = b;
 				}
+				var radios = document.getElementsByName("showoption");
+				for (var i = 0; i < radios.length; i++){
+					radios[i].disabled = b;
+				}
+				document.getElementById("custom").disabled = b;
 			}
 			
 			function finished(){
@@ -526,10 +554,19 @@
 			
 			function refresh(){
 				selector = [];
-				var checkboxes = document.getElementsByName("show");
-				for (var i = 0; i < checkboxes.length; i++){
-					if (checkboxes[i].checked) selector.push([1,2,3,4,5,6,7,8,9,10,50,100,500,1000][i]);
-				}
+				if (mode == 1){
+					var checkboxes = document.getElementsByName("show");
+					for (var i = 0; i < checkboxes.length; i++){
+						if (checkboxes[i].checked) selector.push([1,2,3,4,5,6,7,8,9,10,50,100,500,1000][i]);
+					}
+				} else if (mode == 2){
+					var lines = document.getElementById("custom").value.trim().split("\n");
+					for (var i = 0; i < lines.length; i++){
+						selector.push(+lines[i]);
+					}
+				} else {
+					return;
+				};
 				if (selector.length > 10) {alert("Please choose no more than 10 options."); return;};
 				query = selector.join(",");
 				data = [];
