@@ -431,8 +431,12 @@ function refresh(){
 		}
 	} else if (mode == 2){
 		var lines = document.getElementById("custom").value.trim().split("\n");
+		var invalidnum = [];
 		for (var i = 0; i < lines.length; i++){
-			selector.push(+lines[i]);
+			if (isNaN(lines[i]) || (+lines[i]) <= 0 || (+lines[i]) > 1000) {invalidnum.push(lines[i]);} else {selector.push(+lines[i])};
+		}
+		if (invalidnum.length > 0){
+			if (!confirm("There are invalid numbers:\n" + invalidnum.join("\n") + "\n\nValid numbers:\n" + selector.join("\n") + "\n\nContinue?")) return;
 		}
 	} else {
 		return;
