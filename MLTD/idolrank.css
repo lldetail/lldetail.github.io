@@ -1,0 +1,67 @@
+* {
+  -webkit-box-sizing: border-box;
+	 -moz-box-sizing: border-box;
+		  box-sizing: border-box;
+}
+body, button {
+	font-family: "Rounded Mplus 1c", "ヒラギノ角ゴ Pro W3", Meiryo, Helvetica, Arial, sans-serif;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table0 tr:first-child th:first-child, table1 tr:first-child th:first-child {
+	width: 180px;
+	font-style: italic;
+}
+
+table tr th:first-child, td {
+	text-align: right;
+}
+
+#table2 table tr:nth-child(even), #table3 table tr:nth-child(even), #table4 table tr:nth-child(even), #table5 table tr:nth-child(even) {
+	background-color: #CCCCCC;
+}
+			
+th, td {
+	width: 100px;
+}
+
+table, table tr.emp, table tr .emp {
+	border: 2px solid black;
+}
+
+th, td {
+	border: 1px solid black;
+	white-space: nowrap;
+}
+
+.Princess {
+	text-align: left;
+	color: #FF0000;
+}
+.Fairy {
+	text-align: left;
+	color: #0000FF;
+}
+.Angel {
+	text-align: left;
+	color: #BF9000;
+}
+
+button {
+	border-radius: 13px 13px 0px 0px;
+}
+#rfbtn {
+	border-radius: 0px;
+}
+button.selected{
+	background-color: #808080;
+	color: #FFFFFF;
+}
+@media only screen and (max-width: 800px){
+	svg .x-label text.odd{
+		display: none;
+	}
+}
