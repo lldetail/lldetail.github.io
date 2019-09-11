@@ -1,0 +1,230 @@
+<html>
+	<head>
+		<title>Re:Step Detail</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link id="favicon" rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="restage-font.css">
+		<style>
+			*{
+				box-sizing: border-box;
+			}
+			body {
+				background-image: url(img/bg_3.png);
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-color: black;
+				background-position: center;
+			}
+			.footer {
+				position: fixed;
+				z-index: 1234;
+				height: 10%;
+				width: 12.5%;
+				bottom: 0;
+				
+				border-style: solid;
+				border-width: 3px 3px 0 3px;
+			}
+			.footer .icon {
+				width: 88px;
+				height: 58px;
+				transform-origin: center;
+				position: relative;
+				left: calc(50% - 44px);
+				top: calc(50% - 29px);
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			#left {
+				border-width: 0px;
+				height: 10%;
+				left: 0px;
+				width: calc(1 * 100% / 16);
+				background-image: url('img/footer/parts_left_footer.png');
+				background-size: cover;
+			}
+			#right {
+				border-width: 0px;
+				height: 10%;
+				right: 0px;
+				width: calc(1 * 100% / 16);
+				background-image: url('img/footer/parts_right_footer.png');
+				background-size: cover;
+			}
+			#home {
+				border-width: 3px 1px 0px 10px;
+				border-image: url('img/footer/button_home_footer.png') 3 3 0 10 fill;
+				left: calc(1 * 100% / 16);
+			}
+			#home .icon {
+				-webkit-mask: url('img/footer/icon_home_on_footer.png') center no-repeat;
+				mask: url('img/footer/icon_home_on_footer.png') center no-repeat;
+				background-color: #EE2288;
+				position: relative;
+				left: calc(50% - 44px - 4.5px);
+			}
+			#story {
+				border-image: url('img/footer/button_story_footer.png') 3 3 0 3 fill;
+				left: calc(3 * 100% / 16);
+			}
+			#story .icon {
+				-webkit-mask: url('img/footer/icon_story_on_footer.png') center no-repeat;
+				mask: url('img/footer/icon_story_on_footer.png') center no-repeat;
+				background-color: #DD22AA;
+			}
+			#chara {
+				border-image: url('img/footer/button_chara_footer.png') 3 3 0 3 fill;
+				left: calc(5 * 100% / 16);
+			}
+			#chara .icon {
+				-webkit-mask: url('img/footer/icon_chara_on_footer.png') center no-repeat;
+				mask: url('img/footer/icon_chara_on_footer.png') center no-repeat;
+				background-color: #AA66CC;
+			}
+			#live {
+				border-image: url('img/footer/button_live_footer.png') 3 3 0 3 fill;
+				left: calc(7 * 100% / 16);
+			}
+			#live .icon {
+				-webkit-mask: url('img/footer/icon_live_on_footer.png') center no-repeat;
+				mask: url('img/footer/icon_live_on_footer.png') center no-repeat;
+				background-color: #8888DD;
+			}
+			#gacha {
+				border-image: url('img/footer/button_gacha_footer.png') 3 3 0 3 fill;
+				left: calc(9 * 100% / 16);
+			}
+			#gacha .icon {
+				-webkit-mask: url('img/footer/icon_gacha_on_footer.png') center no-repeat;
+				mask: url('img/footer/icon_gacha_on_footer.png') center no-repeat;
+				background-color: #6699DD;
+			}
+			#shop {
+				border-image: url('img/footer/button_shop_footer.png') 3 3 0 3 fill;
+				left: calc(11 * 100% / 16);
+			}
+			#shop .icon {
+				-webkit-mask: url('img/footer/icon_shop_on_footer.png') center no-repeat;
+				mask: url('img/footer/icon_shop_on_footer.png') center no-repeat;
+				background-color: #3399EE;
+			}
+			#menu {
+				border-width: 3px 10px 0px 1px;
+				border-image: url('img/footer/button_menu_footer.png') 3 10 0 3 fill;
+				left: calc(13 * 100% / 16);
+			}
+			#menu .icon {
+				-webkit-mask: url('img/footer/icon_menu_on_footer.png') center no-repeat;
+				mask: url('img/footer/icon_menu_on_footer.png') center no-repeat;
+				background-color: #11AAEE;
+				position: relative;
+				left: calc(50% - 44px + 4.5px);
+			}
+			.footer.selected {
+				border-image: url('img/footer/button_on_footer.png') 3 3 0 3 fill !important;
+			}
+			#home.selected {
+				border-image: url('img/footer/button_on_end_footer.png') 3 3 0 10 fill !important;
+			}
+			#menu.selected {
+				border-image: url('img/footer/button_on_end_footer2.png') 3 10 0 3 fill !important;
+			}
+			.footer.selected .icon{
+				background-color: white !important;
+			}
+			.disable {
+				-webkit-filter: grayscale(100%);
+				-moz-filter: grayscale(100%);
+				-ms-filter: grayscale(100%);
+				-o-filter: grayscale(100%);
+				filter: grayscale(100%);
+				filter: gray;
+			}
+			@media only screen and (min-aspect-ratio: 704 / 580) { /* height warning*/
+				@media only screen and (min-height: 1435px) {
+					.footer .icon {
+						transform: scale(calc(9 / 4));
+					}
+				}
+				@media only screen and (min-height: 957px) {
+					.footer .icon {
+						transform: scale(calc(3 / 2));
+					}
+				}
+				@media only screen and (max-height: 638px) {
+					.footer .icon {
+						transform: scale(calc(2 / 3));
+					}
+				}
+				@media only screen and (max-height: 425px) {
+					.footer .icon {
+						transform: scale(calc(4 / 9));
+					}
+				}
+				@media only screen and (max-height: 283px) {
+					.footer .icon {
+						transform: scale(calc(8 / 27));
+					}
+				}
+			}
+			@media only screen and (max-aspect-ratio: 704 / 580) { /* width warning*/
+				@media only screen and (min-width: 1741px) {
+					.footer .icon {
+						transform: scale(calc(9 / 4));
+					}
+				}
+				@media only screen and (min-width: 1161px) {
+					.footer .icon {
+						transform: scale(calc(3 / 2));
+					}
+				}
+				@media only screen and (max-width: 774px) {
+					.footer .icon {
+						transform: scale(calc(2 / 3));
+					}
+				}
+				@media only screen and (max-width: 516px) {
+					.footer .icon {
+						transform: scale(calc(4 / 9));
+					}
+				}
+				@media only screen and (max-width: 344px) {
+					.footer .icon {
+						transform: scale(calc(8 / 27));
+					}
+				}
+			}
+			#main {
+				position: fixed;
+				left: 0px;
+				top: 0px;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<a href="../index.html"><img src="img/back.png" style="position:fixed;top:0;left:0; z-index: 10000; width: 8%"></a>
+		<div class="footer" id="left"></div>
+		<a href="home.html" target="main"><div class="footer selected" id="home" onclick="select(this)"><div class="icon"></div></div></a>
+		<div class="footer disable" id="story" onclick="return false; select(this)"><div class="icon"></div></div>
+		<div class="footer disable" id="chara" onclick="return false; select(this)"><div class="icon"></div></div>
+		<div class="footer disable" id="live" onclick="return false; select(this)"><div class="icon"></div></div>
+		<div class="footer disable" id="gacha" onclick="return false; select(this)"><div class="icon"></div></div>
+		<div class="footer disable" id="shop" onclick="return false; select(this)"><div class="icon"></div></div>
+		<div class="footer disable" id="menu" onclick="return false; select(this)"><div class="icon"></div></div>
+		<div class="footer disable" id="right"></div>
+		<iframe id="main" name="main" src="home.html" frameBorder="0"></iframe>
+		<script>
+			function select(item){
+				var temp = document.getElementsByClassName("selected");
+				for (var i = 0; i < temp.length; i++){
+					temp[i].setAttribute("class",temp[i].getAttribute("class").replace(/selected/g,""));
+				}
+				item.setAttribute("class",(item.getAttribute("class") + " selected").replace(/  /g," "));
+			}
+		</script>
+	</body>
+</html>
