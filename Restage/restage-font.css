@@ -1,0 +1,7 @@
+@font-face {
+  font-family: restage;
+  src: url(font/FOT-HUMMINGSTD-B.otf);
+}
+html {
+	font-family: restage !important;
+}

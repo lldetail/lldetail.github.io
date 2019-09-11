@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<title>Re:Step Detail</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link id="favicon" rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="restage-font.css">
+		<style>
+			*{
+				box-sizing: border-box;
+			}		
+			body {
+				margin: 0px;
+			}
+			table {
+				width: 100%;
+				height: 100%;
+				border-collapse: collapse;
+			}
+			.disable {
+				-webkit-filter: grayscale(100%);
+				-moz-filter: grayscale(100%);
+				-ms-filter: grayscale(100%);
+				-o-filter: grayscale(100%);
+				filter: grayscale(100%);
+				filter: gray;
+			}
+			#dialog {
+				position: fixed;
+				left: 12.5%;
+				top: 0%;
+				width: 75%;
+				height: 90%;
+				background-color: white;
+				padding: 10px;
+			}
+			#block {
+				position: fixed;
+				left: 0%;
+				top: 0%;
+				width: 100%;
+				height: 100%;
+				background-color: gray;
+				opacity: 0.5;
+			}
+			#title {
+				color: #ee2288;
+				font-size: 3vh;
+				position: relative;
+				top: -1vh;
+				left: 2vw;
+			}
+			#block.inactive, #dialog.inactive {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<img src="img/mypage/header_shadow_home.png" style="position:fixed;top:-0.1vw;left:8.6%;width:45vw;">
+		<img src="img/mypage/header_home.png" style="position:fixed;left:8%;width:45vw;">
+		<img src="img/mypage/header_arrow_home.png" style="position:fixed;top:-3.1vw;left:8.7%;width:15.2vw;">
+		
+		<img onclick="dialog('お知らせ','https://rs.rst-game.com/info/index.html')" src="img/mypage/button_info_home.png" style="position:fixed;bottom:calc(12.5% + 20.5vw);right:9.35%;width:6%;">
+		
+		<img src="img/mypage/button_shadow_home.png" style="position:fixed;bottom:calc(12.5% + 10vw);left:63%;width:8.15%;">
+		<img class="disable" src="img/mypage/button_event_home.png" style="position:fixed;bottom:calc(12.5% + 10.5vw);left:62.5%;width:8.15%;">
+		
+		<img src="img/mypage/button_shadow_home.png" style="position:fixed;bottom:calc(12.5% + 10vw);left:73%;width:8.15%;">
+		<img class="disable" src="img/mypage/button_maker_home.png" style="position:fixed;bottom:calc(12.5% + 10.5vw);left:72.5%;width:8.15%;">
+		
+		<img src="img/mypage/button_shadow_home.png" style="position:fixed;bottom:calc(12.5% + 10vw);left:83%;width:8.15%;">
+		<img class="disable" src="img/mypage/button_present_home.png" style="position:fixed;bottom:calc(12.5% + 10.5vw);left:82.5%;width:8.15%;">
+		
+		<img src="img/mypage/button_shadow_home.png" style="position:fixed;bottom:calc(12.5%);left:63%;width:8.15%;">
+		<img class="disable" src="img/mypage/button_task_home.png" style="position:fixed;bottom:calc(12.5% + 0.5vw);left:62.5%;width:8.15%;">
+		
+		<img src="img/mypage/button_shadow_home.png" style="position:fixed;bottom:calc(12.5%);left:73%;width:8.15%;">
+		<img onclick="dialog('フレンドリスト','https://lldetail.ml/Restage/banner/')" src="img/mypage/button_follow_home.png" style="position:fixed;bottom:calc(12.5% + 0.5vw);left:72.5%;width:8.15%;">
+		
+		<img src="img/mypage/button_shadow_home.png" style="position:fixed;bottom:calc(12.5%);left:83%;width:8.15%;">
+		<img onclick="dialog('ランキング','https://lldetail.ml/Restage/ranking/unit.php')" src="img/mypage/button_ranking_home.png" style="position:fixed;bottom:calc(12.5% + 0.5vw);left:82.5%;width:8.15%;">
+		
+		<div id="block" class="inactive">
+		</div>
+		<div id="dialog" class="inactive" style="height: 90%">				
+			<img src="img/mypage/ttl_modal_long.png" style="height: 6%"> <span id="title">Title</span> <br>
+			<div style="overflow: scroll; -webkit-overflow-scrolling: touch; height: 82%; width: 100%;">
+				<iframe id="frame" style="height: 100%; width: 100%;"></iframe><br>
+			</div>
+			<div style="height: 6vh; position: relative; width: 100%; top: 3%; text-align: center;">
+			<div style="margin: 0 auto; height: 6vh; width: 20%; min-width: 15vh; border-width: 0 2vh 0 2vh; border-style: solid; border-image: url('img/mypage/button3_50_round.png') 0 26 0 26 fill !important; color: white; text-align: center; line-height:6vh; font-size: 3vh;" onclick="document.getElementById('block').setAttribute('class','inactive');document.getElementById('dialog').setAttribute('class','inactive')">閉じる</div></div>
+		</div>
+		
+		<script>
+			function dialog(title, url){
+				document.getElementById('title').innerHTML = title;
+				document.getElementById('frame').src = url;
+				document.getElementById('dialog').removeAttribute('class');
+				document.getElementById('block').removeAttribute('class');
+			};
+		</script>
+	</body>
+</html>

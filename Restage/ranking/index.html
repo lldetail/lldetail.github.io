@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<title>過去イベントランキング - <?php echo $_GET["event_id"] ?></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link rel="stylesheet" type="text/css" href="../restage-font.css">
+		<style>
+			img {
+				width: 75px;
+			}
+			
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+			span.eventpt {
+				background-color:#8899AA;
+				color:white;
+				border-radius: 100px;
+				padding: 0px 20px;
+			}
+			tr:nth-child(2n+1) td:nth-child(1) {
+				width: 75px;
+				height: 75px;
+				background-size: 100%;
+				vertical-align: top;
+				color: white;
+				-webkit-text-stroke: 1px black;
+			}
+		</style>
+	</head>
+	<body>
+		過去イベントランキング - <?php echo $_GET["event_id"] ?>
+		<?php		
+			$queryresult = file_get_contents((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST']."/Restage/request/index.php?path=ranking/event&extra=event_id=" . $_GET["event_id"]);
+			if ($queryresult == ""){
+				echo "Error Loading the Ranking.";
+			} else {
+				echo "<table>";
+				$json = json_decode($queryresult);
+				if ($json->code == 200){
+					for ($i = 0; $i < count($json->data->top); $i++){
+						echo "<tr><td rowspan=2 style='background-image:url(\"https://rs.rst-game.com/info/image/thumbnail/c".$json->data->top[$i]->card_id.".png\"), url(\"blank_4.png\")'>".$json->data->top[$i]->ranking."</td><td style='background-color:#EE4499;color:white'>
+						&nbsp;Lv.".$json->data->top[$i]->user_level." ".$json->data->top[$i]->name."</td></tr><tr><td><span class='eventpt'>獲得pt</span>&nbsp;".$json->data->top[$i]->event_point."</td></tr>";
+					};
+				} else {
+					echo "Error " . $json->code . ": " . $json->message;
+				};
+				echo "</table>";
+			}
+		?>
+	</body>
+</html>
