@@ -1,54 +1,61 @@
 <html>
 	<head>
-		<title>過去イベントランキング - <?php echo $_GET["event_id"] ?></title>
+		<title>ランキング</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 		<meta charset="UTF-8">
 		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
 		<link rel="stylesheet" type="text/css" href="../restage-font.css">
 		<style>
-			img {
-				width: 75px;
+			* {
+				font-family: restage !important;
+				box-sizing: border-box;
 			}
-			
-			table {
+			.button {
+				border-width: 0px 15px 0px 11px;
+				border-style: solid;
 				width: 100%;
-				border-collapse: collapse;
+				height: 84px;
+				line-height: 53px;
+				font-size: 16px;
 			}
-			span.eventpt {
-				background-color:#8899AA;
-				color:white;
-				border-radius: 100px;
-				padding: 0px 20px;
+			a {
+				text-decoration: none;
 			}
-			tr:nth-child(2n+1) td:nth-child(1) {
-				width: 75px;
-				height: 75px;
-				background-size: 100%;
-				vertical-align: top;
+			.button .buttonsub {
+				position: relative;
+				top: -15px;
 				color: white;
-				-webkit-text-stroke: 1px black;
+				display: block;
+				font-size: 12px;
+			}
+			.button1 {
+				border-image: url('../img/common/button_1_charatop.png') 0 15 0 11 fill;
+				color: #EE9900;
+			}
+			.button2 {
+				border-image: url('../img/common/button_2_charatop.png') 0 15 0 11 fill;
+				color: #22AAEE;
+			}
+			.button3 {
+				border-image: url('../img/common/button_3_charatop.png') 0 15 0 11 fill;
+				color: #EE55AA;
+			}
+			.button4 {
+				border-image: url('../img/common/button_4_charatop.png') 0 15 0 11 fill;
+				color: #AA66CC;
+			}
+			.button5 {
+				border-image: url('../img/common/button_5_charatop.png') 0 15 0 11 fill;
+				color: #55AA00;
 			}
 		</style>
 	</head>
 	<body>
-		過去イベントランキング - <?php echo $_GET["event_id"] ?>
-		<?php		
-			$queryresult = file_get_contents((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://".$_SERVER['HTTP_HOST']."/Restage/request/index.php?path=ranking/event&extra=event_id=" . $_GET["event_id"]);
-			if ($queryresult == ""){
-				echo "Error Loading the Ranking.";
-			} else {
-				echo "<table>";
-				$json = json_decode($queryresult);
-				if ($json->code == 200){
-					for ($i = 0; $i < count($json->data->top); $i++){
-						echo "<tr><td rowspan=2 style='background-image:url(\"https://rs.rst-game.com/info/image/thumbnail/c".$json->data->top[$i]->card_id.".png\"), url(\"blank_4.png\")'>".$json->data->top[$i]->ranking."</td><td style='background-color:#EE4499;color:white'>
-						&nbsp;Lv.".$json->data->top[$i]->user_level." ".$json->data->top[$i]->name."</td></tr><tr><td><span class='eventpt'>獲得pt</span>&nbsp;".$json->data->top[$i]->event_point."</td></tr>";
-					};
-				} else {
-					echo "Error " . $json->code . ": " . $json->message;
-				};
-				echo "</table>";
-			}
-		?>
+		ランキング<br><br>
+		<a href="javascript:alert('')"><div class="button button1">ハイスコアランキング<span class="buttonsub">楽曲ごとのランキングを確認できます</span></div></a>
+		<br>
+		<a href="https://lldetail.ml/Restage/ranking/unit.php"><div class="button button2">ユニットIPPランキング<span class="buttonsub">ユニットIPPの高さ競います</span></div></a>
+		<br>
+		<a href="https://lldetail.ml/Restage/ranking/event.php"><div class="button button3">過去イベントランキング<span class="buttonsub">過去のイベントの最終ランキングを確認できます</span></div></a>
 	</body>
 </html>
