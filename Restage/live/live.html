@@ -24,6 +24,14 @@
 				-webkit-filter: grayscale(100%);
 				filter: grayscale(100%);
 			}
+			.invert {
+				-webkit-filter: invert(100%);
+				filter: invert(100%);
+			}
+			.grayscale.invert {
+				-webkit-filter: grayscale(100%) invert(100%);
+				filter: grayscale(100%) invert(100%);
+			}
 			body {
 				margin: 0px;
 			}
@@ -224,7 +232,8 @@
 				Color Options:<br>
 				<img id="m1" onclick="this.setAttribute('class',(this.getAttribute('class')=='selected'?'unselected':'selected')); mod^=1" class="unselected" src="mod/icon_grayscale.png"><!--
 				--><img id="m2" onclick="this.setAttribute('class',(this.getAttribute('class')=='selected'?'unselected':'selected')); mod^=2" class="unselected" src="mod/icon_flashlight.png"><!--
-				--><img id="m4" onclick="this.setAttribute('class',(this.getAttribute('class')=='selected'?'unselected':'selected')); mod^=4" class="unselected" src="mod/icon_hidden.png">
+				--><img id="m4" onclick="this.setAttribute('class',(this.getAttribute('class')=='selected'?'unselected':'selected')); mod^=4" class="unselected" src="mod/icon_hidden.png"><!--
+				--><img id="m8" onclick="this.setAttribute('class',(this.getAttribute('class')=='selected'?'unselected':'selected')); mod^=8" class="unselected" src="mod/icon_invert.png">
 			</div>
 		</div>
 		<div id="pausescreen" class="pause fullscreen" onclick="resume(this)" style="display:none">
@@ -320,6 +329,7 @@
 			mod1: grayscale
 			mod2: flashlight
 			mod4: hidden
+			mod8: invert
 			*/
 			var replaydata = [];
 			var replays = false;
@@ -417,10 +427,9 @@
 					playdata += "offset=0;";
 					playdata += "start;";
 				}
+				var filters = [];
 				if (mod & 1){ //grayscale
-					document.body.setAttribute("class", "grayscale");
-				} else {
-					document.body.removeAttribute("class");
+					filters.push("grayscale");
 				}
 				if (mod & 2){ //flashlight
 					id("flashlight").setAttribute("class", "bg");
@@ -432,6 +441,10 @@
 				} else {
 					id("hidden").setAttribute("class", "bg hidden");
 				}
+				if (mod & 8){ //invert
+					filters.push("invert");
+				}
+				document.body.setAttribute("class", filters.join(" "));
 				if (!iOS){
 					document.body.requestFullscreen();
 				}
@@ -543,7 +556,7 @@
 							break;
 						case "mod":
 							mod = +para2[1];
-							for (var m = 1; m <= 4; m*=2){
+							for (var m = 1; m <= 8; m*=2){
 								id("m" + m).setAttribute('class',(mod & m)?'selected':'unselected');
 							};
 							break;
