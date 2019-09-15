@@ -612,6 +612,10 @@
 				};
 				document.getElementById('playdata').value = btoa(playdatabase + playdata);
 				document.getElementById("endscreen").style.display = "block";
+				//remove all filter
+				document.body.removeAttribute("class");
+				id("flashlight").setAttribute("class", "bg hidden");
+				id("hidden").setAttribute("class", "bg hidden");
 			}
 			
 			function copy() {
