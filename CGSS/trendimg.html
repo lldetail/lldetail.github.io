@@ -57,10 +57,10 @@
 				fillall();
 			}
 			fontc = 0;
-			document.fonts.onloadingdone = function(){
+			document.fonts.ready.then(function(){
 				fontloaded = true;
 				fillall();
-			}
+			});
 			function changeurl(){
 				var imgt = "";
 				for (var i = 0; i < width * height; i++){
@@ -94,7 +94,7 @@
 			function nextimage(){
 				imgid++;
 				if (imgid < width * height){
-					img.src = "jacket/jacket_" + image10[imgid] + "_m.png";
+					img.src = "jacket/jacket_" + image10[imgid] + "_m.png?" + new Date().getTime();
 				}
 			}
 			function fillall() {
