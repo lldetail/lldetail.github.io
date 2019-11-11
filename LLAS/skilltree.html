@@ -1,0 +1,908 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link rel="stylesheet" type="text/css" href="llas-font.css">
+		<style>
+			* {
+			  -webkit-box-sizing: border-box;
+				 -moz-box-sizing: border-box;
+					  box-sizing: border-box;
+			}
+			html {
+				font-family: "Microsoft YaHei UI Light", "Microsoft YaHei UI", sans-serif;
+			}
+			table {
+				border-collapse: collapse;
+			}
+			th, td {
+				width: 50px;
+				min-width: 50px;
+				max-width: 50px;
+				height: 50px;
+				min-height: 50px;
+				max-height: 50px;
+				/*border: 1px solid black;*/
+				text-align: center;
+				
+			}
+			
+			div.tree {
+				width: 100%;
+				overflow-x: auto;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.mass {
+				color: white;
+				font-size: 10px;
+				white-space: nowrap;
+			}
+						
+			.mass:hover {
+				opacity: 0.5;
+			}
+			
+			.mass span {
+				display: none;
+			}
+						
+			.start {
+				border-radius: 50%;
+				background-color: black;
+			}
+			
+			.appeal, .stamina, .technique {
+				color: transparent;  
+				text-shadow: 0 0 0 white;
+				--clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+			}
+			
+			.star.appeal, .star.stamina, .star.technique {
+				--clip-path: polygon(50% 0%, 66% 28%, 98% 35%, 77% 59%, 79% 91%, 50% 77%, 21% 91%, 23% 59%, 2% 35%, 34% 28%);
+			}
+			
+			.appeal {
+				background-color: #F680AA;
+				margin-top: 5px;
+				font-size: 30px;
+			}	
+			.appeal::after {
+				content: "☻";
+				line-height: 30px;
+			}
+			.stamina {
+				background-color: #66CC72;
+				font-size: 15px;
+			}	
+			.stamina::after {
+				content: "❤️";
+				line-height: 30px;
+			}
+			.technique {
+				background-color: #FAC548;
+				font-size: 20px;
+			}			
+			.technique::after {
+				content: "🎤";
+				line-height: 30px;
+			}
+			
+			.story, .skill, .voice, .awake, .clothes, .personality, .idea {
+				--clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+			}
+			
+			.story {
+				background-color: #ED6666;
+			}
+			.story::after {
+				content: "ストーリー";
+			}
+			.skill {
+				background-color: #66E1F4;
+			}
+			.skill::after {
+				content: "特技";
+			}
+			.voice {
+				background-color: #4197F1;
+			}
+			.voice::after {
+				content: "ボイス";
+			}
+			.awake {
+				background-image: linear-gradient(#F5CAE7, #98D4F6);
+			}
+			.awake::after {
+				content: "覚醒";
+			}
+			.clothes {
+				background-color: #CA89EF;
+			}
+			.clothes::after {
+				content: "衣装";
+			}
+			.personality {
+				background-color: #B0CD5A;
+			}
+			.personality::after {
+				content: "個性";
+			}
+			.idea {
+				background-color: #FE9972;
+			}
+			.idea::after {
+				content: "ひらめき";
+			}
+			
+			.barh {
+				background-color: black;
+				--clip-path: polygon(0% 45%, 100% 45%, 100% 55%, 0% 55%);
+			}
+			.lock {
+				background-color: orange;
+				--clip-path: polygon(0% 45%, 60% 45%, 60% 35%, 40% 35%, 40% 45%, 35% 45%, 35% 30%, 65% 30%, 65% 45%, 100% 45%, 100% 55%, 70% 55%, 70% 80%, 30% 80%, 30% 55%, 0% 55%);
+			}
+			.barf {
+				background-color: black;
+				--clip-path: polygon(45% 45%, 100% 45%, 100% 55%, 55% 55%, 55% 100%, 45% 100%);
+			}
+			.barl {
+				background-color: black;
+				--clip-path: polygon(45% 55%, 100% 55%, 100% 45%, 55% 45%, 55% 0%, 45% 0%);
+			}
+			#content {
+				background-color: gray;
+				color: white;
+				border: 1px solid black;
+				width: 100%;
+			}
+			
+			.mass {
+				clip-path: var(--clip-path);
+				-webkit-clip-path: var(--clip-path);
+			}
+			
+			button.selected {
+				filter: brightness(0.8);
+			}
+			</style>
+	</head>
+	<body style="margin: 0px; padding: 15px">
+		<button name="rarity" class="selected">UR</button><button name="rarity">SR</button><button name="rarity">R</button>
+		<button name="type" class="selected">Vo</button><button name="type">Sp</button><button name="type">Gd</button><button name="type">Sk</button><br><div id="skilltree" class="tree"><br></div>
+		<div id="URtemplate" style="display:none" class="tree">
+			<table>
+				<tr>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass personality"><span>ゴールド：1000<br>アイテム：<br>{type}タイプのたね：5</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass voice"><span>ゴールド：15000<br>アイテム：<br>銀色のマカロン★1：100<br>銀色のマカロン★2：80<br>銀色のマカロン★3：60<br>キャラのメモリー：25</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',5)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass skill"><span>ゴールド：7000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>{type}タイプの入門書：20<br>{type}タイプの中級書：15<br>{type}タイプの上級書：10</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',2)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',3)"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass idea"><span>ゴールド：9280<br>アイテム：<br>スクールアイドルの証：25</span></td>
+					<td class="mass barf"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',5)"></td>
+				</tr>
+				<tr>
+					<td class="mass start">START</td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass story" onmouseenter="showcont('story',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass awake"><span>ゴールド：60000<br>アイテム：<br>キャラのメモリー：15<br>スクールアイドルの証：15</span></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass clothes" onmouseenter="showcont('clothes')"></td>
+					<td class="mass lock"></td>
+					<td class="mass personality"><span>ゴールド：15000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>金色のマカロン★3：30<br>{type}タイプのたね：25<br>{type}タイプのわかば：20<br>{type}タイプのつぼみ：15</span></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',2)"></td>
+					<td class="mass lock"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass lock"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：15000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>金色のマカロン★3：30<br>{type}タイプの入門書：25<br>{type}タイプの中級書：20<br>{type}タイプの上級書：15</span></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass lock"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',5)"></td>
+					<td class="mass lock"></td>
+					<td class="mass personality"><span>ゴールド：30000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：50<br>金色のマカロン★3：30<br>{type}タイプのたね：30<br>{type}タイプのわかば：25<br>{type}タイプのつぼみ：20</span></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：30000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：50<br>金色のマカロン★3：30<br>{type}タイプの入門書：30<br>{type}タイプの中級書：25<br>{type}タイプの上級書：20</span></td>
+					<td class="mass"></td>
+				</tr>
+				<tr>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass voice"><span>ゴールド：3500<br>アイテム：<br>銀色のマカロン★1：80<br>銀色のマカロン★2：60<br>銀色のマカロン★3：50<br>キャラのメモリー：25</span></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass idea"><span>ゴールド：2320<br>アイテム：<br>スクールアイドルの証：15</td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：2000<br>アイテム：<br>{type}タイプの入門書：10<br>{type}タイプの中級書：5
+					</td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',5)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass personality"><span>ゴールド：7000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>{type}タイプのたね：20<br>{type}タイプのわかば：15<br>{type}タイプのつぼみ：10</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',2)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',4)"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',4)"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',5)"></td>
+				</tr>
+			</table>
+		</div>
+		<div id="SRtemplate" style="display:none" class="tree">
+			<table>
+				<tr>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',2)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass personality"><span>ゴールド：1000<br>アイテム：<br>{type}タイプのたね：5</span></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',3)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：3500<br>アイテム：<br>金色のマカロン★1：40<br>金色のマカロン★2：40<br>{type}タイプの入門書：15<br>{type}タイプの中級書：10</span></td>
+					<td class="mass barh"></td>
+					<td class="mass idea"><span>ゴールド：4640<br>アイテム：<br>スクールアイドルの証：20</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',5)"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',4)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass idea"><span>ゴールド：4640<br>アイテム：<br>スクールアイドルの証：20</span></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',4)"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',5)"></td>
+				</tr>
+				<tr>
+					<td class="mass start">START</td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass story" onmouseenter="showcont('story')"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass awake"><span>ゴールド：30000<br>アイテム：<br>キャラのメモリー：10<br>スクールアイドルの証：10</span></td>
+					<td class="mass barh"></td>
+					<td class="mass personality"><span>ゴールド：3500<br>アイテム：<br>金色のマカロン★1：40<br>{type}タイプのたね：15<br>{type}タイプのわかば：10</span></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass clothes" onmouseenter="showcont('clothes')"></td>
+					<td class="mass lock"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass lock"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',2)"></td>
+					<td class="mass lock"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass personality"><span>ゴールド：7000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>{type}タイプのたね：20<br>{type}タイプのわかば：15<br>{type}タイプのつぼみ：10</span></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：7000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>{type}タイプの入門書：20<br>{type}タイプの中級書：15<br>{type}タイプの上級書：10</span></td>
+					<td class="mass lock"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',5)"></td>
+					<td class="mass lock"></td>
+					<td class="mass personality"><span>ゴールド：30000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：50<br>金色のマカロン★3：30<br>{type}タイプのたね：30<br>{type}タイプのわかば：25<br>{type}タイプのつぼみ：20</span></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：30000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：50<br>金色のマカロン★3：30<br>{type}タイプの入門書：30<br>{type}タイプの中級書：25<br>{type}タイプの上級書：20</span></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',5)"></td>
+					<td class="mass"></td>
+				</tr>
+				<tr>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：1000<br>アイテム：<br>{type}タイプの入門書：5</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass voice"><span>ゴールド：3500<br>アイテム：<br>銀色のマカロン★1：60<br>銀色のマカロン★2：50<br>銀色のマカロン★3：40<br>キャラのメモリー：25</span></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',3)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass voice"><span>ゴールド：7000<br>アイテム：<br>銀色のマカロン★1：80<br>銀色のマカロン★2：60<br>銀色のマカロン★3：50<br>キャラのメモリー：25</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',5)"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',3)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',5)"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',4)"></td>
+				</tr>
+			</table>
+		</div>
+		<div id="Rtemplate" style="display:none" class="tree">
+			<table>
+				<tr>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass personality"><span>ゴールド：1000<br>アイテム：<br>{type}タイプのたね：5</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：1000<br>アイテム：<br>{type}タイプの入門書：5</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass voice"><span>ゴールド：7000<br>アイテム：<br>銀色のマカロン★1：80<br>銀色のマカロン★2：60<br>銀色のマカロン★3：50<br>キャラのメモリー：25</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',4)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barf"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',4)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',4)"></td>
+				</tr>
+				<tr>
+					<td class="mass start">START</td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass story" onmouseenter="showcont('story')"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass awake"><span>ゴールド：15000<br>アイテム：<br>キャラのメモリー：5<br>スクールアイドルの証：5</span></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type3" onmouseenter="showcont('color3',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass personality"><span>ゴールド：3500<br>アイテム：<br>金色のマカロン★1：40<br>{type}タイプのたね：15<br>{type}タイプのわかば：10</span></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',5)"></td>
+					<td class="mass lock"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',2)"></td>
+					<td class="mass lock"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',0)"></td>
+					<td class="mass lock"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：7000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>{type}タイプの入門書：20<br>{type}タイプの中級書：15<br>{type}タイプの上級書：10</span></td>
+					<td class="mass lock"></td>
+					<td class="mass personality"><span>ゴールド：7000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>{type}タイプのたね：25<br>{type}タイプのわかば：15<br>{type}タイプのつぼみ：10</span></td>
+					<td class="mass barh"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass lock"></td>
+					<td class="mass personality"><span>ゴールド：15000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>金色のマカロン★3：30<br>{type}タイプのたね：25<br>{type}タイプのわかば：20<br>{type}タイプのつぼみ：15</span></td>
+					<td class="mass barh"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：15000<br>アイテム：<br>金色のマカロン★1：50<br>金色のマカロン★2：40<br>金色のマカロン★3：30<br>{type}タイプの入門書：25<br>{type}タイプの中級書：20<br>{type}タイプの上級書：15</span></td>
+					<td class="mass"></td>
+				</tr>
+				<tr>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',1)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',2)"></td>
+					<td class="mass barh"></td>
+					<td class="mass skill"><span>ゴールド：3500<br>アイテム：<br>金色のマカロン★1：40<br>金色のマカロン★2：40<br>{type}タイプの入門書：15<br>{type}タイプの中級書：10</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass type2" onmouseenter="showcont('color2',3)"></td>
+					<td class="mass barh"></td>
+					<td class="mass voice"><span>ゴールド：2000<br>アイテム：<br>銀色のマカロン★1：50<br>銀色のマカロン★2：40<br>銀色のマカロン★3：30</span></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass type1" onmouseenter="showcont('color1',5)"></td>
+					<td class="mass barh"></td>
+					<td class="mass idea"><span>ゴールド：4640<br>アイテム：<br>スクールアイドルの証：20</td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',0)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',0)"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',2)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',3)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type1" onmouseenter="showcont('color1',5)"></td>
+				</tr>
+				<tr>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',1)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type3" onmouseenter="showcont('color3',3)"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass"></td>
+					<td class="mass barl"></td>
+					<td class="mass star type2" onmouseenter="showcont('color2',5)"></td>
+					<td class="mass"></td>
+				</tr>
+			</table>
+		</div>
+		<div id="content">
+			
+		</div>
+		<script>
+			function id(d){
+				return document.getElementById(d);
+			}
+			String.prototype.replaceArray = function(replacement) {
+				var temp = this;
+				for (var i = 0; i < replacement.length; i++) {
+					temp = temp.replace(replacement[i][0], replacement[i][1]);
+				}
+				return temp;
+			};
+			function settext(s) {
+				s = s.replaceArray([
+				[/(.)色のマカロン★(\d)/g, "<img width='50' src='img/item/$1$2.png'>$&"],
+				[/([^>]{2,5})タイプの(.{2,3})書：/g, 
+					function (x,m1,m2,m3){
+						return "<img width='50' src='img/item/" + m1.replaceArray([["ボルテージ","Vo"],["SP","Sp"],["ガード","Gd"],["スキル","Sk"]]) + "Bk" + m2.replaceArray([["入門",1],["中級",2],["上級",3],["秘伝の",4]]) + ".png'>" + x
+					}],
+				[/([^>]{2,5})タイプの([^書]{2,3})：/g, 
+					function (x,m1,m2,m3){
+						return "<img width='50' src='img/item/" + m1.replaceArray([["ボルテージ","Vo"],["SP","Sp"],["ガード","Gd"],["スキル","Sk"]]) + "Pt" + m2.replaceArray([["たね",1],["わかば",2],["つぼみ",3],["はな",4]]) + ".png'>" + x
+					}],
+				["キャラのメモリー", "<img width='50' src='img/item/M01.png'>キャラのメモリー"],
+				["スクールアイドルの証", "<img width='50' src='img/item/badge.png'>スクールアイドルの証"]]);
+				document.getElementById("content").innerHTML = s;
+			}
+			function showcont(color, lv){		
+				if (color == 'clothes'){
+					settext("<span>ゴールド：15000<br>アイテム：<br>銀色のマカロン★1：100<br>銀色のマカロン★2：80<br>銀色のマカロン★3：60<br>キャラのメモリー：25</span>");
+					return;
+				};	
+				if (color == 'story'){
+					settext("<span>ゴールド：3500<br>アイテム：<br>銀色のマカロン★1：60<br>銀色のマカロン★2：50<br>銀色のマカロン★3：40<br>キャラのメモリー：25</span>");
+					return;
+				};
+				settext(lv>=0?("ゴールド：" + [400,800,1600,3200,6400,12800][lv] + "<br>アイテム：<br>" + color + "色のマカロン★1：" + [5,10,20,30,50,100][lv] + (lv>0?("<br>" + color + "色のマカロン★2：" + [0,5,10,20,30,60][lv]):"") + (lv>1?("<br>" + color + "色のマカロン★3：" + [0,0,5,10,25,50][lv]):"")):"データーなし");
+			}
+			function showcontent(){			
+				settext(this.getElementsByTagName("span").length?this.getElementsByTagName("span")[0].innerHTML:"データーなし");
+			}
+			function showtree(rarity, type){
+				//copy template to target
+				id("skilltree").innerHTML = id(rarity + "template").innerHTML.replaceArray([
+				[/type1/g,type.replaceArray([["Vo","appeal"],["Sp","technique"],["Gd","stamina"],["Sk","stamina"]])],
+				[/type2/g,type.replaceArray([["Vo","stamina"],["Sp","appeal"],["Gd","technique"],["Sk","appeal"]])],
+				[/type3/g,type.replaceArray([["Vo","technique"],["Sp","stamina"],["Gd","appeal"],["Sk","technique"]])],
+				[/color1/g,type.replaceArray([["Vo","赤"],["Sp","黄"],["Gd","青"],["Sk","紫"]])],
+				[/color2/g,type.replaceArray([["Vo","青"],["Sp","紫"],["Gd","緑"],["Sk","桃"]])],
+				[/color3/g,type.replaceArray([["Vo","緑"],["Sp","桃"],["Gd","黄"],["Sk","赤"]])],
+				[/\{type\}/g,type.replaceArray([["Vo","ボルテージ"],["Sp","SP"],["Gd","ガード"],["Sk","スキル"]])]
+				]);
+				a = document.getElementsByClassName("mass");
+				for (var b = 0; b < a.length; b++){
+					if (!a[b].onmouseenter) {
+						a[b].onmouseenter = showcontent;
+						a[b].ontouchstart = showcontent;
+					} else {
+						a[b].ontouchstart = a[b].onmouseenter;
+					};
+					a[b].ontouchend = function(){settext("")};
+				};
+			};
+			var rarity = "UR";
+			var type = "Vo";
+			var btn = document.getElementsByName("rarity");
+			for (var bt = 0; bt < btn.length; bt++){
+				btn[bt].onclick = function(){
+					rarity = this.innerHTML;
+					for (var bt2 = 0; bt2 < btn.length; bt2++){btn[bt2].removeAttribute("class")};
+					this.setAttribute("class","selected");
+					showtree(rarity, type);
+				};
+			};
+			var bttn = document.getElementsByName("type");
+			for (var btt = 0; btt < bttn.length; btt++){
+				bttn[btt].onclick = function(){
+					type = this.innerHTML;
+					for (var btt2 = 0; btt2 < bttn.length; btt2++){bttn[btt2].removeAttribute("class")};
+					this.setAttribute("class","selected");
+					showtree(rarity, type);
+				};
+			};
+			showtree(rarity, type);
+		</script>
+	</body>
+</html>

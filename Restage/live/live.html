@@ -1,6 +1,8 @@
 <html>
 	<head>
 		<title>ライブ</title>
+		<meta name="description" content="ビデオでリステップの譜面を練習する工具です。">
+		<meta name="keywords" content="Re:Stage!,Re:ステージ！,リステップ,歌曲,ライブ ,楽曲,譜面,LLDetail" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<meta charset="UTF-8">
 		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
@@ -12,9 +14,7 @@
 			}
 			#hidden {
 				z-index: 1899;
-			}
-		
-		
+			}		
 		
 			* {
 				font-family: restage !important;
@@ -87,6 +87,13 @@
 			.empty div {
 				padding: 8px;
 			}
+			.labels {
+				box-sizing: content-box;
+				position: fixed;
+				bottom: 0;
+				font-size: 3vh;
+				line-height: 1;
+			}
 			.options {
 				box-sizing: content-box;
 				position: fixed;
@@ -127,14 +134,20 @@
 					top: 2.7vh;
 					left: calc(50vw + 64vh);
 				}
-				.options, .modselect {
+				.options, .modselect, .labels {
 					font-size: 3vh;
 				}		
+				.labels img {
+					width: calc(45vh / 7);
+				}
 				.options img {
 					width: 45vh;
 				}
 				.modselect img {
-					width: 15vh;
+					width: 12vh;
+				}
+				.labels {
+					left: calc(50vw - 21vh);
 				}
 				.start, .pause {
 					font-size: 25vh;
@@ -166,14 +179,20 @@
 					right: 0.8vw;
 					top: calc(50vh - 31vw);
 				}
-				.options, .modselect {
+				.options, .modselect, .labels {
 					font-size: 2vw;
 				}		
+				.labels img {
+					width: calc(30vw / 7);
+				}
 				.options img {
 					width: 30vw;
 				}
 				.modselect img {
-					width: 10vw;
+					width: 8vw;
+				}
+				.labels {
+					left: 36vw;
 				}
 				.start, .pause {
 					font-size: 16.67vw;
@@ -205,11 +224,18 @@
 	<body>
 		<script>
 			var colorset = [["#22BBFF","#66BB00","#FF7700","#FF55CC","#7766FF","#EE2244","#DDCC22"],["#66CCFF","#339966","#FF9900","#FF99AA","#0044FF","#FF2200","#FFFF00"]];
+			var colorimg = [[null,null,null,null,null,null,null],[null,null,null,null,null,null,null]];
 			var set = 0;
 			function changecolor(sender){
 				if (!Number.isInteger(+sender.value)){sender.style.backgroundColor = "white"; return;}
 				if (+sender.value < 0 || +sender.value > 6){sender.style.backgroundColor = "white"; return;}
 				sender.style.backgroundColor = colorset[0][+sender.value];
+			}
+			for (var ts = 0; ts < 2; ts++){
+				for (var tc = 0; tc < 7; tc++){
+					colorimg[ts][tc] = new Image();
+					colorimg[ts][tc].src = "../img/note/button" + ts + tc + ".png";
+				}
 			}
 		</script>
 		<img class="bg" src="../img/background_stage.png"></div>
@@ -223,6 +249,10 @@
 		</div>
 		<div id="startscreen" class="start fullscreen" onclick="start(this)" style="display:none">
 		Start
+			<div class="labels hidden" onclick="event.stopPropagation();">				
+				Labels: <br>
+				<img id="l0" class="unselected" onclick="cswap(0)"><img id="l1" class="unselected" onclick="cswap(1)"><img id="l2" class="unselected" onclick="cswap(2)"><img id="l3" class="unselected" onclick="cswap(3)"><img id="l4" class="unselected" onclick="cswap(4)"><img id="l5" class="unselected" onclick="cswap(5)"><img id="l6" class="unselected" onclick="cswap(6)">
+			</div>
 			<div class="options" onclick="event.stopPropagation();">
 				Color Options:<br>
 				<img id="color1" onclick="set=0;this.setAttribute('class','selected');document.getElementById('color2').setAttribute('class','unselected')" class="selected" src="../img/note/image_notes_1.png"><br>
@@ -245,7 +275,7 @@
 			<textarea id="playdata" rows="4" cols="50" readonly></textarea><br>
 			<button onclick="copy()">Copy</button><br><br>
 			<button onclick="replay(playdatabase + playdata)">Replay</button><br><br>
-			<button onclick="restart()">Restart</button>
+			<button onclick="restart()">Retry</button>
 		</div>
 		<div id="emptyscreen" class="empty fullscreen" style="display:none">
 			<br>
@@ -262,7 +292,7 @@
 				--><input type="text" id="b5" value="0" onchange="changecolor(this)"><!--
 				--><input type="text" id="b6" value="0" onchange="changecolor(this)"><!--
 				--><input type="text" id="b7" value="0" onchange="changecolor(this)"><br>
-				<button onclick="createlink()">Create a link</button><br>
+				<button onclick="createlink()">Create a link</button> <button onclick="createlink(1)">Navigate</button><br>
 				(Color Reference: <div id="r1">0</div><div id="r2">1</div><div id="r3">2</div><div id="r4">3</div><div id="r5">4</div><div id="r6">5</div><div id="r7">6</div>)
 			</div>
 			<br>
@@ -274,10 +304,32 @@
 		</div>
 		
 		<script>
+			var swapid = -1;
+			var swaparray = [0,1,2,3,4,5,6];
 			function id(id){
 				return document.getElementById(id);
 			}
-			function createlink(){
+			function cswap(tid){
+				if (swapid == -1){
+					swapid = tid;
+					id("l" + tid).setAttribute("class","selected");
+				} else {
+					//swap src
+					var temp = id("l" + swapid).src;
+					id("l" + swapid).src = id("l" + tid).src;
+					id("l" + tid).src = temp;
+					temp = label[swapid];
+					label[swapid] = label[tid];
+					label[tid] = temp;
+					temp = swaparray[swapid];
+					swaparray[swapid] = swaparray[tid];
+					swaparray[tid] = temp;
+					//swap image
+					id("l" + swapid).setAttribute("class","unselected");
+					swapid = -1;
+				}
+			}
+			function createlink(method){
 				var loc = location.href;
 				var dir = loc.substring(0, loc.lastIndexOf('/'));
 				var parameter = [];
@@ -309,7 +361,11 @@
 				}
 				parameter.push("position=" + dirt);
 				var url = dir + "/live.html?" + parameter.join("&");
-				prompt("Here is the link:", url);
+				if (method) {
+					location.href = url;
+				} else {
+					prompt("Here is the link:", url);
+				}
 			}
 			for (var temp = 0; temp < 7; temp++){
 				document.getElementById('r' + (temp + 1)).style.backgroundColor = colorset[0][temp];
@@ -320,6 +376,9 @@
 			var mode = "";
 			var target = undefined;
 			var position = [0,0,0,0,0,0,0];
+			var lbl = ["","","","","","",""];
+			var label = ["","","","","","",""];
+			var lblld= [false,false,false,false,false,false,false];
 			var playdatabase0 = "";
 			var playdatabase = "";
 			var playdata = "";
@@ -333,6 +392,7 @@
 			*/
 			var replaydata = [];
 			var replays = false;
+			var noreplay = false;
 			
 			//handle link
 			var youtubeready = false;
@@ -345,7 +405,7 @@
 			}
 			
 			function other(target){
-				if (!replays && items["aspect"]){
+				if (!noreplay && !replays && items["aspect"]){
 					playdatabase0 += "aspect=" + items["aspect"] + ";";
 				}
 				items["aspect"] = (items["aspect"]?items["aspect"]:"16_9");
@@ -363,6 +423,44 @@
 				if (items["position"] != undefined){
 					position = items["position"].split("");
 					playdatabase0 += "position=" + items["position"] + ";";
+				}
+				if (items["noreplay"] != undefined){
+					noreplay = items["noreplay"] == "true";
+				}
+				if (items["label"] != undefined){
+					if (items["label"].length == 7){
+						lbl = items["label"].split("");
+						label = items["label"].split("");
+					} else {
+						document.getElementsByClassName("labels")[0].setAttribute("class","labels");
+						var tmp = items["label"].split("+");
+						lbl = "       ".split("");
+						lblld= [false,false,false,false,false,false,false];
+						var timgs = document.getElementsByClassName("labels")[0].getElementsByTagName("img");
+						for (var i = 0; i < 7; i++){
+							lbl[i] = new Image;
+							lbl[i].onload = function(){
+								var canvas2 = document.createElement("canvas");
+								var ctx2 = canvas2.getContext("2d");
+								var cw,ch;
+								cw=canvas2.width=this.width;
+								ch=canvas2.height=this.height;
+								ctx2.drawImage(this,0,0,cw,ch);
+								ctx2.globalCompositeOperation='destination-in';
+								ctx2.beginPath();
+								ctx2.arc(cw/2,ch/2,ch/2,0,Math.PI*2);
+								ctx2.closePath();
+								ctx2.fill();
+								this.onload = null;
+								this.src=canvas2.toDataURL();
+								label[lbl.indexOf(this)] = this;
+								lblld[lbl.indexOf(this)] = true;
+							};
+							lbl[i].src = "../card/img.php?id=" + tmp[i];
+							timgs[i].src = "../card/img.php?id=" + tmp[i];
+						}
+					};
+					//playdatabase0 += "label=" + items["label"] + ";";
 				}
 				if (items["youtube"] != undefined){
 					mode = "youtube";
@@ -422,10 +520,32 @@
 					replaytimer = setInterval(replaycheck,0);
 					replaytemp = 0;
 				} else {
-					playdatabase = playdatabase0;
-					playdata = "mod=" + mod + ";";
-					playdata += "offset=0;";
-					playdata += "start;";
+					playdatabase =noreplay?"":playdatabase0;
+					playdata = "";
+					if (typeof lbl[0] == "string"){
+						if (!noreplay && lbl[0] != ""){
+							playdata += "label=" + lbl.join("") + ";";
+						}
+					} else if (typeof lbl[0] == "object"){
+						var orisplit = items["label"].split("+");
+						var newsplit = [];
+						var temparray = [];
+						for (var temp = 0; temp < 7; temp++){
+							newsplit.push(orisplit[swaparray[temp]]);
+							temparray.push(lbl[swaparray[temp]]);
+						}	
+						lbl = temparray;
+						swaparray = [0,1,2,3,4,5,6];
+						if (!noreplay){
+							playdata += "label=" + newsplit.join("+") + ";";	
+						}
+						//console.log(newsplit.join("+"));
+					}		
+					if (!noreplay) {
+						playdata += "mod=" + mod + ";";
+						playdata += "offset=0;";
+						playdata += "start;";
+					};
 				}
 				var filters = [];
 				if (mod & 1){ //grayscale
@@ -480,6 +600,9 @@
 			
 			function restart(){
 				color = position.join(",").split(",");
+				for (var i = 0; i < 7; ++i){
+					label[i] = lbl[i];
+				};
 				replays = false;
 				playdatabase = playdatabase0;
 				if (mode == "youtube") {
@@ -492,6 +615,7 @@
 			
 			function replay(content){
 				//split by ;
+				document.getElementsByClassName("labels")[0].setAttribute("class","labels hidden");
 				replays = true;
 				playdatabase = "";
 				playdata = content;
@@ -562,6 +686,40 @@
 							break;
 						case "offset":
 							offset = +para2[1];
+							break;
+						case "label":
+							if (para2[1].length == 7){
+								lbl = para2[1].split("");
+								label = para2[1].split("");
+							} else {
+								document.getElementsByClassName("labels")[0].setAttribute("class","labels");
+								var tmp = para2[1].split("+");
+								lbl = "       ".split("");
+								lblld= [false,false,false,false,false,false,false];
+								var timgs = document.getElementsByClassName("labels")[0].getElementsByTagName("img");
+								for (var ci = 0; ci < 7; ci++){
+									lbl[ci] = new Image;
+									lbl[ci].onload = function(){
+										var canvas2 = document.createElement("canvas");
+										var ctx2 = canvas2.getContext("2d");
+										var cw,ch;
+										cw=canvas2.width=this.width;
+										ch=canvas2.height=this.height;
+										ctx2.drawImage(this,0,0,cw,ch);
+										ctx2.globalCompositeOperation='destination-in';
+										ctx2.beginPath();
+										ctx2.arc(cw/2,ch/2,ch/2,0,Math.PI*2);
+										ctx2.closePath();
+										ctx2.fill();
+										this.onload = null;
+										this.src=canvas2.toDataURL();
+										label[lbl.indexOf(this)] = this;
+										lblld[lbl.indexOf(this)] = true;
+									};
+									lbl[ci].src = "../card/img.php?id=" + tmp[ci];
+									timgs[ci].src = "../card/img.php?id=" + tmp[ci];
+								}
+							};
 							break;
 					}
 					i++;
@@ -670,6 +828,10 @@
 			
 			var canvas = document.getElementsByTagName("canvas")[0];
 			ctx = canvas.getContext("2d");
+			ctx.font = '35px restage';
+			ctx.textBaseline = "middle";
+			ctx.textAlign = "center";
+			
 			function canvascoord(x,y){
 				var rect = canvas.getBoundingClientRect();
 				var canwidth = canvas.getAttribute("width");
@@ -686,7 +848,7 @@
 			dragging = [];
 			
 			function mstart(identifier, x, y, time = -1){
-				if (!replays){
+				if (!replays && !noreplay){
 					playdata += (time==-1?getTime():time) + ",d," + identifier + "," + x.toFixed(1) + "," + y.toFixed(1) + ";";
 				};
 				dragging[identifier] = [];
@@ -726,7 +888,7 @@
 			});
 			
 			function move(identifier, x, y, time = -1){
-				if (!replays){
+				if (!replays && !noreplay){
 					playdata += (time==-1?getTime():time) + ",m," + identifier + "," + x.toFixed(1) + "," + y.toFixed(1) + ";";
 				};
 				if (dragging[identifier].valid){
@@ -746,6 +908,9 @@
 									var tempswap = color[num];
 									color[num] = color[dragging[identifier].num];
 									color[dragging[identifier].num] = tempswap;
+									tempswap = label[num];
+									label[num] = label[dragging[identifier].num];
+									label[dragging[identifier].num] = tempswap;
 									//swap representative
 									//swap the opponent's dragging information
 									if (dragged[num] == -1){ //if it is not picked up
@@ -780,7 +945,7 @@
 			});
 			
 			function mend(identifier, x, y, time = -1){
-				if (!replays){
+				if (!replays && !noreplay){
 					playdata += (time==-1?getTime():time) + ",u," + identifier + "," + x.toFixed(1) + "," + y.toFixed(1) + ";";
 				};
 				if (dragging[identifier].valid){
@@ -807,13 +972,27 @@
 			finishframe = true;
 			function nextframe(){
 				//reset screen
+				drawsthg = function (text, x, y, cs, c){
+					if (typeof text == "string"){
+						ctx.fillStyle = "gray";
+						ctx.fillText(text, x, y);		
+					} else if (typeof text == "number"){
+						ctx.fillStyle = "gray";
+						ctx.fillText(text+[], x, y);		
+					} else if (typeof text == "object"){ //image
+						if (!lblld[label.indexOf(text)]) return;
+						ctx.drawImage(text,x-23,y-23,46,46);
+						ctx.drawImage(colorimg[cs][c],x-32,y-32,64,64);
+					}		
+				}
 				ctx.clearRect(0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"));
 				
 				//draw touches
+				//passive one always at bottom
 				for (var i = 0; i < 7; i++) {
 					if (dragged[i] == -1){ //draw in original position
-						ctx.beginPath();
 						if (vectorv[i] != 0){
+							ctx.beginPath();
 							var change = new Date().getTime() - vectort[i];
 							if (Math.abs(vectorv[i]) < change){
 								vectorv[i] = 0;
@@ -824,11 +1003,22 @@
 							}
 							vectort[i] += change;
 							ctx.arc(377 + 70 * i + vectorv[i], 502, 32, 0, 2 * Math.PI);
-						} else {
-							ctx.arc(377 + 70 * i, 502, 32, 0, 2 * Math.PI);
+							ctx.fillStyle = colorset[set][color[i]];
+							ctx.fill();
+							drawsthg(label[i], 377 + 70 * i + vectorv[i], 502, set, color[i]);
 						};
-						ctx.fillStyle = colorset[set][color[i]];
-						ctx.fill();
+					};
+				}
+				
+				for (var i = 0; i < 7; i++) {
+					if (dragged[i] == -1){ //draw in original position
+						if (vectorv[i] == 0){
+							ctx.beginPath();
+							ctx.arc(377 + 70 * i, 502, 32, 0, 2 * Math.PI);
+							ctx.fillStyle = colorset[set][color[i]];
+							ctx.fill();
+							drawsthg(label[i], 377 + 70 * i, 502, set, color[i]);
+						};
 					};
 				}
 				
@@ -843,6 +1033,7 @@
 						ctx.arc(dragging[dragged[i]].x, dragging[dragged[i]].y, 32, 0, 2 * Math.PI);
 						ctx.fillStyle = colorset[set][color[i]];
 						ctx.fill();
+						drawsthg(label[i], dragging[dragged[i]].x, dragging[dragged[i]].y, set, color[i]);
 					};
 				}				
 				finishframe = true;

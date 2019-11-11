@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<title>LLAS Detail</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/mainpage.css">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link rel="stylesheet" type="text/css" href="llas-font.css">
+		<link id="favicon" rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<script src='/color.js'></script>
+		<script src='/mainpage.js'></script>
+	</head>
+	<body>
+		<div id="top_bar">
+			<button id="btn" onclick="toggle();">
+				<span class="stretch">≡</span>
+			</button>
+			&nbsp;&nbsp;<a href="main.html" target="main">LLAS Detail</a>
+		</div>
+		<div id="left_bar">
+			<a href="eventpt.html" target="main" onclick="toggle(true);">イベントＰ・Event Pt from Song</a>
+			<hr>
+			<a href="exp.html" target="main" onclick="toggle(true);">ライブの獲得経験値 (EXP from Song)</a>
+			<hr>
+			<a href="rank.html" target="main" onclick="toggle(true);">RANK⇆経験値 (EXP)</a>
+			<hr>
+			<a href="fdrank.html" target="main" onclick="toggle(true);">キズナ(Kizuna) Lv.</a>
+			<hr>
+			<a href="skilltree.html" target="main" onclick="toggle(true);">スキルツリー (Skill Tree)</a>
+			<hr>
+			<hr>
+			<a href="other.html" target="main" onclick="toggle(true);">外部サイト (External Sites)</a>
+			<hr>
+			<hr>
+			<a href="../index.html" onclick="toggle(true);">Change to Other Game</a>
+			<hr>
+		</div>
+		<div id="main_area">
+			<iframe id="main" name="main" src="main.html" frameBorder="0"></iframe>
+		</div>
+	</body>
+</html>

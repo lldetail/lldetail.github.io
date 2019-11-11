@@ -9,6 +9,15 @@
 					 -moz-box-sizing: border-box;
 						  box-sizing: border-box;
 			}
+			body {
+				margin: 0;
+			}
+			#container {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				overflow-y: scroll;
+			}
 			#others {
 				position: fixed;
 				right: 0px;
@@ -48,15 +57,18 @@
 			}
 		</style>
 	</head>      
-	<body>        
-		<a href="Lovelive/"><div class="block">LL Fools' Day (ラブライブエイプリルフール)</div></a><!--
-	 --><a href="LLSIF/"><div class="block" style="background-image:url(img/LLSIF.png)">LLSIF (スクフェス)</div></a><!--
-	 --><a href="CGSS/"><div class="block" style="background-image:url(img/CGSS.png)">CGSS (デレステ)</div></a><!--
-	 --><a href="MLTD/"><div class="block" style="">MLTD (ミリシタ)</div></a><!--
-	 --><a href="Girlfriend/"><div class="block" style="background-image:url(img/GF.png)">GF (ガルフレ)</div></a><!--
-	 --><a href="Taiko/"><div class="block" style="background-image:url(img/Taiko.png)">Taiko (太鼓の達人)</div></a><!--
-	 --><a href="ShinyColors/"><div class="block">Shiny Colors (シャニマス)</div></a><!--
-	 --><a href="Restage/"><div class="block">Re:step (リステ)</div></a>
+	<body>  
+		<div id="container">
+			<a href="Lovelive/"><div class="block" style="background-image:url(img/LL.png)">LL Fools' Day (ラブライブエイプリルフール)</div></a><!--
+		 --><a href="LLSIF/"><div class="block" style="background-image:url(img/LLSIF.png)">LLSIF (スクフェス)</div></a><!--
+		 --><a href="LLAS/"><div class="block" style="background-image:url(img/LLAS.png)">LLAS (スクスタ)</div></a><!--
+		 --><a href="CGSS/"><div class="block" style="background-image:url(img/CGSS.png)">CGSS (デレステ)</div></a><!--
+		 --><a href="MLTD/"><div class="block" style="background-image:url(img/MLTD.png)">MLTD (ミリシタ)</div></a><!--
+		 --><a href="Restage/"><div class="block" style="background-image:url(img/RST.png)">Re:step (リステ)</div></a><!--
+		 --><a href="Girlfriend/"><div class="block" style="background-image:url(img/GF.png)">GF (ガルフレ)</div></a><!--
+		 --><a href="Taiko/"><div class="block" style="background-image:url(img/Taiko.png)">Taiko (太鼓の達人)</div></a><!--
+		 --><a href="ShinyColors/"><div class="block" style="background-image:url(img/Shiny.png)">Shiny Colors (シャニマス)</div></a>
+		</div>
 		<!--General:  <a href="General/">Here</a><br><hr>
 		Utilities (not game related):  <a href="Utilities/">Here</a><br><hr>-->
 		<img src="https://lldetail.ddns.net/l/l.php" style="display:none">
