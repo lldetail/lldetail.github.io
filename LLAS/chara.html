@@ -1,0 +1,140 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link rel="stylesheet" type="text/css" href="llas-font.css">
+		<style>
+			* {
+			  -webkit-box-sizing: border-box;
+				 -moz-box-sizing: border-box;
+					  box-sizing: border-box;
+			}			
+						
+			@media only screen and (min-aspect-ratio: 432 / 259) { /* wide */	
+				#s16_9 {
+					--left: calc(50vw - 800vh / (259 / 27));
+					--width: calc(1600vh / (259 / 27));
+					--height: calc(900vh / (259 / 27));
+				}
+			}
+			
+			@media only screen and (max-aspect-ratio: 432 / 259) { /* tall */	
+				#s16_9 {
+					--left: 0px;
+					--width: 100vw;
+					--height: calc(900vw / 16);
+				}
+			}		
+			
+			#s16_9 {
+				transform-origin: top var(--left);
+				position: fixed;
+				top: 0px;
+				background-color: white;
+				border: 1px solid black;
+				/*background-image: url('img/test.PNG');*/
+				background-size: 100%;
+				left: var(--left);
+				width: var(--width);
+				height: var(--height);
+			}
+			
+			#jname {
+				position: fixed;
+				top: calc(var(--height) * 0.061);
+				left: calc(var(--left) + var(--width) * 0.435);
+				font-size: calc(var(--height) * 0.024);
+			}
+			
+			#kname {
+				position: fixed;
+				top: calc(var(--height) * 0.068);
+				left: calc(var(--left) + var(--width) * 0.4325);
+				font-size: calc(var(--height) * 0.064);
+			}
+			
+			#cv {
+				position: fixed;
+				top: calc(var(--height) * 0.16);
+				left: calc(var(--left) + var(--width) * 0.806);
+				font-size: calc(var(--height) * 0.032);
+			}
+			
+			#line {
+				position: fixed;
+				top: calc(var(--height) * 0.168);
+				left: calc(var(--left) + var(--width) * 0.41304);
+				width: calc(var(--width) * 0.521);
+				height: 0;
+				border: calc(var(--height) * 0.001) solid #b0bbc8;
+			}
+			
+			#line2 {
+				position: fixed;
+				top: calc(var(--height) * 0.172);
+				left: calc(var(--left) + var(--width) * 0.41304);
+				width: calc(var(--width) * 0.521);
+				height: 0;
+				border: calc(var(--height) * 0.001) solid #b0bbc8;
+			}
+			
+			#sign {
+				position: fixed;
+				filter: brightness(0);
+				top: calc(var(--height) * 0.337);
+				left: calc(var(--left) + var(--width) * 0.659);
+				width: calc(var(--width) * 0.367);
+			}
+			#des {
+				position: fixed;
+				filter: brightness(0);
+				top: calc(var(--height) * 0.739);
+				left: calc(var(--left) + var(--width) * 0.47);
+				--font-size: calc(var(--height) * 0.0293);
+				width: calc(var(--font-size) * 30);
+				line-height: calc(var(--font-size) * 1.4);
+				font-size: var(--font-size);
+			}
+			#gray {
+				position: fixed;
+				left: calc(var(--left) + var(--width) * 0.435);
+				width: calc(var(--width) * 0.4843);
+				top: calc(var(--height) * 0.2275);
+				height: calc(var(--height) * 0.1102);
+				background-color: #e1e1eb;
+			}
+			#gray #school {
+				position: relative;
+				top: calc(var(--height) * 0.017);
+				left: calc(var(--width) * 0.0677);
+				height: calc(var(--height) * 0.087);
+			}
+			#gray #unit {
+				position: relative;
+				top: calc(var(--height) * 0.011);
+				left: calc(var(--width) * 0.1345);
+				height: calc(var(--height) * 0.075);
+			}
+		</style>
+	</head>
+	<body style="margin: 0px;">
+		<div id="s16_9">
+			<span id="jname">こうさか ほのか</span>
+			<span id="kname">高坂 穂乃果</span>
+			<span id="cv">CV 新田 恵海</span>
+			<span id="year_label" style="color:#f28492">学年:</span>
+			<span id="height_label" style="color:#f28492">身長:</span>
+			<span id="birth_label" style="color:#f28492">誕生日:</span>
+			<span id="horo_label" style="color:#f28492">星座:</span>
+			<span id="blood_label" style="color:#f28492">血液型:</span>
+			<div id="line"></div>
+			<div id="line2"></div>
+			<img id="sign" src="img/sign/1.png">
+			<div id="gray">
+				<img id="school" src="img/team/school_1.png"><img id="unit" src="img/team/unit_3.png">
+			</div>
+			<span id="des">　16歳。高校２年生。μ'ｓの発起人。いつも笑顔でとにかく元気が取り柄。直感と思いつきで行動し、一度決めたら猪突猛進の一直線。多少の困難があっても持ち前の超ポジティブシンキングで次々と突破していく。μ'ｓのエンジンであり牽引者。</span>
+		</div>
+	</body>
+</html>

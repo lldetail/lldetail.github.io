@@ -1,0 +1,12 @@
+@font-face {
+  font-family: llas;
+  src: url(font/FOT-SkipStd-B.otf);
+}
+@font-face {
+  font-family: llas;
+  src: url(font/FOT-SkipStd-E.otf);
+  font-weight: bold;
+}
+html {
+	font-family: llas !important;
+}

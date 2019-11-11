@@ -1,0 +1,236 @@
+<html>
+	<head>
+		<title>(リステップ) 歌曲データベース - LLDetail</title>
+		<meta name="description" content="リステップの歌曲データベースです。">
+		<meta name="keywords" content="Re:Stage!,Re:ステージ！,リステップ,歌曲,ライブ,KiRaRe,オルタンシア,ステラマリス,トロワアンジュ,テトラルキア,歌詞,LLDetail" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link rel="stylesheet" type="text/css" href="../restage-font.css">
+		<script src='song.js'></script>
+		<script src='lyrics.js'></script>
+		<style>
+			* {
+			  -webkit-box-sizing: border-box;
+				 -moz-box-sizing: border-box;
+					  box-sizing: border-box;
+			}
+			#pagecontainer {
+				position: fixed;
+				top: 8px;
+				left: 8px;
+				width: calc(100vw - 16px);
+				height: calc(100% - 16px);
+			}
+			#pagecontainer tr {
+				width: 100vw;
+			}
+			table {
+				border-collapse: collapse;
+			}
+			#tablecontainer {
+				overflow: auto;
+				width: calc(100vw - 16px);
+				height: 100%;
+			}
+			#table th, #table td {
+				border: 1px solid black;
+				height: 35px;
+				white-space: nowrap;
+			}
+									
+			#tablecontainer tr:first-of-type td {
+				top: 0;
+			}
+			
+			#tablecontainer tr:nth-of-type(2) td {
+				top: 35px;
+			}			
+			
+			#tablecontainer tr:nth-of-type(-n+2) .sortable {
+				background-color: lime;
+			}
+			
+			#tablecontainer tr:nth-of-type(-n+2) td {
+				position: -webkit-sticky; /* for Safari */
+				position: sticky;
+				background-color: white;
+			}
+			
+			#tablecontainer tr:nth-of-type(-n+2) td::after {
+				content: '';
+				position: absolute;
+				left: -1px;
+				top: -1px;
+				width: 100%;
+				height: 100%;
+				border: 1px solid black;
+			}	
+			
+			@media only screen and (min-width: 600px) {			
+				#tablecontainer tr td:first-of-type {
+					left: 0;
+					width: 39px;
+				}
+				#tablecontainer tr td:nth-of-type(2) {
+					left: 39px;
+				}
+				#tablecontainer tr:nth-of-type(1) td:nth-of-type(-n+2) {
+					z-index:2;
+				}		
+				#tablecontainer tr td:nth-of-type(-n+2) {
+					position: -webkit-sticky; /* for Safari */
+					position: sticky;
+					background-color: white;
+				}
+				#tablecontainer tr td:nth-of-type(-n+2)::after {
+					content: '';
+					position: absolute;
+					left: -1px;
+					top: -1px;
+					width: 100%;
+					height: 100%;
+					border: 1px solid black;
+				}	
+			}
+			#tablecontainer tr:nth-of-type(-n+2) td, #tablecontainer tr td:nth-of-type(-n+2) {
+				z-index:1;
+			}
+			
+			.c1, .c2, .c3, .c4, .c5, .c6, .c7 {
+				min-width: 35px;
+			}
+			.c1 {
+				background-color: #22BBFF;
+			}
+			.c2 {
+				background-color: #66BB00;
+			}
+			.c3 {
+				background-color: #FF7700;
+			}
+			.c4 {
+				background-color: #FF55CC;
+			}
+			.c5 {
+				background-color: #7766FF;
+			}
+			.c6 {
+				background-color: #EE2244;
+			}
+			.c7 {
+				background-color: #DDCC22;
+			}
+			.black {
+				background-color: black;
+			}
+			.gray {
+				background-color: gray;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<table id="pagecontainer">
+			<tr style="height: 0;"><td>
+			Click <div style="background-color: lime; width: 20px; height: 20px; display: inline-block; border: 1px solid black;"></div> to sort in ascending order.
+			</td></tr>
+			<tr><td>
+			<div id="tablecontainer">
+				<table id="table">
+				</table>
+			</div>
+			</td></tr>
+		</div>
+		<script>
+			var audio = new Audio();
+			audio.oncanplay = function(){
+				if (audio.callback) {
+					var a = audio.callback;
+					audio.callback = null;
+					a();
+				};
+				audio.play();
+			};
+			function playaudio(path) {
+				audio.pause();
+				audio.src = "wav/" + path;
+				audio.callback = function(){audio.currentTime = path[0]=="s"?0:5;};
+				audio.load();
+				
+			};
+			function popup(id, gamever){
+				let output = lyrics[id];
+				if (gamever) {
+					output = Array.from([...output.matchAll(/(?:\/~(.+?)~\/)/g)], m => m[1]).join("");
+				} else {
+					output = output.replace(/\/~/g,"").replace(/~\//g,"");
+				};				
+				let temp = document.createElement("div");
+				temp.style = "background-color:rgba(0,0,0,0.4);position:fixed;z-index:999999;left:0;top:0;width:100%;height:100%;text-align:center;font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;";
+				let div = document.createElement("div");
+				div.style = "background-color:white;border-radius:10px;padding-top:10px;position:fixed;display: block;top:50%;left:50%;transform: translate(-50%, -50%);";
+				div.innerHTML = "<div style='max-height:calc(80vh - 55px);padding:10px;padding-top:0;display: block;overflow: auto;/*text-align:left*/;width: min-content;white-space:nowrap;font-size:12px'><b>歌詞：</b><br>" + output + "</div><hr style='border: 0.5px solid rgb(217,217,222);'>";
+				let t = div.getElementsByTagName("b");
+				for (let tt = 0; tt < t.length; ++tt){
+					t[tt].style.fontSize = "16px";
+				};
+				let btn = document.createElement("div");
+				btn.style = "color:#007AFF;padding-top:5px;padding-bottom:10px;font-size:16px";
+				btn.onclick = function(){this.parentElement.parentElement.parentElement.removeChild(this.parentElement.parentElement)};			
+				btn.innerHTML = "<b>OK</b>";	
+				temp.appendChild(div);
+				div.appendChild(btn);
+				document.body.appendChild(temp);
+			};
+			var tb = document.getElementById("table");
+			function loadtable(sort, desc){
+				var temp = JSON.parse(JSON.stringify(song));
+				if (typeof sort == "string") {
+					loadtable([sort]);
+					return;
+				} else if (typeof sort == "function") {
+					temp.sort(function(a,b){if(!a){return 1}; if(!b){return -1}; try{if(!sort(a)){return 1}}catch (e){return 1}; try{if(!sort(b)){return -1}}catch (e){return -1}; return desc?(sort(a)>sort(b)?-1:1):(sort(a)>sort(b)?1:-1)});
+				} else if (typeof sort == "object") {
+					temp.sort(function(a,b){
+						if(!a){return 1};
+						if(!b){return -1};
+						for (var t = 0; t < sort.length; ++t){
+							var k = (typeof sort[t] == "string")?sort[t]:sort[t][0];
+							if(!(k in a) || a[k]==""){return 1};
+							if(!(k in b) || b[k]==""){return -1};
+							if (a[k] != b[k]){
+								return (((typeof sort[t] == "string")?false:sort[t][1])?(a[k] > b[k]?-1:1):(a[k] > b[k]?1:-1))
+							}
+						};
+					});
+				} //else undefined (not sorting)
+				//tr row
+				var output = "<tr><td rowspan=2 class='sortable' onclick='loadtable(\"id\")'>ID</td><td rowspan=2 class='sortable' onclick='loadtable(\"name\")'>Name</td><td class='sortable' rowspan=2 onclick='loadtable(\"group\")'>Group</td><td rowspan=2 colspan=7>Configuration</td><td rowspan=2 class='sortable' onclick='loadtable(\"length\")'>Duration</td><td colspan=2>EASY</td><td colspan=2>NORMAL</td><td colspan=2>HARD</td><td colspan=2>EXPERT</td><td colspan=2>TAP ONLY</td><td rowspan=2>Lyrics</td><td rowspan=2>Play Audio</td></tr><tr><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][0][\"star\"]})'>☆</td><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][0][\"note\"]})'>Note</td><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][1][\"star\"]})'>☆</td><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][1][\"note\"]})'>Note</td><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][2][\"star\"]})'>☆</td><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][2][\"note\"]})'>Note</td><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][3][\"star\"]})'>☆</td><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][3][\"note\"]})'>Note</td><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][4][\"star\"]})'>☆</td><td class='sortable' onclick='loadtable(function(a){return a[\"diffs\"][4][\"note\"]})'>Note</td></tr>";
+				for (var c = 0; c < temp.length; ++c){
+					if (temp[c]){
+						output += "<tr>";
+						output += "<td>" + temp[c]["id"] + "</td>";
+						output += "<td>" + temp[c]["name"] + "</td>";
+						output += "<td>" + ["","KiRaRe","オルタンシア","ステラマリス","トロワアンジュ","テトラルキア","ゆるゆり","らき☆すた",""][temp[c]["group"]] + "</td>";
+						output += "<td class='c" + (temp[c]["pos"]?temp[c]["pos"]:"       ").split("").join("'></td><td class='c") + "'></td>";
+						output += "<td>" + temp[c]["length"] + "</td>";
+						for (var c2 = 0; c2 < 5; ++c2){
+							if (temp[c]["diffs"][c2]){
+								output += "<td" + (temp[c]["diffs"][c2]["note"]>=0?(">" + (temp[c]["diffs"][c2]["star"]?temp[c]["diffs"][c2]["star"]:(temp[c]["diffs"][c2]["star_old"]?("(旧)" + temp[c]["diffs"][c2]["star_old"]):"/"))):" class='gray' colspan=2>") + "</td>";
+								output += (temp[c]["diffs"][c2]["note"]>0?("<td>" + temp[c]["diffs"][c2]["note"] + "</td>"):(temp[c]["diffs"][c2]["note"]==0?"<td>??</td>":""));
+							} else {
+								output += "<td class='black' colspan=2></td>";
+							}
+						}
+						output += "<td>" + (lyrics[temp[c]["id"]]?"<u><a onclick='popup(" + temp[c]["id"] + ")'>View</a></u>"+(temp[c]["id"]<=10?(" / <u><a onclick='popup(" + temp[c]["id"] + ", true)'>Game ver.</a></u>"):""):"") + "</td>";
+						output += "<td><u><a onclick='playaudio(\"s" + temp[c]["id"] + ".wav\")'>Preview</a></u> / <u><a onclick='playaudio(\"" + temp[c]["id"] + ".wav\")'>Game ver.</a></u></td>";
+						output += "</tr>";
+					}
+				}
+				tb.innerHTML = output;
+			};
+			loadtable();
+		</script>
+	</body>
+</html>

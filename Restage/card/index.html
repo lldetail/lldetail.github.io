@@ -1,0 +1,340 @@
+<html>
+	<head>
+		<title>リステップキャラリスト</title>
+		<meta name="description" content="リステップのキャラカードのデータベースです。">
+		<meta name="keywords" content="Re:Stage!,Re:ステージ！,リステップ,歌曲,ライブ,キャラ,データベース,DB,KiRaRe,オルタンシア,ステラマリス,トロワアンジュ,テトラルキア,LLDetail" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/cursor/style.css">
+		<link rel="stylesheet" type="text/css" href="../restage-font.css">
+		<script src='cards.js?length=33694'></script>
+		<style>
+			* {
+			  -webkit-box-sizing: border-box;
+				 -moz-box-sizing: border-box;
+					  box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+			}
+			table {
+				border-collapse: collapse;
+			}
+			#list tr td:nth-of-type(3){
+				white-space: nowrap;
+			}
+			#list tr td:nth-of-type(5){
+				min-width: 35px;
+				min-height: 35px;
+			}
+			#icon {
+				width: 10vw;
+				height: 10vw;
+				border: 1px solid black;
+				display: inline-block;
+				background-size: 100%;
+			}
+			#fullimgcontainer {	
+				border: 1px solid black;
+				position: relative;
+				width: 100%;			
+				padding-top: 56.25%;
+			}
+			#fullimg, #fullimgoverlay {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+			}
+			#fullimgoverlay {
+				background-color: rgba(255, 255, 255, 0.5);
+			}
+			#desimg {
+				width: 100%;
+				background-size: 100%;
+				border: 1px solid black;
+			}
+			#left {
+				overflow-x: auto;
+			}
+			tr.original {
+				background-color: lime;
+			}
+			tr.web {
+				background-color: #1DA1F2;
+			}
+			tr.web_thumb {
+				background-color: red;
+			}
+			tr.infocard {
+				background-color: yellow;
+			}
+			tr.icon {
+				background-color: pink;
+			}
+			th, td {
+				border: 1px solid black;
+			}
+			#table2 {
+				--width: 100%;
+				height: calc(var(--width) * 18 / 34);
+				width: var(--width);
+			}
+			#table2 tr {
+				height: 50%;
+			}
+			#table2 tr:nth-of-type(1) td:nth-of-type(1) {
+				width: calc(var(--width) * 18 / 34);
+			}
+			#avail th, #avail td {
+				width: 60px;
+				min-height: 25px;
+			}
+			#des {
+				width: 100%;
+			}
+			.great {
+				background-color: lime;			
+			}
+			.good {
+				background-color: yellow;			
+			}
+			.just {
+				background-color: red;			
+			}
+			.notfound {
+				background-color: gray;			
+			}
+			.hidden {
+				display: none;
+			}
+			@media only screen and (min-width: 1020px) {
+				body {
+					--fwidth: 510px;
+				}
+				#left {
+					height: 100vh;
+					width: var(--fwidth);
+					overflow-y: auto;
+				}
+				#des {
+					height: 100vh;
+					position: fixed;
+					left: var(--fwidth);
+					top: 0px;
+					width: calc(100% - var(--fwidth));
+					overflow-y: auto;
+				}
+			}
+			@media only screen and (max-width: 1020px) {
+				#left {
+					width: 100%;
+				}
+				#list {
+					min-width: 100%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			//another way of image loading
+			Image.prototype.load = function(url){
+				var img = this, xmlHTTP = new XMLHttpRequest();
+				img.completedPercentage = 0;
+				xmlHTTP.open('GET', url, true);
+				xmlHTTP.responseType = 'arraybuffer';
+				xmlHTTP.onload = function(e) {
+					var h = xmlHTTP.getAllResponseHeaders(),
+						m = h.match( /^Content-Type\:\s*(.*?)$/mi ),
+						mimeType = m[1] || 'image/png';
+					var blob = new Blob([this.response], { type: mimeType });
+					img.onload = finished;
+					img.src = window.URL.createObjectURL(blob);
+				};
+				xmlHTTP.onprogress = function(e) {
+					if ( !e.lengthComputable ) return;
+					img.completedPercentage = parseInt((e.loaded / e.total) * 100);
+					loadingimg[img.id] = img.completedPercentage;
+					updatepercentage(img);
+				};
+				xmlHTTP.onloadstart = function() {
+					img.completedPercentage = 0;
+					updatepercentage(img);
+				};
+				xmlHTTP.onloadend = function() {
+					img.completedPercentage = 100;
+					updatepercentage(img);
+				}
+				xmlHTTP.send();
+			};
+			
+			function updatepercentage(obj){
+				if (obj.tag != lastindex) return;
+				loadingimg[obj.id] = obj.completedPercentage;
+				id("loading" + obj.id).innerHTML = obj.completedPercentage;
+			};
+			function finished(){
+				//if all 100
+				for (let i in loadingimg) if (loadingimg[i] < 100) return;
+				//draw image
+				fullimg.clearRect(0, 0, 1174, 660);
+				for (let i = 0; i < images.length; i++){
+					let img = images[i];
+					if (img.range == "full"){
+						fullimg.drawImage(img, 0, 0, 1174, 660);
+					} else if (img.range == "crop"){
+						let w = img.width;
+						let h = img.height;
+						if (w * 2 > h * 3){ //h=640
+							fullimg.drawImage(img, (1174 - 640 * w / h) / 2, 10, 640 * w / h, 640);
+						} else { //w=960
+							fullimg.drawImage(img, 107, (660 - 960 * h / w) / 2, 960, 960 * h / w);
+						}
+					} 
+				}
+				id("fullimgoverlay").setAttribute("class", "hidden");
+				id("fullimg").setAttribute("src", id("fullimgghost").toDataURL("image/png"));
+			}
+		</script>
+		<div id="left">
+			Color:
+			<span style="background-color: lime">Original-Size</span>
+			<span style="background-color: #1DA1F2">Web Image</span>
+			<span style="background-color: yellow">Info-card Only</span>
+			<span style="background-color: pink">Icon Only</span><br>
+			(Click on the first row to sort by that field in ascending order.)
+			<table id="list">
+			</table><br>
+		</div>
+		<div id="des">
+			<span id="cardid"></span><br>
+			<div id="icon" width=128 height=128></div> <span id="fullname"></span> (<span id="stars"></span>) <button onclick="gotop()">Top</button><br>
+			Image Quality: <span id="imagetype" style="display: none; text-transform: capitalize;"></span><br>
+			<table id="avail">
+				<tr>
+					<th>Icon</th>
+					<th>Image</th>
+					<th>Info</th>
+				</tr>
+				<tr>
+					<td id="avail_icon" class="notfound">&nbsp;</td>
+					<td id="avail_image" class="notfound">&nbsp;</td>
+					<td id="avail_info" class="notfound">&nbsp;</td>
+				</tr>
+			</table>
+			<div id="fullimgcontainer">
+				<canvas id="fullimgghost" width=1174 height=660 style="display:none"></canvas>
+				<img id="fullimg" src="empty.png">
+				<div id="fullimgoverlay" class="hidden"></div>
+			</div>
+			<img id="desimg"><br>
+		</div>
+		<script>
+			function id(id){
+				return document.getElementById(id);
+			}
+			var tb = id("list");
+			function loadtable(mode){
+				var temp = JSON.parse(JSON.stringify(cards));
+				if (mode == 0){ //sort by id
+					temp.sort(function(a,b){return (a["id"] > b["id"])?1:-1});
+				} else if (mode == 1){ //sort by rarity
+					temp.sort(function(a,b){return (a["rarity"] == b["rarity"])?(a["id"] > b["id"]?1:-1):(a["rarity"] > b["rarity"]?1:-1)});
+				} else if (mode == 2){ //sort by series
+					temp.sort(function(a,b){if (a["series"] == "" && a["rarity"] > 1) return 1; if (b["series"] == "" && b["rarity"] > 1) return -1; return (a["series"] == b["series"])?((a["rarity"] == b["rarity"])?(a["character"] > b["character"]?1:-1):(a["rarity"] > b["rarity"]?1:-1)):(a["series"] > b["series"]?1:-1)});
+				} else if (mode == 3){ //sort by character
+					temp.sort(function(a,b){return (a["character"] == b["character"])?(a["id"] > b["id"]?1:-1):(a["character"] > b["character"]?1:-1)});
+				}
+				var output = "<tr><td onclick='loadtable(0)'>ID</td><td onclick='loadtable(1)'>Rarity</td><td onclick='loadtable(2)'>Series</td><td onclick='loadtable(3)'>Character</td><td style='width: 35px;'></td></tr>";
+				for (var c = 0; c < temp.length; ++c){
+					output += "<tr" + (temp[c]["quality"]?(" class='" + temp[c]["quality"] + "'"):"") + " onclick='load(" + temp[c]["index"] + ")' id='r" + temp[c]["index"] + "'><td>" + temp[c]["id"] + "</td><td>" + "☆☆☆☆".substr(0,+temp[c]["rarity"]) + "</td><td>" + (temp[c]["rarity"]==1?"":("[" + temp[c]["series"] + "]")) + "</td><td>" + clist[temp[c]["character"]] + "</td><td style='background-image: " + (temp[c]["icon"]?("url(../img/" + temp[c]["icon"] + ")"):temp[c]["ticon"]?("url(../img/" + temp[c]["ticon"] + ")"):"url(../banner/blank_4.png)") + "; background-size: 100%;'></td></tr>";
+				}
+				tb.innerHTML = output;
+			}
+			loadtable(0);
+			var fullimg = id("fullimgghost").getContext("2d");
+			var lastindex = -1;
+			function gotop(){
+				if (lastindex == -1){
+					location.href = "#list";
+				} else {
+					location.href = "#r" + lastindex;
+				}
+			}
+			var loadingimg = [];
+			var images = [];
+			function load(index){
+				lastindex = index;
+				id("cardid").innerHTML = cards[index]["id"];
+				id("imagetype").innerHTML = cards[index]["quality"]?cards[index]["quality"]:"No Image";
+				id("fullname").innerHTML = (cards[index]["rarity"]==1?"":("[" + cards[index]["series"] + "]")) + " " + clist[cards[index]["character"]];
+				id("stars").innerHTML = "☆☆☆☆".substr(0,+cards[index]["rarity"]);
+				id("icon").style.backgroundImage = cards[index]["icon"]?("url(../img/" + cards[index]["icon"] + ")"):cards[index]["ticon"]?("url(../img/" + cards[index]["ticon"] + ")"):"url(../banner/blank_4.png)";
+				id("avail_icon").setAttribute("class",cards[index]["icon"]?"great":cards[index]["ticon"]?"good":"notfound");
+				
+				loadingimg = [];
+				images = [];
+				id("fullimg").setAttribute("src", "empty.png");
+				id("fullimgoverlay").innerHTML = "Loading ... <br>";
+				id("fullimgoverlay").removeAttribute("class");
+				fullimg.clearRect(0, 0, 1174, 660);
+				addline = function(){
+					loadingimg.push(0);
+					let l = loadingimg.length;
+					id("fullimgoverlay").innerHTML += "Image " + l + " is loading... ";
+					let newline = document.createElement("span");
+					newline.id = "loading" + (l - 1);
+					newline.innerHTML = "0";
+					id("fullimgoverlay").appendChild(newline);
+					id("fullimgoverlay").innerHTML += "%<br>";
+					images.push(new Image);
+					let timg = images[images.length - 1];
+					timg.id = l - 1;
+					timg.tag = index;
+					return timg;
+				}
+				if (cards[index]["thumb"]){
+					for (let c = 0; c < cards[index]["thumb"].length; ++c){
+						let img = addline();
+						img.range = (cards[index]["thumb"][c].length > 1?cards[index]["thumb"][c][1]:"crop");
+						img.load(cards[index]["thumb"][c][0]);
+					}
+				}
+				if (cards[index]["full"]){
+					for (let c = 0; c < cards[index]["full"].length; ++c){
+						let img = addline();
+						img.range = "full";
+						img.load(cards[index]["full"][c]);
+					}
+				}
+				if (cards[index]["crop"]){
+					for (let c = 0; c < cards[index]["crop"].length; ++c){
+						let img = addline();
+						img.range = "crop";
+						img.load(cards[index]["crop"][c]);
+					}
+				}
+				if (cards[index]["src"]){
+					for (let c = 0; c < cards[index]["src"].length; ++c){
+						let img = addline();
+						img.range = "full";
+						img.load(cards[index]["src"][c]);
+					}
+				}
+				if (!loadingimg.length){
+					id("fullimgoverlay").innerHTML = "No image available!";
+					id("fullimg").setAttribute("src", "empty.png");
+				}
+				id("avail_image").setAttribute("class",cards[index]["src"]?"great":(cards[index]["crop"] || cards[index]["full"])?"good":cards[index]["thumb"]?"just":"notfound");
+				
+				id("desimg").setAttribute("src", cards[index]["des"]?(cards[index]["des"]):"empty.png");
+				id("avail_info").setAttribute("class",cards[index]["des"]?"great":"notfound");
+				location.href = "#";
+				location.href = "#des";
+			}
+			load(0);
+			location.href = "#left";
+		</script>
+	</body>
+</html>
