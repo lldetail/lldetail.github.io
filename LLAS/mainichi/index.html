@@ -1,0 +1,1151 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
+		<meta name="theme-color" content="#000000">
+		<meta name="description" content="スクスタの毎日劇場風の画像を作ってシェアできるサイトのリメイクです。">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@twy____">
+		<meta name="twitter:image" content="https://lldetail.ml/LLAS/mainichi/twitter.png">
+		<meta property="og:url" content="https://lldetail.ml/LLAS/mainichi/">
+		<meta property="og:title" content="Re:毎日劇場メーカー">
+		<meta property="og:description" content="スクスタの毎日劇場風の画像を作ってシェアできるサイトのリメイクです。">
+		<meta property="og:image" content="https://lldetail.ml/LLAS/mainichi/twitter.png">
+		
+		<title>Re:毎日劇場メーカー</title>
+		<script src="huffman.js"></script>
+		<link rel="stylesheet" type="text/css" href="../llas-font.css?punct">
+		<style>
+			* {
+				  -webkit-box-sizing: border-box;
+					 -moz-box-sizing: border-box;
+						  box-sizing: border-box;
+			}
+			canvas, #preview {
+				width: 100%;
+				border: 1px solid black;
+				margin-bottom: 20px;
+			}
+			body {
+				text-align: center;
+			}
+			a {
+				color: black;
+			}
+			div.drawer {
+				display: inline-block;
+				width: calc(100% - 200px);
+				overflow-x: scroll;
+				border: 1px solid black;
+				white-space: nowrap;
+				vertical-align: middle;
+			}
+			#editor {
+				left: 0px;
+				width: 100vw;
+				background:#FFF6DF;
+				word-wrap: break-word;
+			}
+			.separator {
+				text-align: left;
+			}
+			.dialog {
+				width: 100%;
+				background: white;
+				border-radius: .3rem;
+				padding: 32px;
+				position: relative;
+				margin: 10px 0;
+				text-align: left;
+			}
+			.dialog input {
+				width: 100%;
+			}
+			input, button, select {
+				font-size: 18px;
+			}
+			input, button, select, #yohanelang {
+				font-family: llas, llasth, llaskr, llastw;
+			}
+			body.zh #editor input, body.zh #editor select, body.zh #yohanelang {
+				font-family: llastw, llas, llasth, llaskr;
+			}
+			input[type=text], select {
+				border: 0px;
+				border-bottom: 1px solid black;
+				background: #00000000;
+				height: 40px;
+			}
+			input {
+				margin-left: 5px;
+				padding-left: 5px;
+			}
+			select {
+				padding: 5px 0;
+				width: 120px;
+			}
+			button {
+				color: white;
+				background-color: #E93398;
+			}
+			button:disabled {
+				color: white;
+				background-color: #404040;
+			}
+			.share button {
+				background: Transparent no-repeat;
+				border: none;
+				outline: none;
+				cursor:pointer;
+				width: 32px;
+				height: 32px;
+				padding: 0;
+				vertical-align: middle;
+				overflow: hidden;
+			}
+			input:placeholder-shown {
+				border-bottom: 1px solid red;
+			}
+			input::placeholder {
+				color: red;
+			}
+			#btn_quote {
+				position: absolute;
+				padding: 1px;
+			}
+			.btn_top, .btn_btm, .btn_add, .btn_close, .btn_swap {
+				width: 41px;
+				height: 41px;
+				color: #019FE8;
+				text-align: center;
+			}
+			.btn_top, .btn_btm, .btn_close, .btn_swap {
+				background-color: #00000000;
+				border: 0px;
+			}
+			.btn_swap {
+				position: absolute;
+				left: calc(50% - 41px / 2);
+				border: 0px;
+			}
+			.separator:first-child .btn_swap, .separator:last-child .btn_swap {
+				color: gray;
+			}
+			.btn_add {
+				border: 1px solid #019FE8;
+				border-radius: 50%;
+				background-color: white;
+				float: right;
+			}
+			.btn_close {
+				color: #808080;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			.counter {
+				border-radius: .3rem;
+				font-size: 12px;
+				color: white;
+				position: absolute;
+				background: #E93398;
+				padding: 0px 10px;
+				right: 10;
+				top: 10;
+			}
+			.thumb {
+				width: 64px;
+				height: 64px;
+				vertical-align: middle;
+			}
+			.thumbs {
+				width: 32px;
+				height: 32px;
+				vertical-align: middle;
+			}
+			.inline {
+				width: 20px;
+				height: 20px;
+				vertical-align: middle;
+			}
+			body {
+				margin: 0 calc((100vw - 640px)/2);
+			}
+			#editor {
+				margin: 0 calc((640px - 100vw)/2);
+				padding: 24 calc((100vw - 640px)/2);
+			}
+			#footer {
+				margin: 0 calc((640px - 100vw)/2);
+			}
+			.break500 {
+				display: none;
+			}
+			@media only screen and (max-width: 640px) {
+				body {
+					margin: 0 0;
+				}
+				#editor {
+					margin: 0 0;
+					padding: 0 0;
+				}
+				#footer {
+					margin: 0 0;
+				}
+			}
+			@media only screen and (max-width: 500px) {
+				.break500 {
+					display: block;
+				}
+				#btn_quote {
+					right: 1px;
+				}
+			}
+			@media (prefers-color-scheme: dark) { 
+				body {
+					background: #000000C0;
+					color: #808080;
+				}
+				a {
+					color: #808080;
+				}
+				input {
+					color: #808080;
+					border-bottom: 1px solid #808080;
+				}
+				#editor {
+					background: #3D2A0080;
+				}
+				.btn_add {
+					background-color: black;
+				}
+				.dialog {
+					background: #808080;
+				}
+				.btn_close {
+					color: black;
+				}
+				.dialog input {
+					color: black;
+					border-bottom: 1px solid black;
+				}
+				input:placeholder-shown {
+					border-bottom: 1px solid #c00000;
+				}
+				input::placeholder {
+					color: #c00000;
+				}
+			}
+			@supports not (background-color: #00000000) {
+				.btn_top, .btn_btm, .btn_swap {
+					background:#FFF6DF;
+				}
+				.btn_close {
+					background-color: white;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div style="font-size: 32px; text-align: center">Re:<span style="color:#E93398">毎</span>日<span style="color:#019FE8">劇</span>場<span style="color:#FFC94A">メ</span>ーカー</div><br>
+		<input type="text" id="header" placeholder="ヘッダ (Header)" maxlength="20" value="毎日劇場"><br><br>
+		<input type="text" id="title" placeholder="タイトル (Title)" maxlength="20"><button id="btn_quote" onclick="addquotes()">『』</button><br><br>
+		言語 (Language): <br class="break500"><input type="radio" onclick="changelang('jp')" name="lang" checked>日本語 <input type="radio" onclick="changelang('en')" name="lang">English <input type="radio" onclick="changelang('zh')" name="lang"><span style="font-family: llastw">中文</span> <input type="radio" onclick="changelang('kr')" name="lang">한국어 <input type="radio" onclick="changelang('th')" name="lang">ไทย <br>
+		名前置換 (Name Replace): <br class="break500"><input type="checkbox" onclick="toggleyo(this.checked)"><img src="../img/icon/yoshiko.png" class="inline"><span id="yohanelang">ヨハネ</span> <span id="lang_zh" style="display:none"><input type="checkbox" onclick="togglezh(this.checked)"><span style="font-family: llastw"><img src="../img/icon/kotori.png" class="inline"><img src="../img/icon/nico.png" class="inline">其他譯名</span> </span><br>
+		<button onclick="if (confirm('リセットしてもよろしいですか？\nAre you sure to reset?')) {JSONimport(defaultd)}">リセット (Reset)</button> <button onclick="exports()">書き出し (Export)</button> <button onclick="ifanyorreturn(prompt('下のテキストボックスに内容を貼り付けてください。\nPlease paste the contents to the textbox below.',''),JSONimport)">読み込み (Import)</button><br><span style="font-size:8px">クライアント側のみでイメージを生成するから、サーバーに保存できません。<br>Images are generated on the client side, so they cannot be saved on the server.</span><br><br>
+		<div id="editor"></div><br>
+		<canvas width="2146" height="0" style="display:none;"></canvas><br>
+		<button onclick="predraw()">プリビュー (Preview)</button> <button id="savebtn" onclick="saveimg()">保存 (Save)</button> <button onclick="newtab()">新しいタブ (New Tab)</button>
+		<br><br><br>
+		<div id="footer" style="text-align:right;">Created by TWY (<a href="/Lovelive/">lldetail</a>)<br><span style="font-size:8px"><a href="https://twitter.com/devsifmatch" target="_blank">浦の星パソコン部</a>の作品を參考にしました。</span></div>
+		<script>
+			function ifanyorreturn(x, callback) {
+				if (!x) return;
+				callback(x);
+			}
+			function id(d){
+				return document.getElementById(d);
+			};
+			var exp = false;
+			var header = "毎日劇場";
+			var title = "";
+			var defaultd = [{"n":0,"d":"ファイトだよ！"}];
+			var actuald = JSON.parse(JSON.stringify(defaultd));
+			var lang = "jp";
+			var llname = {
+			"jp": ["穂乃果","絵里","ことり","海未","凛","真姫","希","花陽","にこ","千歌","梨子","果南","ダイヤ","曜","善子","花丸","鞠莉","ルビィ","歩夢","かすみ","しずく","果林","愛","彼方","せつ菜","エマ","璃奈","栞子"],
+			"en": ["Honoka", "Eli", "Kotori", "Umi", "Rin", "Maki", "Nozomi", "Hanayo", "Nico", "Chika", "Riko", "Kanan", "Dia", "You", "Yoshiko", "Hanamaru", "Mari", "Ruby", "Ayumu", "Kasumi", "Shizuku", "Karin", "Ai", "Kanata", "Setsuna", "Emma", "Rina", "Shioriko"],
+			"zh_t": ["穗乃果","繪里","琴梨","海未","凜","真姬","希","花陽","日香","千歌","梨子","果南","黛雅","曜","善子","花丸","鞠莉","露比","步夢","霞","雫","果林","愛","彼方","雪菜","艾瑪","璃奈","栞子"],
+			"zh_s": ["穗乃果","绘里","琴梨","海未","凛","真姬","希","花阳","日香","千歌","梨子","果南","黛雅","曜","善子","花丸","鞠莉","露比","步梦","霞","雫","果林","爱","彼方","雪菜","艾玛","璃奈","栞子"],
+			"kr": ["호노카","에리","코토리","우미","린","마키","노조미","하나요","니코","치카","리코","카난","다이아","요우","요시코","하나마루","마리","루비","아유무","카스미","시즈쿠","카린","아이","카나타","세츠나","엠마","리나","시오리코"],
+			"th": ["โฮโนกะ","เอริ","โคโทริ","อุมิ","ริน","มากิ","โนโซมิ","ฮานาโยะ","นิโกะ","จิกะ","ริโกะ","คานัน","ไดยะ","โย","โยชิโกะ","ฮานะมารุ","มาริ","รูบี้","อายูมุ","คาสึมิ","ชิสึคุ","คาริน","ไอ","คานาตะ","เซ็ตสึนะ","เอ็มม่า","รินะ","ชิโอริโกะ"]
+			};
+			var extensions_default = {"custom":[]};
+			var extensions = JSON.parse(JSON.stringify(extensions_default));
+			var llshort = ["honoka","eli","kotori","umi","rin","maki","nozomi","hanayo","nico","chika","riko","kanan","dia","you","yoshiko","hanamaru","mari","ruby","ayumu","kasumi","shizuku","karin","ai","kanata","setsuna","emma","rina","shioriko"];
+			var loaded = "".padStart(llname["jp"].length," ").split("").map(a=>false);
+			var usage = "".padStart(llname["jp"].length," ").split("").map(a=>0);
+				usage["???"] = 0;
+				usage["___"] = 0;
+			var savebtn = document.getElementById("savebtn");
+			var loading = 0;
+			var zh_simp = false;
+			var zh_nick = false;
+			var yohane = false;
+			var base = new Image;
+			base.onload = function(){
+				baseloaded = true;
+			};
+			base.src = "base.png";
+			var bgimg = new Image;
+			bgimg.onload = function(){
+				bgimgloaded = true;
+			};
+			bgimg.src = "mainichi.png";
+			var separator = new Image;
+			separator.onload = function(){
+				separatorloaded = true;
+			};
+			separator.src = "mainichi_separator.png";
+			img = [];
+			/*var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+			if (iOS) document.documentElement.setAttribute("class", "iOS");*/
+			var bgimgloaded = false;
+			var separatorloaded = false;
+			canv = document.getElementsByTagName("canvas")[0];
+			canvas = canv.getContext('2d');
+			let fontloaded = !document.fonts;
+			if (document.fonts) {
+				document.fonts.ready.then(function() {
+					fontloaded = true;
+				});
+			} else {
+				window.onload = function() {
+					fontloaded = true;
+				};
+			};
+			function predraw(callback){
+				header = id("header").value?(lang=="zh"?id("header").value.replace(/毎日/g,"每日"):id("header").value):(ischi()?"每日劇場":"毎日劇場");
+				title = id("title").value?id("title").value:{"jp":"無題","en":"Untitled","zh":"未命名","th":"ไม่มีชื่อ","kr":"제목 없음"}[lang];
+				if (baseloaded && bgimgloaded && separatorloaded && fontloaded){
+					//check images to be loaded
+					let hastoload = false;
+					for (let i = 0; i < actuald.length; ++i) {
+						let n = actuald[i].n;
+						let tn;
+						if (n == "???") continue;
+						if (n == "___") continue;
+						if (isNaN(n)){
+							tn = n.split("_");
+						}
+						if (!loaded[n]) {
+							hastoload = true;
+							loaded[n] = true;
+							img[n] = new Image;
+							img[n].tag = n;
+							img[n].callback = callback;
+							img[n].onload = function(){
+								loading--;
+								if (!loading) draw(this.callback);
+							};
+							img[n].onerror = function(){
+								loading--;
+								alert("Failed Loading " + getName(this.tag) + "'s Icon.");
+								loaded[this.tag] = false;
+							};
+							img[n].src = getSrc(n);
+							++loading;
+						};
+					}		
+					if (!hastoload) draw(callback);
+				} else {
+					let notloaded = [];
+					if (!baseloaded) {
+						notloaded.push("Base Icon");
+					}
+					if (!bgimgloaded) {
+						notloaded.push("Background Image");
+					}
+					if (!separatorloaded) {
+						notloaded.push("Separator Line");
+					}
+					if (!fontloaded) {
+						notloaded.push("Font");
+					}
+					alert("Something is not loaded: \n\n" + notloaded.join("\n"));
+				};
+			};
+			function nextbreakpt(s, curr){
+				let unbreakable = function(c) {
+					return /[\0-\u2e7f]/.test(c) && !/[\u0e00-\u0e7f]/.test(c) && !/[\u0e80-\u0eff]/.test(c) && !/[\u1000-\u109f]/.test(c) && !/[\u1b00-\u1b7f]/.test(c) && !/[\u1bc0-\u1bff]/.test(c) && !/[\u1780-\u17ff]/.test(c) && !/[\u2460-\u24ff]/.test(c) && !/[\u2026]/.test(c); //non Chinese / Japanese Character that is not Thai, Lao, Myanmar, Balinese, Batak, Khmer or circled text or …
+				};
+				let temp = curr + 1;
+				while (temp < s.length && (" ་࠰".indexOf(s[temp - 1]) == -1) && unbreakable(s[temp-1]) && unbreakable(s[temp])) { //can break between two Chinese / Japanese / Thai / space
+					++temp;
+				}
+				return temp - curr;
+			}
+			function isRTL(s){
+				return /^[^A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF'+'\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF]*[\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC]/.test(s);
+			};
+			function addquotes(){
+				let t = id("title").value;
+				if (t[0] == "『" && t.substr(-1) == "』") {
+					id("title").value = t.substr(1, t.length-2);
+				} else {
+					id("title").value = "『" + t + "』";
+				};
+			}
+			function getName(v) {
+				if (v == "???") {
+					return "？？？";
+				} else if (v == "___") {
+					return "";
+				} else if (isNaN(v)) { //from extensions
+					let temp = v.split("_");
+					switch (typeof extensions[temp[0]][temp[1]].s) {
+						case "object":
+							if (lang === "zh") {
+								if (extensions[temp[0]][temp[1]].s["zh_" + (zh_simp?"s":"t")]) return extensions[temp[0]][temp[1]].s["zh_" + (zh_simp?"s":"t")];
+							}
+							if (extensions[temp[0]][temp[1]].s[lang]) return extensions[temp[0]][temp[1]].s[lang];
+							return extensions[temp[0]][temp[1]].s[Object.keys(extensions[temp[0]][temp[1]].s)[0]];
+							break;
+						case "string":
+						default:
+							//find locale variant
+							return extensions[temp[0]][temp[1]].s;
+					}
+				} else {
+					if (yohane && llname["jp"][v] == "善子") {
+						return {"jp":"ヨハネ","en":"Yohane","zh":"夜羽","th":"โยฮาเนะ","kr":"요하네"}[lang];
+					}
+					if (lang === "zh") {
+						let temp = llname["zh_" + (zh_simp?"s":"t")][v];
+						if (zh_nick) {
+							temp = temp.replace("琴梨",(zh_simp?"小鸟":"小鳥")).replace("日香","妮可");
+						}
+						return temp;
+					}
+					return llname[lang][v];
+				}
+			}
+			function getSrc(v) {
+				if (v == "???" || v == "___") {
+					return "Pixel.png";
+				} else if (isNaN(v)) {
+					let temp = v.split("_");
+					if (extensions[temp[0]][temp[1]].i){
+						return "../img/icon/" + temp[0] + "/" + extensions[temp[0]][temp[1]].i + ".png";
+					} else if (extensions[temp[0]][temp[1]].c != false){
+						return generateBase(extensions[temp[0]][temp[1]].c, true);
+					} else {
+						return "Pixel.png";
+					}
+				} else {
+					return "../img/icon/" + llshort[v] + ".png";
+				}
+			}
+			function anyColor(v) {
+				if (v != "???" && v != "___" && isNaN(v)) {
+					let temp = v.split("_");
+					return extensions[temp[0]][temp[1]].c!=undefined?true:false;
+				} else {
+					return false;
+				}
+			}
+			function getColor(v) {
+				if (v != "???" && v != "___" && isNaN(v)) {
+					let temp = v.split("_");
+					return extensions[temp[0]][temp[1]].c;
+				} else {
+					return false;
+				}
+			}
+			function generateBase(c, url) {
+				let cv = document.createElement("canvas");
+				cv.width = 150;
+				cv.height = 150;
+				let canvas = cv.getContext("2d");
+				canvas.clearRect(0, 0, cv.width, cv.height);
+				canvas.drawImage(base,0,0,150,150,0,0,150,150);
+				canvas.fillStyle = c;
+				canvas.globalCompositeOperation = "lighter";
+				canvas.fillRect(0,0,150,150); //icon
+				canvas.globalCompositeOperation = "destination-in";
+				canvas.drawImage(base,0,0,150,150,0,0,150,150);
+				if (url) {
+					return cv.toDataURL("image/png");
+				} else {
+					//let i = new Image;
+					//i.src = cv.toDataURL("image/png");
+					return cv;
+				}
+			}
+			function draw(callback){
+				let tempy = 300;
+				let maxwidth = 1875;
+				let fonts = lang=="zh"?"llastw, llas, llasth, llaskr":"llas, llasth, llaskr, llastw";
+				canvas.font = '46.3px ' + fonts;
+				for (let i = 0; i < actuald.length; ++i) {
+					if (actuald[i].n == "???") {
+						tempy -= 77;
+					} else if (actuald[i].n == "___") {
+						tempy -= 170;
+					} else {
+						if (anyColor(actuald[i].n)) {
+							if (getColor(actuald[i].n) == false) {
+								tempy -= 77;
+							}
+						}
+					}
+					let w = canvas.measureText(actuald[i].d).width;
+					let st = 0;
+					while (w > maxwidth) {
+						let l = nextbreakpt(actuald[i].d, st);//Math.min(40, actuald[i].d.length - st);
+						//let nx = nextbreakpt(actuald[i].d, st)
+						while (st + l < actuald[i].d.length && canvas.measureText(actuald[i].d.substr(st, l + nextbreakpt(actuald[i].d, st + l)).replace(/\s+$/g,"")).width < maxwidth) {
+							l += nextbreakpt(actuald[i].d, st + l); //++l;
+						};
+						tempy += 80;
+						st += l;
+						w = canvas.measureText(actuald[i].d.substr(st).replace(/\s+$/g,"")).width;
+					};
+					if (st < actuald[i].d.length){
+						tempy += 80;
+					}
+					tempy += 195.5;
+				}
+				let h = tempy + 123;
+				canv.setAttribute("height", h);
+				canvas.clearRect(0, 0, 2146, h);
+				//canvas.drawImage(bgimg,0,0,2146,1162,0,0,2146,1162); //top
+				
+				canvas.drawImage(bgimg,0,0,2146,260,0,0,2146,260); //top
+				canvas.drawImage(bgimg,0,260,2146,770,0,260,2146,h-392); //middle
+				canvas.drawImage(bgimg,0,1030,2146,132,0,h-132,2146,132); //bottom
+				
+				canvas.font = '50px ' + fonts;
+				canvas.fillStyle = "#3C3C4B";	
+				//canvas.fillStyle = "red";							
+				canvas.fillText(header, 1073 - (canvas.measureText(header).width >> 1), 85);
+				canvas.font = '53px ' + fonts;
+				canvas.fillStyle = "#494949";	
+				//canvas.fillStyle = "red";						
+				canvas.fillText(title, 1073 - (canvas.measureText(title).width >> 1), 192);
+				//crop maxwidth
+				let y = 300;
+				for (let i = 0; i < actuald.length; ++i) {
+					canvas.font = '53px ' + fonts;
+					if (actuald[i].n == "???") {
+						y -= 52;
+						canvas.fillText("？？？", 133, y + 93);
+						y -= 25;
+					} else if (actuald[i].n == "___") {
+						y -= 170;						
+					} else {
+						if (anyColor(actuald[i].n)) {
+							/*canvas.drawImage(base,0,0,150,150,133,y-5,148,148); //icon
+							canvas.fillStyle = getColor(actuald[i].n);
+							canvas.globalCompositeOperation = "lighter";
+							canvas.fillRect(133,y-5,148,148); //icon
+							canvas.globalCompositeOperation = "source-over";
+							canvas.fillStyle = "#494949";	*/
+							if (getColor(actuald[i].n) != false) {
+								canvas.drawImage(generateBase(getColor(actuald[i].n)),0,0,150,150,133,y-5,148,148); //icon
+								canvas.fillText(getName(actuald[i].n), 280, y + 93);
+							} else {
+								y -= 52;
+								canvas.fillText(getName(actuald[i].n), 133, y + 93);
+								y -= 25;
+							}
+						} else {
+							canvas.drawImage(img[actuald[i].n],0,0,150,150,133,y-5,148,148); //icon
+							canvas.fillText(getName(actuald[i].n), 280, y + 93);
+						}
+					}
+					canvas.font = '46.3px ' + fonts;
+					let w = canvas.measureText(actuald[i].d).width;
+					let st = 0;
+					let rtl = isRTL(actuald[i].d);
+					while (w > maxwidth) {
+						let l = nextbreakpt(actuald[i].d, st);//let l = Math.min(40, actuald[i].d.length - st);
+						while (st + l < actuald[i].d.length && canvas.measureText(actuald[i].d.substr(st, l + nextbreakpt(actuald[i].d, st + l)).replace(/\s+$/g,"")).width < maxwidth) {
+							l += nextbreakpt(actuald[i].d, st + l); //++l;
+						};
+						if (rtl) {
+							canvas.fillText(actuald[i].d.substr(st, l), 136 + maxwidth - canvas.measureText(actuald[i].d.substr(st, l).replace(/\s+$/g,"")).width, y + 200);
+						} else {
+							canvas.fillText(actuald[i].d.substr(st, l), 136, y + 200);
+						}
+						y += 80;
+						st += l;
+						w = canvas.measureText(actuald[i].d.substr(st).replace(/\s+$/g,"")).width;
+					};
+					if (st < actuald[i].d.length){
+						if (rtl) {
+							canvas.fillText(actuald[i].d.substr(st), 136 + maxwidth - canvas.measureText(actuald[i].d.substr(st).replace(/\s+$/g,"")).width, y + 200);
+						} else {
+							canvas.fillText(actuald[i].d.substr(st), 136, y + 200);
+						}
+						y += 80;
+					}
+					canvas.drawImage(separator,0,0,2146,4,0,y+151.5,2146,4); //separator
+					y += 195.5;
+				}
+				canv.setAttribute("style","");
+				if (exp) id("preview").setAttribute("src",canv.toDataURL("image/png"));
+				if (callback) callback();
+			}
+			function saveimg(){
+				predraw(function(){
+					var a = document.createElement("a");
+					a.href = canv.toDataURL("image/png");
+					a.setAttribute("download", "mainichi.png");
+					a.click();
+				});
+			}	
+			function newtab(){
+				predraw(function(){
+					var image = new Image();
+					image.src = canv.toDataURL("image/png");
+					var w = window.open("");
+					w.document.write(image.outerHTML);
+				});
+			}	
+			
+			function createseparator(id){
+				let div = document.createElement("div");
+				div.setAttribute("class","separator");
+				div.linkage = id;
+				div.innerHTML = '<button class="btn_top" onclick="scrolltop()">∧</button><button class="btn_btm" onclick="scrollbtm()">∨</button><button class="btn_swap" onclick="swap(this.parentElement.linkage - 1, this.parentElement.linkage)">↕</button><button class="btn_add" onclick="addbefore(this.parentElement.linkage)">＋</button>';
+				return div;
+			}
+			function scrolltop(){
+				window.scrollTo(0,0);
+			}
+			function scrollbtm(){
+				window.scrollTo(0,document.body.scrollHeight);
+			}
+			function refreshdrawer(){
+				let temp = document.createElement("temp");
+				for (let i = 0; i < llshort.length; ++i) {
+					if (usage[i]) {
+						let img = document.createElement("img");
+						img.setAttribute("class","thumbs");
+						img.setAttribute("onclick","setthumb(this.parentElement.parentElement.linkage," + i + ")");
+						img.src = "../img/icon/" + llshort[i] + ".png";
+						temp.appendChild(img);						
+					};
+				};
+				for (let j in extensions) {
+					for (let i = 0; i < extensions[j].length; ++i) {
+						if (usage[j + "_" + i]) {
+							let img = document.createElement("img");
+							img.setAttribute("class","thumbs");
+							img.setAttribute("onclick","setthumb(this.parentElement.parentElement.linkage,'" + j + "_" + i + "')");
+							let tempsrc = getSrc(j + "_" + i);
+							img.src = tempsrc;
+							if (tempsrc == "Pixel.png"){
+								img.style.border = "1px solid black";
+							};
+							temp.appendChild(img);	
+						}						
+					}
+				};
+				let inner = temp.innerHTML;
+				let drawers = document.getElementsByClassName("drawer");
+				for (let i = 0; i < drawers.length; ++i) {
+					drawers[i].innerHTML = inner;
+					document.getElementsByClassName("counter")[i].innerHTML = (i+1) + "/" + drawers.length;
+				}
+			}
+			function createselector(id){
+				let select = document.createElement("select");
+				for (let i = 0; i < llname["jp"].length; ++i) {
+					let option = document.createElement("option");
+					option.setAttribute("value", i);
+					option.innerHTML = getName(i);
+					select.appendChild(option);				
+				}
+				for (let j in extensions) {
+					for (let i = 0; i < extensions[j].length; ++i) {
+						let option = document.createElement("option");
+						option.setAttribute("value", j + "_" + i);
+						option.innerHTML = getName(j + "_" + i);
+						select.appendChild(option);				
+					}
+				};
+				{
+					let option = document.createElement("option");
+					option.setAttribute("value", "???");
+					option.innerHTML = "？？？";
+					option.style.background = "lightgray";
+					select.appendChild(option);				
+				}
+				{
+					let option = document.createElement("option");
+					option.setAttribute("value", "___");
+					option.innerHTML = "";
+					option.style.background = "lightgray";
+					select.appendChild(option);				
+				}
+				{
+					let option = document.createElement("option");
+					option.setAttribute("value", "-1");
+					option.innerHTML = "< ... >";
+					option.style.background = "gray";
+					select.appendChild(option);
+				}
+				return select;
+			}
+			function setthumb(id, become){
+				let target = document.getElementsByClassName("dialog")[id];
+				target.getElementsByClassName("thumb")[0].src = getSrc(become);
+				target.getElementsByTagName("select")[0].value = become;
+				target.getElementsByTagName("select")[0].onchange();
+				
+			}
+			function isColor(c){
+				var s = new Option().style;
+				s.color = c;
+				return s.color != "";
+			}
+			function createbox(id){
+				let div = document.createElement("div");
+				div.setAttribute("class","dialog");
+				div.linkage = id;
+				{
+					let btn_close = document.createElement("button");
+					btn_close.setAttribute("class","btn_close");
+					btn_close.innerHTML = '×';
+					btn_close.setAttribute("onclick", "removeDialog(this.parentElement.linkage)");
+					div.appendChild(btn_close);
+					
+					let counter = document.createElement("span");
+					counter.setAttribute("class","counter");
+					div.appendChild(counter);
+					
+					let thumb = document.createElement("img");
+					thumb.setAttribute("class","thumb");
+					thumb.setAttribute("src","../img/icon/honoka.png");
+					div.appendChild(thumb);
+					
+					div.appendChild(document.createTextNode(" "));
+					
+					let s = createselector(id);
+					s.targetimg = thumb;
+					s.onchange = function(){
+						--usage[actuald[this.parentElement.linkage].n];
+						if (this.value == -1) {
+							addcustom();
+							this.value = "custom_" + (extensions.custom.length - 1);
+						}
+						actuald[this.parentElement.linkage].n = this.value;
+						this.targetimg.src = getSrc(this.value);
+						++usage[actuald[this.parentElement.linkage].n];
+						refreshdrawer();
+					};
+					div.appendChild(s);
+					
+					div.appendChild(document.createTextNode(" "));
+					{
+						let div_small = document.createElement("div");
+						div_small.setAttribute("class","drawer");
+						div.appendChild(div_small);
+					}
+					div.appendChild(document.createElement("br"));
+					
+					let text = document.createElement("input");
+					text.setAttribute("type", "text");
+					text.setAttribute("onkeypress", "return keypress(event, this)");
+					text.placeholder = "台詞 (Lines)";
+					text.onchange = function(){
+						actuald[this.parentElement.linkage].d = this.value;
+					};
+					div.appendChild(text);
+				}
+				return div;
+			}
+			function keypress(ev, obj) {
+				if (ev.key == "Enter") {
+					obj.blur();
+					addbefore(obj.parentElement.linkage + 1);
+					return false;
+				}
+			}
+			function renumbering(id){
+				document.getElementsByClassName("dialog")[id].linkage = id;
+				targets = document.getElementsByClassName("separator")[id].linkage = id;
+			}
+			function renumberlastseparator(){
+				let t = document.getElementsByClassName("separator");
+				t[t.length-1].linkage = t.length-1;
+			}
+			
+			function removeDialog(rid){
+				id("editor").removeChild(document.getElementsByClassName("dialog")[rid]);
+				id("editor").removeChild(document.getElementsByClassName("separator")[rid]);
+				--usage[actuald[rid].n];
+				actuald.splice(rid, 1);
+				for (let i = rid; i < actuald.length; ++i){
+					renumbering(i);
+				}
+				renumberlastseparator();
+				refreshdrawer();
+			}
+			
+			function addbefore(rid){
+				let sp = createseparator(rid);
+				if (rid < actuald.length) {
+					id("editor").insertBefore(sp, document.getElementsByClassName("dialog")[rid]);
+				} else {
+					id("editor").appendChild(sp);
+				}
+				let predict = undefined;
+				if (rid > 0) {
+					//find the one mentioned in last sentence.
+					for (let i = 0; predict == undefined && i < llname["jp"].length; ++i) {
+						if (actuald[rid-1].d.indexOf(getName(i)) > -1) {
+							predict = i;
+						}
+					}
+					for (let j in extensions) {
+						for (let i = 0; predict == undefined && i < extensions[j].length; ++i) {
+							if (actuald[rid-1].d.indexOf(getName(j + "_" + i)) > -1) {
+								predict = j + "_" + i;
+							}	
+						}
+						if (predict != undefined){
+							break;
+						}
+					};
+				} else {
+					predict = 0;
+				}
+				if (predict == undefined) {
+					//another character than the last one
+					for (let i = 0; predict == undefined && i < llname["jp"].length; ++i) {
+						if (usage[i] > 0 && actuald[rid-1].n != i) {
+							predict = i;
+						}
+					}
+					for (let j in extensions) {
+						for (let i = 0; predict == undefined && i < extensions[j].length; ++i) {
+							if (usage[j + "_" + i] > 0 && actuald[rid-1].n != (j + "_" + i)) {
+								predict = j + "_" + i;
+							}	
+						}
+						if (predict != undefined){
+							break;
+						}
+					};
+					if (predict == undefined) {
+						predict = actuald[rid-1].n;
+					}
+				}
+				actuald.splice(rid, 0, {"n": predict, "d": ""});
+				++usage[predict];
+				let box = createbox(rid);
+				box.getElementsByTagName("select")[0].value = predict;
+				box.getElementsByTagName("select")[0].onchange();
+				id("editor").insertBefore(box, sp);
+				for (let i = rid + 1; i < actuald.length; ++i){
+					renumbering(i);
+				}
+				renumberlastseparator();
+				refreshdrawer();
+				box.getElementsByTagName("input")[0].focus();
+			}
+			function changeoptions() {
+				//Replace all options
+				let selects = document.getElementsByTagName("select");
+				let newHTML = createselector().innerHTML;
+				for (let i = 0; i < selects.length; ++i) {
+					selects[i].innerHTML = newHTML;
+					selects[i].value = actuald[i].n;
+				}
+			}
+			function togglezh(b) {
+				zh_nick = b;
+				changeoptions();
+			}
+			function togglesimp(b) {
+				zh_simp = b;
+				changeoptions();
+			}
+			function toggleyo(b) {
+				yohane = b;
+				changeoptions();
+			}
+			function changelang(become) {
+				if (lang == become) return;
+				lang = become;
+				id("yohanelang").innerHTML = {"jp":"ヨハネ","en":"Yohane","zh":"夜羽","th":"โยฮาเนะ","kr":"요하네"}[lang];
+				if (lang=="zh") {
+					document.body.setAttribute("class","zh");
+					let ckbox = id("lang_zh").getElementsByTagName('input');
+					for (let i = 0; i < ckbox.length; ++i) ckbox[i].checked = false;
+					id("lang_zh").style.display = "inline";
+				} else {
+					document.body.removeAttribute("class");
+					id("lang_zh").style.display = "none";
+				}
+				//Replace all options
+				/*let selects = document.getElementsByTagName("select");
+				for (let i = 0; i < selects.length; ++i) {
+					let options = selects[i].getElementsByTagName("option");
+					for (let j = 0; j < llname[getName(i)].length; ++j) {
+						options[j].innerHTML = llname[lang][j];
+					}
+				}*/
+				changeoptions();
+			}
+			
+			function swap(a,b){
+				if (a < 0 || b < 0 || a >= actuald.length || b >= actuald.length) return;
+				if (a == b) return;
+				//swap two array
+				let temp = actuald[a];
+				actuald[a] = actuald[b];
+				actuald[b] = temp;
+				//swap two elements (retain events)
+				let dialogs = document.getElementsByClassName("dialog");
+				let elea = dialogs[a], eleb = dialogs[b];
+				let separs = document.getElementsByClassName("separator");
+				let eleab4 = separs[a], elebb4 = separs[b];
+				elea.linkage = b;
+				eleb.linkage = a;
+				eleab4.after(eleb);
+				elebb4.after(elea);
+			}
+			function clearallext(){
+				for (let j in extensions) {
+					for (let i = 0; i < extensions[j].length; ++i) {
+						delete loaded[j + "_" + i];		
+						delete img[j + "_" + i];		
+						delete usage[j + "_" + i];		
+					}
+				};				
+			}
+			
+			function reset(obj){
+				actuald = JSON.parse(JSON.stringify(obj));
+				usage = "".padStart(llname["jp"].length," ").split("").map(a=>0);
+				usage["???"] = 0;
+				usage["___"] = 0;
+				for (let j in extensions) {
+					for (let i = 0; i < extensions[j].length; ++i) {
+						usage[j + "_" + i] = 0;	//no need to load
+						loaded[j + "_" + i] = extensions[j][i].i?false:true;	//no need to load
+					}
+				};
+				id("editor").innerHTML = "";
+				for (let i = 0; i < actuald.length; ++i) {
+					id("editor").appendChild(createseparator(i));
+					let box = createbox(i);
+					box.getElementsByTagName("select")[0].value = actuald[i].n;
+					++usage[actuald[i].n];
+					box.getElementsByTagName("select")[0].onchange();
+					box.getElementsByTagName("input")[0].value = actuald[i].d;
+					box.getElementsByTagName("input")[0].onchange();
+					id("editor").appendChild(box);
+				}
+				id("editor").appendChild(createseparator(actuald.length));
+				refreshdrawer();
+			}
+			function JSONimport(s, extloaded){
+				if (!s){
+					alert("無効なデータです。\nInvalid Data.");
+				} else {
+					let temp;
+					if (typeof s === "string") {
+						try {
+							temp = JSON.parse(s);
+						} catch (ex) {
+							alert("間違った形式です。\nWrong Format.");
+							return;
+						}
+					} else if (typeof s === "object") {
+						temp = s;
+					} else {
+						alert("無効なデータです。\nInvalid Data.");
+						return;
+					};
+					if (Array.isArray(temp)) {
+						for (let i = 0; i < temp.length; ++i) {
+							if (temp[i]['n'] === undefined || !temp[i]['d'] === undefined){
+								alert("無効なデータです。\nInvalid Data.");
+								return;
+							}
+						}
+						clearallext();
+						extensions = JSON.parse(JSON.stringify(extensions_default));
+						reset(temp);
+					} else if (typeof temp === "object"){
+						if (Array.isArray(temp["content"])){
+							for (let i = 0; i < temp["content"].length; ++i) {
+								if (temp["content"][i]['n'] === undefined || temp["content"][i]['d'] === undefined){
+									alert("無効なデータです。\nInvalid Data.");
+									return;
+								}
+							}
+							if (temp["extensions"]) {
+								extensions = temp["extensions"];
+							} else {
+								clearallext();
+								extensions = JSON.parse(JSON.stringify(extensions_default));
+							}
+							reset(temp["content"]);
+							if (temp["title"]) {
+								id("title").value = temp["title"];
+							}
+							if (temp["header"]) {
+								id("header").value = temp["header"];
+							}
+						} else {
+							alert("無効なデータです。\nInvalid Data.");
+						}
+					} else {
+						alert("無効なデータです。\nInvalid Data.");
+					}
+				}
+			}
+			function exports(){
+				let wtitle = true;//confirm("ヘッダとタイトルを付きますか？\nAre the headers and titles attached?");
+				let output = "";
+				if (wtitle) {
+					let append = "";
+					if (id("header").value) {
+						append += '"header":"'+id("header").value+'",';
+					}
+					if (id("title").value) {
+						append += '"title":"'+id("title").value+'",';
+					}
+					if (JSON.stringify(extensions) !== '{"custom":[]}') {
+						append += '"extensions":'+JSON.stringify(extensions)+',';
+					}
+					output = '{' + append + '"content":' + JSON.stringify(actuald) + '}';
+				} else {
+					output = JSON.stringify(actuald);
+				};
+				if (output.length > 2000) {
+					copy(output);
+					alert('コンテンツは長すぎてクリップボードにコピーしました。\nThe content is too long to be displayed. Copied to clipboard.');
+				} else {
+					prompt('コンテンツは下記の通りです。\nContents are as below.', output);
+				};
+			}
+			reset(defaultd);
+						
+			function unicodeEscape(str) {
+				let code, pref = {1: '', 2: '', 3: '\\u0', 4: '\\u'};
+				return str.replace(/\W/g, function(c) {
+					return pref[(code = c.charCodeAt(0).toString(16)).length] + ((code.length<3)?c:code);
+				});
+			};
+			function copy(text) {
+				let temp = document.createElement("textArea");
+				temp.innerHTML = text;
+				document.body.appendChild(temp);
+				temp.select();
+				document.execCommand('copy');
+				document.body.removeChild(temp);
+			}
+			queryString = window.location.search.slice(1).split('&');
+			items = [];
+			for (var i = 0; i < queryString.length; i++) {
+				parts = queryString[i].split('=');
+				items[parts[0]] = parts[1];
+			}
+			let passing = {};
+			if (items.header) {
+				//id("header").value = decodeURIComponent(items.header);
+				passing["header"] = decodeURIComponent(items.header);
+			}
+			if (items.title) {
+				//id("title").value = decodeURIComponent(items.title);
+				passing["title"] = decodeURIComponent(items.title);
+			}
+			if (items.extensions) {
+				//extensions = JSON.parse(atob((items.extensions + "====".substr(0,3 - (items.extensions.length-1) & 3)).replace(/[-]/g,"+").replace(/[_]/g,"/")));
+				if (items.extensions.includes(".")){
+					passing["extensions"] = JSON.parse(decode(items.extensions));
+				} else {
+					passing["extensions"] = JSON.parse(atob((items.extensions + "====".substr(0,3 - (items.extensions.length-1) & 3)).replace(/[-]/g,"+").replace(/[_]/g,"/")));
+				};
+				//passing["extensions"] = JSON.parse(atob((items.extensions + "====".substr(0,3 - (items.extensions.length-1) & 3)).replace(/[-]/g,"+").replace(/[_]/g,"/")));
+			}
+			if (items.content) {
+				try {
+					if (items.content.includes(".")){
+						passing["content"] = JSON.parse(decode(items.content));
+						JSONimport(passing);
+					} else {
+						passing["content"] = JSON.parse(atob((items.content + "====".substr(0,3 - (items.content.length-1) & 3)).replace(/[-]/g,"+").replace(/[_]/g,"/")));
+						JSONimport(passing);
+					};
+				} catch (ex) {
+					alert("間違った形式です。\nWrong Format.");
+				}
+			}
+			
+			function addcustom() {
+				/*if ('open' in document.createElement("dialog")){
+					let dialogs = document.createElement("dialog");
+					dialogs.appendChild(document.createTextNode("カスタムキャラ (Custom Character)"));
+					dialogs.appendChild(document.createElement("br"));
+					dialogs.appendChild(document.createTextNode("名前 (Name)？"));
+					let inputt = document.createElement("input");
+					inputt.style.width = "150px";
+					dialogs.appendChild(inputt);
+					dialogs.appendChild(document.createElement("br"));
+					dialogs.appendChild(document.createTextNode("イメージカラーは (Image Color)？"));
+					dialogs.appendChild(document.createElement("br"));
+					let inputt2 = document.createElement("input");
+					inputt2.style.width = "150px";
+					inputt2.value = "#D1D1D1"
+					dialogs.appendChild(inputt2);
+					let menut = document.createElement("menu");
+					let btnconfirm = document.createElement("button");
+					btnconfirm.innerHTML = "OK";
+					btnconfirm.onclick = function(){
+						if (inputt2.value=='' || !isColor(inputt2.value)){
+							alert('無効なカラーです。\nInvalid Color.');
+						} else {
+							extensions.custom.push({"s":inputt.value, "c":inputt2.value});
+							usage["custom_" + (extensions.custom.length - 1)] = 0;	//no need to load
+							loaded["custom_" + (extensions.custom.length - 1)] = true;	//no need to load
+							changeoptions();
+							document.body.removeChild(dialogs);	
+						}
+					}
+					let btncancel = document.createElement("button");
+					btncancel.innerHTML = "Cancel";
+					btncancel.onclick = function(){
+						document.body.removeChild(dialogs);
+					}
+					menut.appendChild(btnconfirm);
+					//menut.appendChild(btncancel);
+					dialogs.appendChild(menut);
+					document.body.appendChild(dialogs);
+					dialogs.showModal();
+				} else */ {
+					let actual = prompt("名前？\nName?");
+					actual = actual?actual:"";
+					let def = "イメージカラーは？\nWhat is the Image Color?\n(例 e.g.：\n\npink / Cyan\n#80FF80 / #ccc\nRGB(100%, 0%, 0%) / rgb(122, 129, 255)\nhsl(123, 100%, 74%)\nnull)";
+					let c = prompt(def, "#D1D1D1");
+					while (c=='' || (!isColor(c) && c != "null")){
+						alert('無効なカラーです。\nInvalid Color.');
+						c = prompt(def,"#D1D1D1");
+					}
+					extensions.custom.push({"s":actual, "c":(c == "null"?false:c)});
+					usage["custom_" + (extensions.custom.length - 1)] = 0;	//no need to load
+					loaded["custom_" + (extensions.custom.length - 1)] = true;	//no need to load
+					changeoptions();
+				}
+			}
+			
+		</script>
+	</body>
+</html>

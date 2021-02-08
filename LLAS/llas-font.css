@@ -3,10 +3,18 @@
   src: url(font/FOT-SkipStd-B.otf);
 }
 @font-face {
-  font-family: llas;
-  src: url(font/FOT-SkipStd-E.otf);
-  font-weight: bold;
+  font-family: llasth;
+  src: url(font/Sarabun-Medium_Custom.ttf);
+}
+@font-face {
+  font-family: llaskr;
+  src: url(font/FOTK-YOONGOTHIC760.otf);
+}
+@font-face {
+  font-family: llastw;
+  src: url(font/DFT_YY6.ttf);
+  unicode-range: U+2000-206F, U+3000-303F, U+4E00-9FFF, U+FF00-FFEF;
 }
 html {
-	font-family: llas !important;
+	font-family: llas, llasth, llaskr, llastw !important;
 }
