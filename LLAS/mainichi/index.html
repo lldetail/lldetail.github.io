@@ -256,7 +256,7 @@
 		<canvas width="2146" height="0" style="display:none;"></canvas><br>
 		<button onclick="predraw()">プリビュー (Preview)</button> <button id="savebtn" onclick="saveimg()">保存 (Save)</button> <button onclick="newtab()">新しいタブ (New Tab)</button>
 		<br><br><br>
-		<div id="footer" style="text-align:right;">Created by TWY (<a href="/Lovelive/">lldetail</a>)<br><span style="font-size:8px"><a href="https://twitter.com/devsifmatch" target="_blank">浦の星パソコン部</a>の作品を參考にしました。</span><br><span style="font-size:8px">Please do not use the provided font here for non-LoveliveSIFAS-related stuffs.</span><br><span style="font-size:8px">スクスタ以外のものでは、このサイトが提供しているフォントは使用しないでください。</span></div>
+		<div id="footer" style="text-align:right;">Created by <a href="https://twitter.com/twy____">TWY</a> (<a href="/Lovelive/">lldetail</a>) / (2020.2.22 ~ )<br><span style="font-size:8px"><a href="https://twitter.com/devsifmatch" target="_blank">浦の星パソコン部</a>の作品 (2020.2.19 ~ 2020.2.21) を參考にしました。</span><br><span style="font-size:8px">Please do not use the fonts provided here for non-LoveliveSIFAS-related stuffs.</span><br><span style="font-size:8px">スクスタ以外のものでは、このサイトが提供しているフォントは使用しないでください。</span></div>
 		<script>
 			function ifanyorreturn(x, callback) {
 				if (!x) return;
@@ -272,16 +272,16 @@
 			var actuald = JSON.parse(JSON.stringify(defaultd));
 			var lang = "jp";
 			var llname = {
-			"jp": ["穂乃果","絵里","ことり","海未","凛","真姫","希","花陽","にこ","千歌","梨子","果南","ダイヤ","曜","善子","花丸","鞠莉","ルビィ","歩夢","かすみ","しずく","果林","愛","彼方","せつ菜","エマ","璃奈","栞子"],
-			"en": ["Honoka", "Eli", "Kotori", "Umi", "Rin", "Maki", "Nozomi", "Hanayo", "Nico", "Chika", "Riko", "Kanan", "Dia", "You", "Yoshiko", "Hanamaru", "Mari", "Ruby", "Ayumu", "Kasumi", "Shizuku", "Karin", "Ai", "Kanata", "Setsuna", "Emma", "Rina", "Shioriko"],
-			"zh_t": ["穗乃果","繪里","琴梨","海未","凜","真姬","希","花陽","日香","千歌","梨子","果南","黛雅","曜","善子","花丸","鞠莉","露比","步夢","霞","雫","果林","愛","彼方","雪菜","艾瑪","璃奈","栞子"],
-			"zh_s": ["穗乃果","绘里","琴梨","海未","凛","真姬","希","花阳","日香","千歌","梨子","果南","黛雅","曜","善子","花丸","鞠莉","露比","步梦","霞","雫","果林","爱","彼方","雪菜","艾玛","璃奈","栞子"],
-			"kr": ["호노카","에리","코토리","우미","린","마키","노조미","하나요","니코","치카","리코","카난","다이아","요우","요시코","하나마루","마리","루비","아유무","카스미","시즈쿠","카린","아이","카나타","세츠나","엠마","리나","시오리코"],
-			"th": ["โฮโนกะ","เอริ","โคโทริ","อุมิ","ริน","มากิ","โนโซมิ","ฮานาโยะ","นิโกะ","จิกะ","ริโกะ","คานัน","ไดยะ","โย","โยชิโกะ","ฮานะมารุ","มาริ","รูบี้","อายูมุ","คาสึมิ","ชิสึคุ","คาริน","ไอ","คานาตะ","เซ็ตสึนะ","เอ็มม่า","รินะ","ชิโอริโกะ"]
+			"jp": ["穂乃果","絵里","ことり","海未","凛","真姫","希","花陽","にこ","千歌","梨子","果南","ダイヤ","曜","善子","花丸","鞠莉","ルビィ","歩夢","かすみ","しずく","果林","愛","彼方","せつ菜","エマ","璃奈","栞子","ランジュ","ミア"],
+			"en": ["Honoka", "Eli", "Kotori", "Umi", "Rin", "Maki", "Nozomi", "Hanayo", "Nico", "Chika", "Riko", "Kanan", "Dia", "You", "Yoshiko", "Hanamaru", "Mari", "Ruby", "Ayumu", "Kasumi", "Shizuku", "Karin", "Ai", "Kanata", "Setsuna", "Emma", "Rina", "Shioriko", "Lanzhu", "Mia"],
+			"zh_t": ["穗乃果","繪里","琴梨","海未","凜","真姬","希","花陽","日香","千歌","梨子","果南","黛雅","曜","善子","花丸","鞠莉","露比","步夢","霞","雫","果林","愛","彼方","雪菜","艾瑪","璃奈","栞子","米雅","嵐珠"],
+			"zh_s": ["穗乃果","绘里","琴梨","海未","凛","真姬","希","花阳","日香","千歌","梨子","果南","黛雅","曜","善子","花丸","鞠莉","露比","步梦","霞","雫","果林","爱","彼方","雪菜","艾玛","璃奈","栞子","米雅","岚珠"],
+			"kr": ["호노카","에리","코토리","우미","린","마키","노조미","하나요","니코","치카","리코","카난","다이아","요우","요시코","하나마루","마리","루비","아유무","카스미","시즈쿠","카린","아이","카나타","세츠나","엠마","리나","시오리코","미아","란쥬"],
+			"th": ["โฮโนกะ","เอริ","โคโทริ","อุมิ","ริน","มากิ","โนโซมิ","ฮานาโยะ","นิโกะ","จิกะ","ริโกะ","คานัน","ไดยะ","โย","โยชิโกะ","ฮานะมารุ","มาริ","รูบี้","อายูมุ","คาสึมิ","ชิสึคุ","คาริน","ไอ","คานาตะ","เซ็ตสึนะ","เอ็มม่า","รินะ","ชิโอริโกะ","มีอา","หลานจู"]
 			};
 			var extensions_default = {"custom":[]};
 			var extensions = JSON.parse(JSON.stringify(extensions_default));
-			var llshort = ["honoka","eli","kotori","umi","rin","maki","nozomi","hanayo","nico","chika","riko","kanan","dia","you","yoshiko","hanamaru","mari","ruby","ayumu","kasumi","shizuku","karin","ai","kanata","setsuna","emma","rina","shioriko"];
+			var llshort = ["honoka","eli","kotori","umi","rin","maki","nozomi","hanayo","nico","chika","riko","kanan","dia","you","yoshiko","hanamaru","mari","ruby","ayumu","kasumi","shizuku","karin","ai","kanata","setsuna","emma","rina","shioriko","lanzhu","mia"];
 			var loaded = "".padStart(llname["jp"].length," ").split("").map(a=>false);
 			var usage = "".padStart(llname["jp"].length," ").split("").map(a=>0);
 				usage["???"] = 0;
